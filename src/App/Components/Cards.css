@@ -1,0 +1,27 @@
+.cards-container{
+  padding: 4rem;
+}
+.cards{
+ text-align: center;
+ padding:.5rem;
+ border: 1px solid rgb(224, 221, 221);
+ box-shadow: 0px 0px 3px rgb(187, 186, 186);
+ border-radius: 4px;
+ width: fit-content;
+ margin: auto;
+}
+.cards-context>*{
+  margin: .5rem;
+}
+.slick-arrow{
+  background-color: rgb(119, 115, 115) !important;
+  border-radius: 50%;
+}
+.card-img{
+  background-image: url('https://cdn.pixabay.com/photo/2015/06/18/15/20/old-813814_640.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 220px;
+  width: 220px; 
+  margin: auto; 
+}
