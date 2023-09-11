@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <div className="footer">
       <div className="footer-details">
-        <ul>
+        <ul className="footer-links">
           <Typography variant="body1" className="list-heading" sx={style}>About</Typography>
           <li><a className="link" href="hi">Contact us</a></li>
           <li><a className="link" href="hi">About us</a></li>
@@ -16,14 +16,14 @@ export default function Footer() {
           <li><a className="link" href="hi">Stories</a></li>
           <li><a className="link" href="hi">Information</a></li>
         </ul>
-        <ul>
+        <ul className="footer-links">
           <Typography variant="body1" className="list-heading" sx={style}>Help</Typography>
           <li><a className="link" href="hi">Payment</a></li>
           <li><a className="link" href="hi">Shipping</a></li>
           <li><a className="link" href="hi">Faq</a></li>
           <li><a className="link" href="hi">Cancellation & returns</a></li>
         </ul>
-        <ul>
+        <ul className="footer-links">
           <Typography variant="body1" className="list-heading" sx={style}>Consumer Policy</Typography>
           <li><a className="link" href="hi">Cancellation & returns</a></li>
           <li><a className="link" href="hi">Terms of use</a></li>
@@ -31,7 +31,7 @@ export default function Footer() {
           <li><a className="link" href="hi">Privacy</a></li>
           <li><a className="link" href="hi">Grievance Redressal</a></li>
         </ul>
-        <ul>
+        <ul className="footer-links">
           <Typography variant="body1" className="list-heading" sx={style}>Social</Typography>
           <li><a className="link" href="hi">Facebook</a></li>
           <li><a className="link" href="hi">Youtube</a></li>

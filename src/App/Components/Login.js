@@ -1,11 +1,11 @@
 /* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
 import {
-  TextField, Button, IconButton, InputAdornment, Typography,
+  TextField, Button, IconButton, InputAdornment,
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -98,10 +98,10 @@ export default function Login() {
             </form>
           )}
         </Formik>
-        <Typography variant="subtitle1">
+        {/* <Typography variant="subtitle1">
           Don&apos;t have an account ?
           <Link to="/signup" style={{ color: 'blue' }}>Signup</Link>
-        </Typography>
+        </Typography> */}
       </div>
     </div>
   );

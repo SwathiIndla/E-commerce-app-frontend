@@ -1,6 +1,58 @@
+.mobile-container{
+  /* height: 15rem; */
+  padding: 2rem 2rem;
+  border: 1px solid rgb(252, 244, 244);
+}
 .mobile-card{
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
+  gap: 2rem;
+  line-height: 1.5;
+}
+.mobile-title{
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+.rating{
+  display: flex;
+  border-radius: 4px;
+  background-color: green;
+  width: fit-content;
+  font-size: .75rem;
+  align-items: center;
+  color: ghostwhite;
+  padding: .125rem;
+  gap: 2px;
+}
+.mobile-img{
+  height: 12.5rem;
+  width: 6.5rem;
+}
+.price-tag{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
   gap: .25rem;
+}
+.specifications-list{
+  margin: unset;
+  list-style: none;
+  padding: unset;
+  margin-top: .25rem;
+}
+.specifications-list li::before {
+  content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+  color: grey; 
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em;
+}
+.mobile-details{
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+.deals{
+  color: green;
+  font-weight: 500 !important;
 }

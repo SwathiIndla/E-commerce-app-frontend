@@ -49,7 +49,7 @@ export default function SignUp() {
   return (
     <div className="login-page">
       <div className="login-container">
-        <p>Welcome! Enjoy the experience</p>
+        <p>New Here! Enjoy the experience</p>
         <h2 className="heading">SignUp</h2>
         <Formik
           onSubmit={handleFormSubmit}
@@ -125,10 +125,10 @@ export default function SignUp() {
             </form>
           )}
         </Formik>
-        <Typography variant="subtitle1">
+        {/* <Typography variant="subtitle1">
           Already have an account ?
           <Link to="/login" style={{ color: 'blue' }}>Login</Link>
-        </Typography>
+        </Typography> */}
       </div>
     </div>
   );

@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   background-color: rgb(27, 27, 27);
-
 }
 .footer-details{
   display: flex;
@@ -24,7 +23,7 @@
 .link:hover{
   text-decoration: underline;
 }
-ul{
+.footer-links{
   list-style: none;
   margin: unset;
 }

@@ -14,9 +14,38 @@ import {
 import './Header.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import Backdrop from '@mui/material/Backdrop';
+import Box from '@mui/material/Box';
+import Modal from '@mui/material/Modal';
+import Fade from '@mui/material/Fade';
 import logo from './favicon.ico';
+import Login from './Login';
+import SignUp from './SignUp';
 
 export default function Header() {
+  const [open, setOpen] = React.useState(false);
+  const [signup, setSignup] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+
+  const handleClose = () => {
+    setSignup(false);
+    setOpen(false);
+  };
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    height: '70vh',
+    bgcolor: 'background.paper',
+    border: '2px solid white',
+    boxShadow: 44,
+    p: 4,
+  };
+
   return (
     <div className="header">
       <nav className="nav-bar">
@@ -31,14 +60,39 @@ export default function Header() {
             width: '40%', background: 'whitesmoke', color: 'white', borderRadius: '4px',
           }}
         />
-        <Button variant="contained" sx={{ background: 'whitesmoke', color: 'grey', '&:hover': { background: 'rgb(116, 140, 247)', color: 'ghostwhite' } }}>Login</Button>
+        <Button variant="contained" onClick={handleOpen} sx={{ background: 'whitesmoke', color: 'grey', '&:hover': { background: 'rgb(116, 140, 247)', color: 'ghostwhite' } }}>Login</Button>
         <Button variant="text" startIcon={<ShoppingCartIcon />} sx={{ color: 'whitesmoke' }}>Cart</Button>
       </nav>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{ backdrop: Backdrop }}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            {signup ? <SignUp /> : <Login />}
+            <Box flex flexDirection="row" textAlign="center">
+              <Typography variant="subtitle1" display="inline">{signup ? 'Already have an account?' : "Don't have an account?"}</Typography>
+              <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>
+                {signup ? 'Login' : 'Signup' }
+              </Button>
+            </Box>
+          </Box>
+        </Fade>
+      </Modal>
     </div>
   );
 }
 
-export function Categories() {
+export function Categories(props) {
   const categories = [{
     id: 1,
     title: 'Grocery',
@@ -68,13 +122,13 @@ export function Categories() {
     title: 'Toys',
     img: 'https://cdn.pixabay.com/photo/2014/11/09/21/44/teddy-bear-524251_640.jpg',
   }];
-
+  const { images } = props;
   return (
     <div>
       <div className="container">
         {
           categories.map((item) => (
-            <MiniCard item={item} key={item.id} />
+            <MiniCard item={item} key={item.id} images={images} />
           ))
         }
 
@@ -103,7 +157,7 @@ export function ImageCarousel() {
 
 export function MiniCard(props) {
   const [openMenu, setOpenMenu] = React.useState(false);
-  const { item } = props;
+  const { item, images } = props;
   const handleOPen = () => {
     setOpenMenu(true);
   };
@@ -120,7 +174,7 @@ export function MiniCard(props) {
       style={{ width: 'fit-content' }}
     >
       <div className="mini-card">
-        <img src={item.img} alt={item.title} loading="lazy" />
+        {images && <img src={item.img} alt={item.title} loading="lazy" /> }
         <h5 className="item-title">{item.title}</h5>
       </div>
       {openMenu

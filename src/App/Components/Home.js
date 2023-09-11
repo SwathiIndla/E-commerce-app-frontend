@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <Categories />
+      <Categories images />
       <ImageCarousel />
       <Cards />
       <Footer />
