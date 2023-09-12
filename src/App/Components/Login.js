@@ -31,7 +31,7 @@ export default function Login() {
     setShowPassword((prev) => !prev);
   };
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values, actions) => {
     const userDetails = { ...values, roles: ['Consumer '] };
     const options = {
       method: 'POST',
@@ -41,7 +41,8 @@ export default function Login() {
     const responseJson = await response.json();
     const jwtToken = responseJson.jwt_token;
     Cookies.set('jwtToken', jwtToken, { expires: 90 });
-    navigate('/');
+    actions.resetForm();
+    navigate(0);
   };
 
   return (

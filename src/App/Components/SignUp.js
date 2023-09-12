@@ -34,7 +34,7 @@ export default function SignUp() {
 
   });
 
-  const handleFormSubmit = async (values) => {
+  const handleFormSubmit = async (values, actions) => {
     const userDetails = { ...values, roles: ['Consumer '] };
     const options = {
       method: 'POST',
@@ -43,7 +43,8 @@ export default function SignUp() {
     const response = await fetch(URL, options);
     const responseJson = await response.json();
     const jwtToken = responseJson.jwt_token;
-    navigate('/login');
+    actions.resetForm();
+    navigate(0);
   };
 
   return (

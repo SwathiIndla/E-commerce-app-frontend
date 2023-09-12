@@ -39,7 +39,7 @@
 }
 .carousel-container{
   padding: 10px;
-  box-shadow: inset -1px -1px 4px rgb(99, 99, 99);
+  box-shadow: inset 0px 0px 4px rgb(99, 99, 99);
 }
 .item-title{
   margin: unset;

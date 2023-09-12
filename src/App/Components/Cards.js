@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useState } from 'react';
 import './Cards.css';
@@ -5,6 +8,8 @@ import { Button } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 export function Card() {
   const [hover, setHover] = useState(false);
@@ -23,6 +28,22 @@ export function Card() {
     </div>
   );
 }
+function PreviousBtn(props) {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <ArrowBackIosIcon style={{ color: 'black', fontSize: '30px' }} />
+    </div>
+  );
+}
+function NextBtn(props) {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <ArrowForwardIosIcon style={{ color: 'black', fontSize: '30px' }} />
+    </div>
+  );
+}
 
 export default function Cards() {
   const settings = {
@@ -31,6 +52,8 @@ export default function Cards() {
     arrows: true,
     speed: 500,
     slidesToShow: 6,
+    prevArrow: <PreviousBtn />,
+    nextArrow: <NextBtn />,
     slidesToScroll: 2,
     initialSlide: 0,
     responsive: [
@@ -69,7 +92,7 @@ export default function Cards() {
   };
 
   return (
-    <div className="cards-container">
+    <div className="cards-container carousel">
       <Slider {...settings}>
         <Card />
         <Card />

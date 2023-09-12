@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -13,10 +14,12 @@ import {
 } from '@mui/material';
 import './Header.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import { Carousel } from 'react-responsive-carousel';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import Slider from 'react-slick';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Fade from '@mui/material/Fade';
 import logo from './favicon.ico';
 import Login from './Login';
@@ -137,24 +140,6 @@ export function Categories(props) {
   );
 }
 
-export function ImageCarousel() {
-  return (
-    <div className="carousel-container">
-      <Carousel showThumbs={false} dynamicHeight autoPlay infiniteLoop>
-        <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/8a89ee09acc1a9e5.jpg?q=20" alt="image1" height="270px" />
-        </div>
-        <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/5f478a106d047aba.jpg?q=20" alt="image2" height="270px" />
-        </div>
-        <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/e3bcf0e99a7fa199.jpg?q=20" alt="image3" height="270px" />
-        </div>
-      </Carousel>
-    </div>
-  );
-}
-
 export function MiniCard(props) {
   const [openMenu, setOpenMenu] = React.useState(false);
   const { item, images } = props;
@@ -187,6 +172,53 @@ export function MiniCard(props) {
               </div>
               )}
 
+    </div>
+  );
+}
+function PreviousBtn(props) {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <ArrowBackIosIcon style={{ color: 'black', fontSize: '30px' }} />
+    </div>
+  );
+}
+function NextBtn(props) {
+  const { className, onClick } = props;
+  return (
+    <div className={className} onClick={onClick}>
+      <ArrowForwardIosIcon style={{ color: 'black', fontSize: '30px' }} />
+    </div>
+  );
+}
+
+export function ImageCarousel() {
+  const settings = {
+    dots: false,
+    infinite: true,
+    arrows: true,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 3000,
+    slidesToShow: 1,
+    prevArrow: <PreviousBtn />,
+    nextArrow: <NextBtn />,
+    slidesToScroll: 1,
+    initialSlide: 1,
+  };
+  return (
+    <div className="carousel-container carousel">
+      <Slider {...settings}>
+        <div>
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/8a89ee09acc1a9e5.jpg?q=20" alt="image1" height="270px" />
+        </div>
+        <div>
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/5f478a106d047aba.jpg?q=20" alt="image2" height="270px" />
+        </div>
+        <div>
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/e3bcf0e99a7fa199.jpg?q=20" alt="image3" height="270px" />
+        </div>
+      </Slider>
     </div>
   );
 }

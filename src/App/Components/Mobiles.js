@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import Header, { Categories, ImageCarousel } from './Header';
 import SideBar from './Sidebar';
 import DetailedCards from './DetailedCards';
@@ -9,7 +10,7 @@ export default function Mobiles() {
     <div style={{ backgroundColor: '#e8faf9' }}>
       <Header />
       <Categories images={false} />
-      <div style={{ display: 'flex' }}>
+      <Box display="grid" gridTemplateColumns="17% 83%">
         <SideBar />
         <div>
           <ImageCarousel />
@@ -18,7 +19,7 @@ export default function Mobiles() {
           <DetailedCards />
           <DetailedCards />
         </div>
-      </div>
+      </Box>
       <Footer />
     </div>
   );
