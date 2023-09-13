@@ -23,7 +23,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Fade from '@mui/material/Fade';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from './favicon.ico';
 import Login from './Login';
 import SignUp from './SignUp';
@@ -32,12 +32,17 @@ export default function Header() {
   const [open, setOpen] = React.useState(false);
   const [signup, setSignup] = React.useState(false);
   const isMobile = useMediaQuery('(max-width:768px)');
+  const navigate = useNavigate();
 
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
     setSignup(false);
     setOpen(false);
+  };
+
+  const navigateToCart = () => {
+    navigate('/cart');
   };
 
   const style = {
@@ -56,21 +61,40 @@ export default function Header() {
   return (
     <div className="header">
       <nav className="nav-bar">
-        <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
-        <Typography variant={isMobile ? 'h6' : 'h5'}>BuyHere</Typography>
-        <TextField
-          placeholder="search for products"
-          variant="outlined"
-          size="small"
-          InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon sx={{ cursor: 'pointer' }} /></InputAdornment>) }}
-          sx={{
-            width: '40%', background: 'whitesmoke', color: 'white', borderRadius: '4px',
-          }}
-        />
-        {!isMobile && <Button variant="contained" onClick={handleOpen} sx={{ background: 'whitesmoke', color: 'grey', '&:hover': { background: 'rgb(116, 140, 247)', color: 'ghostwhite' } }}>Login</Button>}
-        {isMobile ? <IconButton><ShoppingCartIcon sx={{ color: 'whitesmoke' }} /></IconButton>
-          : (<Button variant="text" startIcon={<ShoppingCartIcon />} sx={{ color: 'whitesmoke' }}>Cart</Button>)}
+        <div className="logo-heading">
+          <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
+          <Typography variant="h5">BuyHere</Typography>
+        </div>
+        <div className="nav-tools">
+          {!isMobile && (
+          <TextField
+            placeholder="search for products"
+            variant="outlined"
+            size="small"
+            InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon sx={{ cursor: 'pointer' }} /></InputAdornment>) }}
+            sx={{
+              width: '50%', background: 'whitesmoke', color: 'white', borderRadius: '4px',
+            }}
+          />
+          )}
+          <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} className="login-btn">Login</Button>
+          {isMobile ? <IconButton onClick={navigateToCart}><ShoppingCartIcon sx={{ color: 'whitesmoke' }} /></IconButton>
+            : (<Button variant="text" startIcon={<ShoppingCartIcon />} sx={{ color: 'whitesmoke' }} onClick={navigateToCart}>Cart</Button>)}
+
+        </div>
       </nav>
+      {isMobile && (
+      <TextField
+        placeholder="search for products"
+        variant="outlined"
+        size="small"
+        fullWidth
+        InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon sx={{ cursor: 'pointer' }} /></InputAdornment>) }}
+        sx={{
+          width: '80%', background: 'whitesmoke', color: 'white', margin: '5px 10%',
+        }}
+      />
+      )}
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"

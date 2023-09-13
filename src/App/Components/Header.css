@@ -2,13 +2,13 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  background-color: rgb(116, 140, 247);
+
 }
 .nav-bar{
   display: flex;
-  flex-direction: row;
   padding: 1% 10%;
   gap: 20px;
-  background-color: rgb(116, 140, 247);
   justify-content: center;
   align-items: center;
   color: ghostwhite;
@@ -31,9 +31,6 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
-.mini-card>*{
-  color: black;
 }
 .mini-card>img{
   height: 4rem;
@@ -83,10 +80,30 @@
 }
 .category-links{
   text-decoration: none;
+  color:rgb(44, 44, 44);
 }
-
+.login-btn.MuiButton-root{
+  background: whitesmoke;
+  color: rgb(116, 140, 247); 
+}
+.login-btn.MuiButton-root:hover{
+  background: rgb(116, 140, 247);
+  color: ghostwhite; 
+}
+.logo-heading,.nav-tools{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
 @media (max-width:768px) {
-  .nav-bar{
-    padding: 1% 2%;
+  .login-btn.MuiButton-root{
+    color: whitesmoke;
+    background: inherit;
+
+  }
+  .login-btn.MuiButton-root:hover{
+    background: rgb(99, 126, 247);
   }
 }

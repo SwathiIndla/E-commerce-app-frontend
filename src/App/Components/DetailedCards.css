@@ -1,5 +1,5 @@
 .mobile-container{
-  padding: 2rem 2rem;
+  padding: 2rem 1.5rem;
   border: 1px solid rgb(252, 244, 244);
 }
 .mobile-card{
@@ -11,7 +11,7 @@
 }
 .mobile-title{
   font-weight: 600;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
 }
 .rating{
   display: flex;
@@ -32,7 +32,12 @@
   display: flex;
   flex-direction: column;
   margin: auto;
-  gap: .25rem;
+  gap: .125rem;
+}
+.mobile-price-tag{
+  display: flex;
+  flex-direction: column;
+  gap: .125rem;
 }
 .specifications-list{
   margin: unset;
@@ -54,4 +59,23 @@
 .deals{
   color: green;
   font-weight: 500 !important;
+}
+.mobile-specifications{
+  display: flex;
+  flex-wrap: wrap;
+  margin: .5rem;
+}
+.mobile-specification-details.MuiTypography-root{
+  margin: .5rem;
+  padding: .5rem;
+  background-color: darkgrey;
+  color: whitesmoke;
+}
+
+@media (max-width:768px) {
+  .mobile-img{
+    height: 10rem;
+    width: 5rem;
+    align-self: center;
+  }  
 }
