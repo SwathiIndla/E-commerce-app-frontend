@@ -3,7 +3,7 @@ import { Typography } from '@mui/material';
 import './Footer.css';
 
 export default function Footer() {
-  const style = { color: 'gray', fontWeight: '500', margin: '10px 0px' };
+  const style = { color: 'gray', fontWeight: '500', margin: '5px 0px' };
 
   return (
     <div className="footer">
@@ -44,17 +44,19 @@ export default function Footer() {
         <a className="link" href="hi">Become a Seller</a>
         <a className="link" href="hi">Advertise</a>
         <a className="link" href="hi">Gift Card</a>
-        <Typography
-          variant="subtitle1"
-          sx={{
-            color: 'ghostwhite',
-            fontSize: '.8rem',
-            fontWeight: '600',
-            cursor: 'default',
-          }}
-        >
-          ©since 2023,E-commerce.com
-        </Typography>
+        <div>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              color: 'ghostwhite',
+              fontSize: '.8rem',
+              fontWeight: '600',
+              cursor: 'default',
+            }}
+          >
+            ©since 2023,E-commerce.com
+          </Typography>
+        </div>
       </div>
     </div>
   );

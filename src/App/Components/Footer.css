@@ -27,3 +27,14 @@
   list-style: none;
   margin: unset;
 }
+@media (max-width:660px) {
+  .footer-helpcenter{
+    flex-wrap: wrap;
+    padding: 5px 0px;
+    row-gap: 10px;
+  }
+  .footer-details{
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}

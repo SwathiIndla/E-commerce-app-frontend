@@ -11,6 +11,7 @@ import {
   TextField,
   Typography,
   Button,
+  IconButton,
 } from '@mui/material';
 import './Header.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
@@ -21,6 +22,8 @@ import Slider from 'react-slick';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Fade from '@mui/material/Fade';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { Link } from 'react-router-dom';
 import logo from './favicon.ico';
 import Login from './Login';
 import SignUp from './SignUp';
@@ -28,6 +31,7 @@ import SignUp from './SignUp';
 export default function Header() {
   const [open, setOpen] = React.useState(false);
   const [signup, setSignup] = React.useState(false);
+  const isMobile = useMediaQuery('(max-width:768px)');
 
   const handleOpen = () => setOpen(true);
 
@@ -52,8 +56,8 @@ export default function Header() {
   return (
     <div className="header">
       <nav className="nav-bar">
-        <img src={logo} alt="logo" width="60px" height="40px" style={{ background: 'white' }} />
-        <Typography variant="h5">E-Commerce</Typography>
+        <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
+        <Typography variant={isMobile ? 'h6' : 'h5'}>BuyHere</Typography>
         <TextField
           placeholder="search for products"
           variant="outlined"
@@ -63,8 +67,9 @@ export default function Header() {
             width: '40%', background: 'whitesmoke', color: 'white', borderRadius: '4px',
           }}
         />
-        <Button variant="contained" onClick={handleOpen} sx={{ background: 'whitesmoke', color: 'grey', '&:hover': { background: 'rgb(116, 140, 247)', color: 'ghostwhite' } }}>Login</Button>
-        <Button variant="text" startIcon={<ShoppingCartIcon />} sx={{ color: 'whitesmoke' }}>Cart</Button>
+        {!isMobile && <Button variant="contained" onClick={handleOpen} sx={{ background: 'whitesmoke', color: 'grey', '&:hover': { background: 'rgb(116, 140, 247)', color: 'ghostwhite' } }}>Login</Button>}
+        {isMobile ? <IconButton><ShoppingCartIcon sx={{ color: 'whitesmoke' }} /></IconButton>
+          : (<Button variant="text" startIcon={<ShoppingCartIcon />} sx={{ color: 'whitesmoke' }}>Cart</Button>)}
       </nav>
       <Modal
         aria-labelledby="transition-modal-title"
@@ -126,16 +131,39 @@ export function Categories(props) {
     img: 'https://cdn.pixabay.com/photo/2014/11/09/21/44/teddy-bear-524251_640.jpg',
   }];
   const { images } = props;
+  const settings = {
+    dots: false,
+    infinite: false,
+    arrows: false,
+    autoplay: false,
+    speed: 1000,
+    autoplaySpeed: 3000,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+  };
+  const isMobile = useMediaQuery('(max-width:768px)');
+
   return (
     <div>
-      <div className="container">
-        {
+      {isMobile
+        ? (
+          <Slider className="container" {...settings}>
+            {
           categories.map((item) => (
             <MiniCard item={item} key={item.id} images={images} />
           ))
         }
-
-      </div>
+          </Slider>
+        )
+        : (
+          <div className="container">
+            {
+          categories.map((item) => (
+            <MiniCard item={item} key={item.id} images={images} />
+          ))
+        }
+          </div>
+        )}
     </div>
   );
 }
@@ -143,6 +171,8 @@ export function Categories(props) {
 export function MiniCard(props) {
   const [openMenu, setOpenMenu] = React.useState(false);
   const { item, images } = props;
+  const isMobile = useMediaQuery('(max-width:768px)');
+
   const handleOPen = () => {
     setOpenMenu(true);
   };
@@ -152,17 +182,18 @@ export function MiniCard(props) {
   };
 
   return (
-    <div
-      className="minicard"
-      onMouseEnter={handleOPen}
-      onMouseLeave={handleClose}
-      style={{ width: 'fit-content' }}
-    >
-      <div className="mini-card">
-        {images && <img src={item.img} alt={item.title} loading="lazy" /> }
-        <h5 className="item-title">{item.title}</h5>
-      </div>
-      {openMenu
+    <Link to={`/${(item.title).toLowerCase()}`} className="category-links">
+      <div
+        className="minicard"
+        onMouseEnter={handleOPen}
+        onMouseLeave={handleClose}
+        style={{ width: 'fit-content' }}
+      >
+        <div className="mini-card">
+          {images && <img src={item.img} alt={item.title} loading="lazy" /> }
+          <h5 className="item-title">{item.title}</h5>
+        </div>
+        {!isMobile && openMenu
               && (
               <div className="dropdown-menu" onMouseEnter={handleOPen}>
                 <p className="dropdown-item" onClick={handleClose}>Profile</p>
@@ -172,14 +203,15 @@ export function MiniCard(props) {
               </div>
               )}
 
-    </div>
+      </div>
+    </Link>
   );
 }
 function PreviousBtn(props) {
   const { className, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
-      <ArrowBackIosIcon style={{ color: 'black', fontSize: '30px' }} />
+      <ArrowBackIosIcon style={{ color: 'black', fontSize: '20px' }} />
     </div>
   );
 }
@@ -187,7 +219,7 @@ function NextBtn(props) {
   const { className, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
-      <ArrowForwardIosIcon style={{ color: 'black', fontSize: '30px' }} />
+      <ArrowForwardIosIcon style={{ color: 'black', fontSize: '20px' }} />
     </div>
   );
 }
@@ -198,25 +230,24 @@ export function ImageCarousel() {
     infinite: true,
     arrows: true,
     autoplay: true,
-    speed: 500,
+    speed: 1000,
     autoplaySpeed: 3000,
     slidesToShow: 1,
     prevArrow: <PreviousBtn />,
     nextArrow: <NextBtn />,
     slidesToScroll: 1,
-    initialSlide: 1,
   };
   return (
     <div className="carousel-container carousel">
       <Slider {...settings}>
         <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/8a89ee09acc1a9e5.jpg?q=20" alt="image1" height="270px" />
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/8a89ee09acc1a9e5.jpg?q=20" alt="image1" style={{ minHeight: '150px' }} />
         </div>
         <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/5f478a106d047aba.jpg?q=20" alt="image2" height="270px" />
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/5f478a106d047aba.jpg?q=20" alt="image2" style={{ minHeight: '150px' }} />
         </div>
         <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/e3bcf0e99a7fa199.jpg?q=20" alt="image3" height="270px" />
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/e3bcf0e99a7fa199.jpg?q=20" alt="image3" style={{ minHeight: '150px' }} />
         </div>
       </Slider>
     </div>

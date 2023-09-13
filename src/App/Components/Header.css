@@ -32,6 +32,9 @@
   justify-content: center;
   cursor: pointer;
 }
+.mini-card>*{
+  color: black;
+}
 .mini-card>img{
   height: 4rem;
   width: 4rem;
@@ -77,4 +80,13 @@
 .dropdown-container{
   width: 100%;
   position: relative;
+}
+.category-links{
+  text-decoration: none;
+}
+
+@media (max-width:768px) {
+  .nav-bar{
+    padding: 1% 2%;
+  }
 }

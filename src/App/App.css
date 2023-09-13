@@ -41,6 +41,5 @@
   float: left;
   display: flex;
   flex-direction: column;
-  width: 250px;
   margin: 10px;
 }

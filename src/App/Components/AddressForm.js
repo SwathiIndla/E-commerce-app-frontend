@@ -1,12 +1,27 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable no-useless-escape */
+/* eslint-disable no-unused-vars */
+import React, { useState } from 'react';
 import { Formik } from 'formik';
-import { TextField, Box } from '@mui/material';
+import * as yup from 'yup';
+import {
+  TextField, Box, FormControl, FormControlLabel, FormLabel,
+  Radio, RadioGroup, Button, MenuItem, InputLabel, Select, FormHelperText, Typography,
+} from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { states } from '../Data/data';
 
 export default function AddressForm() {
+  const [data, setData] = useState({});
+  const isNonMobile = useMediaQuery('(min-width:600px)');
+  const mobileNumberRegex = '[6-9]{1}[0-9]{9}';
+  const pincodeRegex = '^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$';
   const initialValues = {
     name: '',
     mobileNumber: '',
     pincode: '',
+    locality: '',
     address: '',
     district: '',
     state: '',
@@ -14,22 +29,43 @@ export default function AddressForm() {
     additionalPhoneNumber: '',
     addressType: '',
   };
+
   const handleFormSubmit = (values) => {
-    console.log(JSON.stringify(values));
+    setData({ ...values });
   };
 
+  const userSchema = yup.object().shape({
+    name: yup.string().required('*required'),
+    mobileNumber: yup.string().required('*required').matches(mobileNumberRegex, 'enter a valid mobile number'),
+    pincode: yup.string().required('*required').matches(pincodeRegex, 'enter a valid pincode'),
+    locality: yup.string().required('*required'),
+    address: yup.string().required('*required'),
+    district: yup.string().required('*required'),
+    state: yup.string().required('*required'),
+    landmark: yup.string(),
+    additionalPhoneNumber: yup.string().matches(mobileNumberRegex, 'enter a valid mobile number'),
+    addressType: yup.string().required('*required'),
+  });
+
   return (
-    <Box>
+    <Box m="20px" width="fit-content">
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
-        // validationSchema= {}
+        validationSchema={userSchema}
       >
         {({
           values, errors, touched, handleBlur, handleChange, handleSubmit,
         }) => (
           <form onSubmit={handleSubmit}>
-            <Box>
+            <Box
+              display="grid"
+              gap="30px"
+              gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+              sx={{
+                '& > div': { gridColumn: isNonMobile ? undefined : 'span 4' },
+              }}
+            >
               <TextField
                 type="text"
                 label="Name"
@@ -39,16 +75,18 @@ export default function AddressForm() {
                 onBlur={handleBlur}
                 error={touched.name && errors.name}
                 helperText={touched.name && errors.name}
+                sx={{ gridColumn: 'span 2' }}
               />
               <TextField
                 type="text"
-                label="10 digit mobile number"
+                label="Mobile number"
                 name="mobileNumber"
                 value={values.mobileNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.mobileNumber && errors.mobileNumber}
                 helperText={touched.mobileNumber && errors.mobileNumber}
+                sx={{ gridColumn: 'span 2' }}
               />
               <TextField
                 type="text"
@@ -59,16 +97,29 @@ export default function AddressForm() {
                 onBlur={handleBlur}
                 error={touched.pincode && errors.pincode}
                 helperText={touched.pincode && errors.pincode}
+                sx={{ gridColumn: 'span 2' }}
+              />
+              <TextField
+                type="text"
+                label="Locality"
+                name="locality"
+                value={values.locality}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={touched.locality && errors.locality}
+                helperText={touched.locality && errors.locality}
+                sx={{ gridColumn: 'span 2' }}
               />
               <TextField
                 type="text"
                 multiline
                 rows={3}
-                label="Address"
+                label="Address(Area and street)"
                 name="address"
                 value={values.address}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                sx={{ gridColumn: 'span 4' }}
                 error={touched.address && errors.address}
                 helperText={touched.address && errors.address}
               />
@@ -81,17 +132,30 @@ export default function AddressForm() {
                 onBlur={handleBlur}
                 error={touched.district && errors.district}
                 helperText={touched.district && errors.district}
+                sx={{ gridColumn: 'span 2' }}
               />
-              <TextField
-                type="select"
-                label="Select your state"
-                name="state"
-                value={values.state}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.state && errors.state}
-                helperText={touched.state && errors.state}
-              />
+              <FormControl fullWidth sx={{ gridColumn: 'span 2' }}>
+                <InputLabel
+                  id="select-state"
+                  error={touched.state && errors.state}
+                >
+                  Select your state
+                </InputLabel>
+                <Select
+                  labelId="select-state"
+                  label="Select your state"
+                  name="state"
+                  value={values.state}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.state && errors.state}
+                >
+                  {states.map((state) => (<MenuItem value={state}>{state}</MenuItem>))}
+                </Select>
+                <FormHelperText error={touched.state && errors.state}>
+                  {touched.state && errors.state}
+                </FormHelperText>
+              </FormControl>
               <TextField
                 type="text"
                 label="Landmard(optional)"
@@ -101,9 +165,10 @@ export default function AddressForm() {
                 onBlur={handleBlur}
                 error={touched.landmark && errors.landmark}
                 helperText={touched.landmark && errors.landmark}
+                sx={{ gridColumn: 'span 2' }}
               />
               <TextField
-                type="number"
+                type="text"
                 label="Additional mobile number(optional)"
                 name="additionalPhoneNumber"
                 value={values.additionalPhoneNumber}
@@ -111,20 +176,73 @@ export default function AddressForm() {
                 onBlur={handleBlur}
                 error={touched.additionalPhoneNumber && errors.additionalPhoneNumber}
                 helperText={touched.additionalPhoneNumber && errors.additionalPhoneNumber}
+                sx={{ gridColumn: 'span 2' }}
               />
-              <TextField
-                type="ra"
-                label="Enter your name"
-                value={values.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.name && errors.name}
-                helperText={touched.name && errors.name}
-              />
+              <FormControl>
+                <FormLabel
+                  id="addresstype-radio-buttons-group"
+                  error={touched.addressType && errors.addressType}
+                >
+                  Address Type
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="addresstype-radio-buttons-group"
+                  name="addressType"
+                  value={values.addressType}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.addressType && errors.addressType}
+                  sx={{ gridColumn: 'span 4' }}
+                >
+                  <FormControlLabel value="Home" control={<Radio />} label="Home" />
+                  <FormControlLabel value="Work" control={<Radio />} label="Work" />
+                </RadioGroup>
+                <FormHelperText error={touched.addressType && errors.addressType}>
+                  {touched.addressType && errors.addressType}
+                </FormHelperText>
+              </FormControl>
+              <Box sx={{ gridColumn: 'span 4' }}>
+                <Button type="submit" variant="contained" sx={{ width: '200px' }}>Save</Button>
+                <Button type="button" variant="text">Cancel</Button>
+              </Box>
             </Box>
           </form>
         )}
       </Formik>
+      <DisplayAddress data={data} />
+    </Box>
+  );
+}
+
+export function DisplayAddress(props) {
+  const { data } = props;
+  return (
+    <Box sx={{ border: '1px solid gray', padding: '10px' }}>
+      <Typography
+        variant="subtitle1"
+        sx={{
+          backgroundColor: 'gray', width: 'fit-content', padding: '4px', color: 'ghostwhite', borderRadius: '4px', fontSize: '12px',
+        }}
+      >
+        {data.addressType}
+      </Typography>
+      <Typography sx={{ fontWeight: '500' }}>
+        {data.name}
+        {' '}
+        {data.mobileNumber}
+      </Typography>
+      <Typography>
+        {data.address}
+        ,
+        {data.locality}
+        ,
+        {data.district}
+        ,
+        {data.state}
+        -
+        {data.pincode}
+      </Typography>
     </Box>
   );
 }

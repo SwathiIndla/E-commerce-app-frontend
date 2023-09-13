@@ -1,17 +1,22 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { FormControlLabel, Checkbox, Slider } from '@mui/material';
 import {
   Sidebar, Menu, MenuItem, SubMenu,
 } from 'react-pro-sidebar';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
-export default function SideBar() {
+export default function SideBar(props) {
   const [value, setValue] = React.useState([20, 37]);
+  const { toggled, setToggled } = props;
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  const isMobile = useMediaQuery('(max-width:768px)');
 
   return (
-    <Sidebar className="side-bar">
+    <Sidebar className="side-bar" onBackdropClick={() => setToggled(false)} toggled={toggled} breakPoint={isMobile}>
       <Menu>
         <MenuItem>
           <Slider
@@ -22,8 +27,6 @@ export default function SideBar() {
             size="medium"
             value={value}
             onChange={handleChange}
-            // min={10}
-            // max={100}
           />
         </MenuItem>
         <SubMenu label="Details">

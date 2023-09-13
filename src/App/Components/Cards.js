@@ -22,7 +22,7 @@ export function Card() {
           <h3>Categories</h3>
           <h2>Price</h2>
           <p>Tags,types...</p>
-          <Button type="button" variant="contained" disableElevation sx={{ background: '#33eb91', '&:hover': { background: '#00a152' } }}> Buy </Button>
+          <Button type="button" variant="contained" disableElevation size="small" sx={{ background: '#33eb91', '&:hover': { background: '#00a152' } }}> Buy </Button>
         </div>
       </div>
     </div>
@@ -76,15 +76,15 @@ export default function Cards() {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 3,
           slidesToScroll: 1,
           initialSlide: 1,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 580,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
