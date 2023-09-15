@@ -2,7 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  background-color: rgb(116, 140, 247);
+  background-color: rgb(78, 108, 241);
 
 }
 .nav-bar{
@@ -44,6 +44,10 @@
 .item-title{
   margin: unset;
 }
+.logo-link-element{
+  color: inherit;
+  text-decoration: none;
+}
 .dropdown{
   position: relative;
   display: inline-block;
@@ -84,10 +88,10 @@
 }
 .login-btn.MuiButton-root{
   background: whitesmoke;
-  color: rgb(116, 140, 247); 
+  color:rgb(78, 108, 241); 
 }
 .login-btn.MuiButton-root:hover{
-  background: rgb(116, 140, 247);
+  background:rgb(78, 108, 241);
   color: ghostwhite; 
 }
 .logo-heading,.nav-tools{

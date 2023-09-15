@@ -50,7 +50,7 @@ export default function SignUp() {
   return (
     <div className="login-page">
       <div className="login-container">
-        <p>New Here! Enjoy the experience</p>
+        <p>New Here! Buckle up for the Journey</p>
         <h2 className="heading">SignUp</h2>
         <Formik
           onSubmit={handleFormSubmit}

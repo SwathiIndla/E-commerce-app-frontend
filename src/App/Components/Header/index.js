@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable react/prop-types */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable react/prop-types */
 import React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -11,6 +10,7 @@ import {
   TextField,
   Typography,
   Button,
+  Badge,
   IconButton,
 } from '@mui/material';
 import './Header.css';
@@ -24,9 +24,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Fade from '@mui/material/Fade';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from './favicon.ico';
-import Login from './Login';
-import SignUp from './SignUp';
+import logo from '../../Images/favicon.ico';
+import Login from '../Login/Login';
+import SignUp from '../Login/SignUp';
+import { categories } from '../../Data/data';
 
 export default function Header() {
   const [open, setOpen] = React.useState(false);
@@ -61,10 +62,12 @@ export default function Header() {
   return (
     <div className="header">
       <nav className="nav-bar">
-        <div className="logo-heading">
-          <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
-          <Typography variant="h5">BuyHere</Typography>
-        </div>
+        <Link to="/" className="logo-link-element">
+          <div className="logo-heading">
+            <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
+            <Typography variant="h5">BuyHere</Typography>
+          </div>
+        </Link>
         <div className="nav-tools">
           {!isMobile && (
           <TextField
@@ -78,8 +81,32 @@ export default function Header() {
           />
           )}
           <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} className="login-btn">Login</Button>
-          {isMobile ? <IconButton onClick={navigateToCart}><ShoppingCartIcon sx={{ color: 'whitesmoke' }} /></IconButton>
-            : (<Button variant="text" startIcon={<ShoppingCartIcon />} sx={{ color: 'whitesmoke' }} onClick={navigateToCart}>Cart</Button>)}
+          {
+          isMobile
+            ? (
+              <IconButton onClick={navigateToCart}>
+                <Badge badgeContent={0} color="warning">
+                  <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
+                </Badge>
+              </IconButton>
+            )
+            : (
+              <Button
+                variant="text"
+                startIcon={(
+                  <Badge badgeContent={0} color="warning">
+                    <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
+                  </Badge>
+)}
+                sx={{ color: 'whitesmoke' }}
+                onClick={navigateToCart}
+              >
+                Cart
+
+              </Button>
+            )
+
+}
 
         </div>
       </nav>
@@ -125,35 +152,6 @@ export default function Header() {
 }
 
 export function Categories(props) {
-  const categories = [{
-    id: 1,
-    title: 'Grocery',
-    img: 'https://cdn.pixabay.com/photo/2016/04/21/11/32/groceries-1343141_1280.jpg',
-  }, {
-    id: 2,
-    title: 'Mobiles',
-    img: 'https://cdn.pixabay.com/photo/2016/11/29/12/30/phone-1869510_640.jpg',
-  }, {
-    id: 3,
-    title: 'Fashion',
-    img: 'https://cdn.pixabay.com/photo/2020/02/05/11/06/woman-4820889_640.jpg',
-  }, {
-    id: 4,
-    title: 'Appliances',
-    img: 'https://cdn.pixabay.com/photo/2016/10/31/18/50/washing-machine-1786385_640.png',
-  }, {
-    id: 5,
-    title: 'Furniture',
-    img: 'https://cdn.pixabay.com/photo/2017/08/02/01/01/living-room-2569325_640.jpg',
-  }, {
-    id: 6,
-    title: 'Electronics',
-    img: 'https://cdn.pixabay.com/photo/2015/02/05/08/06/macbook-624707_640.jpg',
-  }, {
-    id: 7,
-    title: 'Toys',
-    img: 'https://cdn.pixabay.com/photo/2014/11/09/21/44/teddy-bear-524251_640.jpg',
-  }];
   const { images } = props;
   const settings = {
     dots: false,
@@ -265,13 +263,13 @@ export function ImageCarousel() {
     <div className="carousel-container carousel">
       <Slider {...settings}>
         <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/8a89ee09acc1a9e5.jpg?q=20" alt="image1" style={{ minHeight: '150px' }} />
+          <img src="https://images.unsplash.com/photo-1542228227152-511d6b6bbe1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU4fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image1" style={{ minHeight: '150px' }} />
         </div>
         <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/5f478a106d047aba.jpg?q=20" alt="image2" style={{ minHeight: '150px' }} />
+          <img src="https://images.unsplash.com/photo-1565274265853-9d1f55d9cb7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTcwfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image2" style={{ minHeight: '150px' }} />
         </div>
         <div>
-          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/e3bcf0e99a7fa199.jpg?q=20" alt="image3" style={{ minHeight: '150px' }} />
+          <img src="https://images.unsplash.com/photo-1534272521029-e035b59b146e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAxfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image3" style={{ minHeight: '150px' }} />
         </div>
       </Slider>
     </div>

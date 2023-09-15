@@ -10,14 +10,15 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { imgData } from '../../Data/data';
 
-export function Card() {
+export function Card(props) {
   const [hover, setHover] = useState(false);
-
+  const { data } = props;
   return (
     <div>
       <div className="cards" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-        <div className="card-img" style={{ backgroundSize: hover ? '400px' : 'cover' }} />
+        <div className="card-img" style={{ backgroundSize: hover ? '400px' : 'cover', backgroundImage: `url(${data.img})` }} />
         <div className="cards-context">
           <h3>Categories</h3>
           <h2>Price</h2>
@@ -94,18 +95,7 @@ export default function Cards() {
   return (
     <div className="cards-container carousel">
       <Slider {...settings}>
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {imgData.map((item) => <Card data={item} key={item.id} />)}
       </Slider>
     </div>
   );

@@ -4,10 +4,10 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Header, {
   Categories,
   ImageCarousel,
-} from './Header';
-import SideBar from './Sidebar';
-import DetailedCards from './DetailedCards';
-import Footer from './Footer';
+} from '../Components/Header';
+import SideBar from '../Components/Sidebar';
+import DetailedCards from '../Components/DetailedCards';
+import Footer from '../Components/Footer';
 
 export default function Mobiles() {
   const isMobile = useMediaQuery('(max-width:768px)');
