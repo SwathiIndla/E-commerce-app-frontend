@@ -7,6 +7,7 @@ import {
 import {
   Sidebar, Menu, MenuItem, SubMenu,
 } from 'react-pro-sidebar';
+import './Sidebar.css';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
 

@@ -1,0 +1,35 @@
+.login-container{
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding:5%;
+  border-radius: .25rem;
+}
+.login-page{
+  display: flex;
+  justify-content: center;
+  background-size: cover;
+}
+.login-form{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 300px;
+}
+.heading{
+  font-size: 32px;
+  font-style: italic;
+  text-decoration: underline;
+  color: midnightblue;
+  margin: 20px;
+}
+.form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

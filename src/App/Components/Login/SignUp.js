@@ -126,10 +126,6 @@ export default function SignUp() {
             </form>
           )}
         </Formik>
-        {/* <Typography variant="subtitle1">
-          Already have an account ?
-          <Link to="/login" style={{ color: 'blue' }}>Login</Link>
-        </Typography> */}
       </div>
     </div>
   );

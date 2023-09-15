@@ -5,6 +5,7 @@ import {
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -99,10 +100,6 @@ export default function Login() {
             </form>
           )}
         </Formik>
-        {/* <Typography variant="subtitle1">
-          Don&apos;t have an account ?
-          <Link to="/signup" style={{ color: 'blue' }}>Signup</Link>
-        </Typography> */}
       </div>
     </div>
   );

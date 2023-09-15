@@ -52,7 +52,7 @@ export default function Header() {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    height: '70vh',
+    height: '85vh',
     bgcolor: 'background.paper',
     border: '2px solid white',
     boxShadow: 44,
@@ -102,12 +102,9 @@ export default function Header() {
                 onClick={navigateToCart}
               >
                 Cart
-
               </Button>
             )
-
 }
-
         </div>
       </nav>
       {isMobile && (

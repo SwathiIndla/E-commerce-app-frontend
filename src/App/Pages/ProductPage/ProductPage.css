@@ -1,0 +1,46 @@
+.product-img{
+  width: 50px;
+  height: 50px;
+}
+.img-item{
+  border:1px double black;
+  margin: .25rem;
+  padding: .25rem;
+}
+.displaying-img{
+  width: 400px;
+  height: 400px;
+}
+.color-list{
+  list-style: none;
+  display: flex;
+  padding: unset;
+}
+.color-list>li{
+  margin-right: 1rem;
+  border: 2px dotted darkgrey;
+  padding: .25rem .5rem;
+  color: rgb(65, 64, 64);
+}
+.highlights-list{
+  margin: unset;
+  list-style: none;
+  padding: unset;
+}
+.highlights-list>li{
+  padding: 0 0 .5rem 1rem;
+}
+.highlights-list li::before{
+  content: '\2022';
+  width: 1rem;
+  color:darkgrey ;
+  display: inline-block;
+  margin-left: -1rem;
+  font-weight: bold;
+}
+@media (max-width:1200px) {
+  .displaying-img{
+    width: 300px;
+    height: 300px;
+  }
+}
