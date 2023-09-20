@@ -47,3 +47,10 @@ export const imgData = [
   { id: 10, img: 'https://images.unsplash.com/photo-1629762878455-31e1af0d126a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjY2fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
   { id: 11, img: 'https://images.unsplash.com/photo-1673090221614-ed8e5f58793e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzE2fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
 ];
+
+export const brandColors = [{ name: 'Realme', color: '#e8b007', borderType: 'inset' },
+  { name: 'Poco', color: '#dff53b', borderType: 'outset' },
+  { name: 'Vivo', color: '#1d31ad', borderType: 'inset' },
+  { name: 'Samsung', color: '#3b6de3', borderType: 'outset' },
+  { name: 'iPhone', color: '#0c0c0d', borderType: 'inset' },
+  { name: 'Motorola', color: '#3d3d3c', borderType: 'outset' }];

@@ -7,6 +7,7 @@ import Mobiles from './Pages/Mobiles';
 import EmptyPage from './Pages/EmptyPage';
 import Cart from './Pages/Cart';
 import ProductPage from './Pages/ProductPage';
+import { Brands } from './Components/DetailedCards/ColoredCards';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/:id" element={<EmptyPage />} />
       <Route path="/a" element={<ProductPage />} />
+      <Route path="/c" element={<Brands />} />
     </Routes>
   );
 }

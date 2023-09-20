@@ -13,6 +13,8 @@ export default function Home() {
       <Categories images />
       <ImageCarousel />
       <Cards />
+      <Cards />
+      <Cards />
       <Footer />
     </div>
   );

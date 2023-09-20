@@ -203,7 +203,7 @@ export function MiniCard(props) {
   return (
     <Link to={`/${(item.title).toLowerCase()}`} className="category-links">
       <div
-        className="minicard"
+        className="minicard-container"
         onMouseEnter={handleOPen}
         onMouseLeave={handleClose}
         style={{ width: 'fit-content' }}
@@ -214,12 +214,21 @@ export function MiniCard(props) {
         </div>
         {!isMobile && openMenu
               && (
-              <div className="dropdown-menu" onMouseEnter={handleOPen}>
-                <p className="dropdown-item" onClick={handleClose}>Profile</p>
-                <p className="dropdown-item" onClick={handleClose}>About</p>
-                <p className="dropdown-item" onClick={handleClose}>Details</p>
-                <p className="dropdown-item" onClick={handleClose}>Help</p>
-              </div>
+                <div className="dropdown">
+                  <ul className="dropdown-menu" onMouseEnter={handleOPen}>
+                    <li className="dropdown-item" onClick={handleClose}>
+                      Profile
+                      <ul className="inner-menu">
+                        <li>hi</li>
+                        <li>how are you</li>
+                        <li>bye</li>
+                      </ul>
+                    </li>
+                    <li className="dropdown-item" onClick={handleClose}>About</li>
+                    <li className="dropdown-item" onClick={handleClose}>Details</li>
+                    <li className="dropdown-item" onClick={handleClose}>Help</li>
+                  </ul>
+                </div>
               )}
 
       </div>

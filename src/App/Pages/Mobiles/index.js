@@ -4,10 +4,11 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Header, {
   Categories,
   ImageCarousel,
-} from '../Components/Header';
-import SideBar from '../Components/Sidebar';
-import DetailedCards from '../Components/DetailedCards';
-import Footer from '../Components/Footer';
+} from '../../Components/Header';
+import SideBar from '../../Components/Sidebar';
+// import DetailedCards from '../../Components/DetailedCards';
+import Footer from '../../Components/Footer';
+import { Brands } from '../../Components/DetailedCards/ColoredCards';
 
 export default function Mobiles() {
   const isMobile = useMediaQuery('(max-width:768px)');
@@ -24,10 +25,11 @@ export default function Mobiles() {
         </Box>
         <Box width={isMobile ? '100%' : '60%'} flexGrow={1}>
           <ImageCarousel />
+          {/* <DetailedCards />
           <DetailedCards />
           <DetailedCards />
-          <DetailedCards />
-          <DetailedCards />
+          <DetailedCards /> */}
+          <Brands />
         </Box>
       </Box>
       <Footer />

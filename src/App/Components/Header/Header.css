@@ -50,30 +50,39 @@
 }
 .dropdown{
   position: relative;
-  display: inline-block;
+  /* display: inline-block; */
 }
-.dropdown-menu{
-  /* border-radius: 4px; */
+.dropdown-menu,.inner-menu{
+  list-style: none;
+  margin: unset;
   position: absolute;
   background-color:rgba(245, 245, 245,1);
-  min-width: 100px;
+  min-width: 120px;
   box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.7);
   z-index: 1;
   transition: all linear .3s;
   cursor: pointer;
-  display: flex;
-  flex-direction: column;
   text-align: center;
-  padding: 10px 0;
+  padding: 10px 5px;
+  min-height: 150px;
 }
-.dropdown-item{
+.inner-menu{
+  top: 0px;
+  left: 80%;
+  display: none ;
+}
+.dropdown-item ,.inner-menu>li{
   margin: unset;
   width: 100%;
   padding: 5px;
+  display: flex;
 }
-.dropdown-item:hover{
+.dropdown-item:hover,.inner-menu>li:hover{
   background-color: rgb(201, 198, 198);
   box-shadow: 0px 0px 3px rgb(119, 118, 118);
+}
+.dropdown-item:hover>.inner-menu{
+  display:block ;
 }
 .mini-card:hover {
   color: blue;
