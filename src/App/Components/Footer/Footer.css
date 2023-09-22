@@ -3,15 +3,12 @@
   flex-direction: column;
   background-color: rgb(27, 27, 27);
 }
-.footer-details{
+.footer-details,.footer-helpcenter{
   display: flex;
   justify-content: space-around;
   padding: 20px 0px;
 }
 .footer-helpcenter{
-  display: flex;
-  justify-content: space-around;
-  padding: 20px 0px;
   border-top: 1px solid gray;
 }
 .link{

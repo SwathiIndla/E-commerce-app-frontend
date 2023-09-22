@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable no-useless-escape */
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import {
@@ -9,11 +12,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export default function SignUp() {
+export default function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { setSignup } = props;
   const navigate = useNavigate();
-  // eslint-disable-next-line no-useless-escape
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   const initialValues = {
     email: '',
@@ -49,9 +52,13 @@ export default function SignUp() {
 
   return (
     <div className="login-page">
+      <div className="login-text-container">
+        <Typography variant="h4" color="ghostwhite" marginBottom={2}>Looks like you're new here!</Typography>
+        <Typography variant="subtitle1" color="whitesmoke">
+          Sign up with email id to get started
+        </Typography>
+      </div>
       <div className="login-container">
-        <p>New Here! Buckle up for the Journey</p>
-        <h2 className="heading">SignUp</h2>
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={initialValues}
@@ -122,10 +129,14 @@ export default function SignUp() {
                   ),
                 }}
               />
-              <Button type="submit" variant="contained" sx={{ width: '50%' }}>Signup</Button>
+              <Button type="submit" variant="contained" fullWidth>Signup</Button>
             </form>
           )}
         </Formik>
+        <div>
+          <Typography variant="subtitle1" display="inline">  Already have an account?</Typography>
+          <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Login</Button>
+        </div>
       </div>
     </div>
   );

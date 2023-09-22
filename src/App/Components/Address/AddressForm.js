@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-useless-escape */
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import {
@@ -10,10 +10,10 @@ import {
   Radio, RadioGroup, Button, MenuItem, InputLabel, Select, FormHelperText, Typography,
 } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { states } from '../Data/data';
+import { states } from '../../Data/data';
 
-export default function AddressForm() {
-  const [data, setData] = useState({});
+export default function AddressForm(props) {
+  const { setShowAddressForm, heading } = props;
   const isNonMobile = useMediaQuery('(min-width:600px)');
   const mobileNumberRegex = '[6-9]{1}[0-9]{9}';
   const pincodeRegex = '^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$';
@@ -29,9 +29,8 @@ export default function AddressForm() {
     additionalPhoneNumber: '',
     addressType: '',
   };
-
   const handleFormSubmit = (values) => {
-    setData({ ...values });
+    console.log(values);
   };
 
   const userSchema = yup.object().shape({
@@ -48,10 +47,11 @@ export default function AddressForm() {
   });
 
   return (
-    <Box m="20px" width="fit-content">
+    <Box width="fit-content" bgcolor="whitesmoke" p="2rem">
+      <Typography variant="h5" sx={{ color: '#519fec' }} marginBottom={2}>{`${heading} Address`}</Typography>
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={initialValues}
+        initialValues={Object.keys(props).length > 2 ? props.data : initialValues}
         validationSchema={userSchema}
       >
         {({
@@ -204,45 +204,12 @@ export default function AddressForm() {
               </FormControl>
               <Box sx={{ gridColumn: 'span 4' }}>
                 <Button type="submit" variant="contained" sx={{ width: '200px' }}>Save</Button>
-                <Button type="button" variant="text">Cancel</Button>
+                <Button type="button" variant="text" onClick={() => setShowAddressForm(false)}>Cancel</Button>
               </Box>
             </Box>
           </form>
         )}
       </Formik>
-      <DisplayAddress data={data} />
-    </Box>
-  );
-}
-
-export function DisplayAddress(props) {
-  const { data } = props;
-  return (
-    <Box sx={{ border: '1px solid gray', padding: '10px' }}>
-      <Typography
-        variant="subtitle1"
-        sx={{
-          backgroundColor: 'gray', width: 'fit-content', padding: '4px', color: 'ghostwhite', borderRadius: '4px', fontSize: '12px',
-        }}
-      >
-        {data.addressType}
-      </Typography>
-      <Typography sx={{ fontWeight: '500' }}>
-        {data.name}
-        {' '}
-        {data.mobileNumber}
-      </Typography>
-      <Typography>
-        {data.address}
-        ,
-        {data.locality}
-        ,
-        {data.district}
-        ,
-        {data.state}
-        -
-        {data.pincode}
-      </Typography>
     </Box>
   );
 }

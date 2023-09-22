@@ -81,8 +81,19 @@
 }
 
 .colred-container{
-  /* transform: rotate(-10deg); */
+  background-color: inherit ;
   padding: 1px;
+  width: 110px;
+  height: 60px;
+  text-align: center;
+}
+.logo-img{
+  width: 100px;
+  height: 50px;
+}
+.brand-container:hover>.colred-container>.logo-img{
+  width: 110px;
+  height: 60px;
 }
 .brand-name{
   background-color: rgb(26, 25, 25);
@@ -115,10 +126,10 @@
 .colored-cards-description{
   width: 100%;
 }
-a{
+.mobile-page-link{
   color: inherit;
   text-decoration: none;
 }
-/* a:hover{
-  color: blue;
-} */
+.mobile-page-link:hover{
+  color: rgb(44, 128, 238);
+}

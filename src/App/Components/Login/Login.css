@@ -10,26 +10,28 @@
   border-radius: .25rem;
 }
 .login-page{
-  display: flex;
+  display: grid;
+  grid-template-columns: 45% 55%;
   justify-content: center;
   background-size: cover;
+  height: 100%;
 }
 .login-form{
   display: flex;
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  width: 300px;
-}
-.heading{
-  font-size: 32px;
-  font-style: italic;
-  text-decoration: underline;
-  color: midnightblue;
-  margin: 20px;
+  /* width: 300px; */
 }
 .form{
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+.login-text-container{
+  background-color:#1976d2;
+  padding: 2rem;
+  background-image: url('../../Images/login.png');
+  background-position: center 85%;
+  background-repeat: no-repeat;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -6,22 +7,12 @@ import React from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import {
-  InputAdornment,
-  TextField,
-  Typography,
-  Button,
-  Badge,
-  IconButton,
+  InputAdornment, TextField, Typography, Button, Badge,
+  IconButton, Box, Modal, Backdrop, Fade,
 } from '@mui/material';
 import './Header.css';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import Slider from 'react-slick';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import Fade from '@mui/material/Fade';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../Images/favicon.ico';
@@ -51,12 +42,10 @@ export default function Header() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    height: '85vh',
+    width: '50vw',
+    height: '75vh',
     bgcolor: 'background.paper',
-    border: '2px solid white',
     boxShadow: 44,
-    p: 4,
   };
 
   return (
@@ -134,13 +123,7 @@ export default function Header() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            {signup ? <SignUp /> : <Login />}
-            <Box flex flexDirection="row" textAlign="center">
-              <Typography variant="subtitle1" display="inline">{signup ? 'Already have an account?' : "Don't have an account?"}</Typography>
-              <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>
-                {signup ? 'Login' : 'Signup' }
-              </Button>
-            </Box>
+            {signup ? <SignUp setSignup={setSignup} /> : <Login setSignup={setSignup} />}
           </Box>
         </Fade>
       </Modal>
@@ -166,19 +149,19 @@ export function Categories(props) {
     <div>
       {isMobile
         ? (
-          <Slider className="container" {...settings}>
+          <Slider className="category-container" {...settings}>
             {
           categories.map((item) => (
-            <MiniCard item={item} key={item.id} images={images} />
+            <CategoryCard item={item} key={item.id} images={images} />
           ))
         }
           </Slider>
         )
         : (
-          <div className="container">
+          <div className="category-container">
             {
           categories.map((item) => (
-            <MiniCard item={item} key={item.id} images={images} />
+            <CategoryCard item={item} key={item.id} images={images} />
           ))
         }
           </div>
@@ -187,7 +170,7 @@ export function Categories(props) {
   );
 }
 
-export function MiniCard(props) {
+export function CategoryCard(props) {
   const [openMenu, setOpenMenu] = React.useState(false);
   const { item, images } = props;
   const isMobile = useMediaQuery('(max-width:768px)');
@@ -203,12 +186,12 @@ export function MiniCard(props) {
   return (
     <Link to={`/${(item.title).toLowerCase()}`} className="category-links">
       <div
-        className="minicard-container"
+        className="category-card-category-container"
         onMouseEnter={handleOPen}
         onMouseLeave={handleClose}
         style={{ width: 'fit-content' }}
       >
-        <div className="mini-card">
+        <div className="category-card">
           {images && <img src={item.img} alt={item.title} loading="lazy" /> }
           <h5 className="item-title">{item.title}</h5>
         </div>
@@ -233,51 +216,5 @@ export function MiniCard(props) {
 
       </div>
     </Link>
-  );
-}
-function PreviousBtn(props) {
-  const { className, onClick } = props;
-  return (
-    <div className={className} onClick={onClick}>
-      <ArrowBackIosIcon style={{ color: 'black', fontSize: '20px' }} />
-    </div>
-  );
-}
-function NextBtn(props) {
-  const { className, onClick } = props;
-  return (
-    <div className={className} onClick={onClick}>
-      <ArrowForwardIosIcon style={{ color: 'black', fontSize: '20px' }} />
-    </div>
-  );
-}
-
-export function ImageCarousel() {
-  const settings = {
-    dots: false,
-    infinite: true,
-    arrows: true,
-    autoplay: true,
-    speed: 1000,
-    autoplaySpeed: 3000,
-    slidesToShow: 1,
-    prevArrow: <PreviousBtn />,
-    nextArrow: <NextBtn />,
-    slidesToScroll: 1,
-  };
-  return (
-    <div className="carousel-container carousel">
-      <Slider {...settings}>
-        <div>
-          <img src="https://images.unsplash.com/photo-1542228227152-511d6b6bbe1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU4fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image1" style={{ minHeight: '150px' }} />
-        </div>
-        <div>
-          <img src="https://images.unsplash.com/photo-1565274265853-9d1f55d9cb7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTcwfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image2" style={{ minHeight: '150px' }} />
-        </div>
-        <div>
-          <img src="https://images.unsplash.com/photo-1534272521029-e035b59b146e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAxfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image3" style={{ minHeight: '150px' }} />
-        </div>
-      </Slider>
-    </div>
   );
 }

@@ -1,10 +1,8 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import Header, {
-  Categories,
-  ImageCarousel,
-} from '../../Components/Header';
+import Header, { Categories } from '../../Components/Header';
+import ImageCarousel from '../../Components/Header/ImageCarousel';
 import SideBar from '../../Components/Sidebar';
 // import DetailedCards from '../../Components/DetailedCards';
 import Footer from '../../Components/Footer';
@@ -16,7 +14,7 @@ export default function Mobiles() {
     position: 'sticky', top: '98px', left: '0', zIndex: '10', width: '100vw',
   };
   return (
-    <Box height="100vh" overflow="scroll">
+    <Box height="100vh" overflowY="scroll">
       <Header />
       <Categories images={false} />
       <Box display="flex" flexDirection={isMobile ? 'column' : 'row'}>

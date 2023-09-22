@@ -1,5 +1,12 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable no-unused-vars */
+import iphone from '../Images/iphone.jpg';
+import realme from '../Images/realme.png';
+import samsung from '../Images/samsung.png';
+import oneplus from '../Images/oneplus.png';
+import vivo from '../Images/vivo.png';
+import oppo from '../Images/oppo.jpg';
+
 export const states = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh',
   'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
   'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'];
@@ -48,9 +55,9 @@ export const imgData = [
   { id: 11, img: 'https://images.unsplash.com/photo-1673090221614-ed8e5f58793e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzE2fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60' },
 ];
 
-export const brandColors = [{ name: 'Realme', color: '#e8b007', borderType: 'inset' },
-  { name: 'Poco', color: '#dff53b', borderType: 'outset' },
-  { name: 'Vivo', color: '#1d31ad', borderType: 'inset' },
-  { name: 'Samsung', color: '#3b6de3', borderType: 'outset' },
-  { name: 'iPhone', color: '#0c0c0d', borderType: 'inset' },
-  { name: 'Motorola', color: '#3d3d3c', borderType: 'outset' }];
+export const mobileBrands = [{ name: 'Realme', logo: realme },
+  { name: 'Oppo', logo: oppo },
+  { name: 'Vivo', logo: vivo },
+  { name: 'Samsung', logo: samsung },
+  { name: 'iPhone', logo: iphone },
+  { name: 'OnePlus', logo: oneplus }];

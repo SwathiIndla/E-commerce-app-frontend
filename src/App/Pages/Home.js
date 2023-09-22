@@ -1,9 +1,7 @@
 import React from 'react';
-import Header,
-{ Categories, ImageCarousel }
-  from '../Components/Header';
+import Header, { Categories } from '../Components/Header';
+import ImageCarousel from '../Components/Header/ImageCarousel';
 import Cards from '../Components/Cards';
-// import Sidebar from './Sidebar';
 import Footer from '../Components/Footer';
 
 export default function Home() {

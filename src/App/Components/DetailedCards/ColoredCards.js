@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box, Button } from '@mui/material';
 import StarRateIcon from '@mui/icons-material/StarRate';
-import { brandColors } from '../../Data/data';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { mobileBrands } from '../../Data/data';
 import './DetailedCards.css';
 
 export default function ColoredCards() {
@@ -39,21 +40,18 @@ export default function ColoredCards() {
 }
 
 export function Brands() {
-  const brands = brandColors.map((item) => (
-    <div style={{
-      display: 'flex', flexDirection: 'column', margin: '1rem', width: '150px', alignItems: 'center', gap: '.5rem',
-    }}
+  const brands = mobileBrands.map((item) => (
+    <div
+      className="brand-container"
+      style={{
+        display: 'flex', flexDirection: 'column', margin: '1rem', width: '170px', alignItems: 'center', gap: '.5rem',
+      }}
     >
-      <div
-        className="colred-container"
-        style={{ border: `4px ${`${item.borderType} ${item.color}`}` }}
-      >
-        <div className="brand-name" style={{ backgroundColor: item.color }}>
-          <h2 style={{ margin: 'unset' }}>{item.name}</h2>
-        </div>
+      <div className="colred-container">
+        <img src={item.logo} alt="logo" className="logo-img" />
       </div>
       <h4 style={{ margin: 'unset' }}>Shop Now</h4>
-      <h3 style={{ margin: 'unset' }}>{item.name}</h3>
+      <h3 style={{ margin: 'unset' }} className="mobile-page-link">{item.name}</h3>
     </div>
   ));
   return (
@@ -66,15 +64,48 @@ export function Brands() {
         <ColoredCards />
         <ColoredCards />
         <ColoredCards />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
-        <SingleCard />
+        <Box display="flex" flexDirection="column" width="100%" boxShadow={2} marginBottom={2} bgcolor="whitesmoke">
+          <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" width="100%" borderBottom="1px solid lightgrey" p="1rem 2rem">
+            <Typography variant="h6">Under 10,000</Typography>
+            <Button variant="contained" endIcon={<NavigateNextIcon />}>View All</Button>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="column" width="100%" boxShadow={2} marginBottom={2} bgcolor="whitesmoke">
+          <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" width="100%" borderBottom="1px solid lightgrey" p="1rem 2rem">
+            <Typography variant="h6">Under 30,000</Typography>
+            <Button variant="contained" endIcon={<NavigateNextIcon />}>View All</Button>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="column" width="100%" boxShadow={2} marginBottom={2} bgcolor="whitesmoke">
+          <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center" width="100%" borderBottom="1px solid lightgrey" p="1rem 2rem">
+            <Typography variant="h6">Samsung</Typography>
+            <Button variant="contained" endIcon={<NavigateNextIcon />}>View All</Button>
+          </Box>
+          <Box display="flex" flexDirection="row">
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+            <SingleCard />
+          </Box>
+        </Box>
       </div>
     </div>
   );
@@ -86,11 +117,14 @@ export function SingleCard() {
       display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '1rem',
     }}
     >
-      <a href="hi">
-        <img src="https://images.unsplash.com/photo-1635792106034-20a7b625f962?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjMxfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=150&w=100&q=60" style={{ borderRadius: '8px' }} alt="mbl" />
+      <a className="mobile-page-link" href="hi">
+        <img src="https://images.unsplash.com/photo-1675767304968-2e8617b00d37?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU3fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=140&w=100&q=60" style={{ borderRadius: '8px' }} alt="mbl" />
       </a>
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <a href="hi"><p>Image Title(spacificatiions)</p></a>
+      <div style={{
+        display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center',
+      }}
+      >
+        <a className="mobile-page-link" href="hi"><p>Image Title (spacificatiions)</p></a>
         <div style={{ display: 'flex', gap: '.5rem' }}>
           <div className="rating">
             <Typography variant="subtitle2" fontSize="inherit">4.5</Typography>
@@ -101,7 +135,7 @@ export function SingleCard() {
         <Typography>
           Price
           <span style={{
-            fontSize: '1rem', textDecoration: 'line-through', fontStyle: 'italic', margin: '0 8px',
+            fontSize: '1rem', textDecoration: 'line-through', margin: '0 8px',
           }}
           >
             {' '}

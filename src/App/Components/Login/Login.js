@@ -1,7 +1,10 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-unescaped-entities */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
 import {
-  TextField, Button, IconButton, InputAdornment,
+  TextField, Button, IconButton, InputAdornment, Typography,
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -11,8 +14,9 @@ import Cookies from 'js-cookie';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export default function Login() {
+export default function Login(props) {
   const [showPassword, setShowPassword] = useState(false);
+  const { setSignup } = props;
   const navigate = useNavigate();
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   const initialValues = {
@@ -48,9 +52,13 @@ export default function Login() {
 
   return (
     <div className="login-page">
+      <div className="login-text-container">
+        <Typography variant="h4" color="ghostwhite" marginBottom={2}>Login</Typography>
+        <Typography variant="subtitle1" color="whitesmoke">
+          Get access to your Orders, Wishlist and Recommendations
+        </Typography>
+      </div>
       <div className="login-container">
-        <p>Welcome! Enjoy the experience</p>
-        <h2 className="heading">Login</h2>
         <Formik
           onSubmit={handleFormSubmit}
           initialValues={initialValues}
@@ -96,10 +104,14 @@ export default function Login() {
                   ),
                 }}
               />
-              <Button type="submit" variant="contained" sx={{ width: '50%' }}>Login</Button>
+              <Button type="submit" variant="contained" fullWidth>Login</Button>
             </form>
           )}
         </Formik>
+        <div>
+          <Typography variant="subtitle1" display="inline">  New here ?</Typography>
+          <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Create an account</Button>
+        </div>
       </div>
     </div>
   );
