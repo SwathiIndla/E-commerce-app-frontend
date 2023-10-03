@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
@@ -9,16 +10,18 @@ import {
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import './Login.css';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { loginUrl } from '../../Environment/URL';
 
 export default function Login(props) {
   const [showPassword, setShowPassword] = useState(false);
-  const { setSignup } = props;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const { setSignup, modal } = props;
   const navigate = useNavigate();
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   const initialValues = {
     email: '',
     password: '',
@@ -28,8 +31,7 @@ export default function Login(props) {
     email: yup.string().email().required('*required'),
     password: yup
       .string()
-      .required('*required')
-      .matches(passwordRegex, 'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character'),
+      .required('*required'),
   });
 
   const handleClick = () => {
@@ -37,17 +39,29 @@ export default function Login(props) {
   };
 
   const handleFormSubmit = async (values, actions) => {
-    const userDetails = { ...values, roles: ['Consumer '] };
+    setError(false);
+    const userDetails = { ...values };
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
     };
-    const response = await fetch(URL, options);
+    const response = await fetch(loginUrl, options);
     const responseJson = await response.json();
-    const jwtToken = responseJson.jwt_token;
-    Cookies.set('jwtToken', jwtToken, { expires: 90 });
-    actions.resetForm();
-    navigate(0);
+    if (response.ok) {
+      const { jwtToken, customerId, customerEmail } = responseJson;
+      localStorage.setItem('customerId', customerId);
+      localStorage.setItem('customerEmail', customerEmail);
+      Cookies.set('jwtToken', jwtToken, { expires: 90 });
+      // actions.resetForm();
+      navigate(0);
+    } else {
+      setError(true);
+      actions.setSubmitting(false);
+    }
   };
 
   return (
@@ -65,9 +79,11 @@ export default function Login(props) {
           validationSchema={userSchema}
         >
           {({
-            values, errors, touched, handleBlur, handleChange, handleSubmit,
+            values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting,
           }) => (
-            <form onSubmit={handleSubmit} className="login-form">
+            <form onSubmit={handleSubmit} className="login-form" onChange={() => setError(false)}>
+              <Typography variant="h4" color="#1976d2" className="mobile-login-title" marginBottom={2}>Login</Typography>
+              {error && <Typography variant="subtitle1" color="red">!Invalid username or password</Typography>}
               <TextField
                 variant="standard"
                 placeholder="Email id"
@@ -104,14 +120,18 @@ export default function Login(props) {
                   ),
                 }}
               />
-              <Button type="submit" variant="contained" fullWidth>Login</Button>
+              <Button type="submit" variant="contained" fullWidth disabled={isSubmitting}>Login</Button>
             </form>
           )}
         </Formik>
         <div>
           <Typography variant="subtitle1" display="inline">  New here ?</Typography>
-          <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Create an account</Button>
+          {
+            modal ? <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Create an account</Button>
+              : <Link to="/account/signup" className="login-page-link"> Signup</Link>
+          }
         </div>
+        <Link to="/account/forgot" className="login-page-link">Forgot Password?</Link>
       </div>
     </div>
   );

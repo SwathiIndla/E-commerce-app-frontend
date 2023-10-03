@@ -3,6 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { Button } from '@mui/material';
 import AddressForm from '../../Components/Address/AddressForm';
 import DisplayAddress from '../../Components/Address/DisplayAddress';
+import './Profile.css';
 
 export default function Profile() {
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -19,7 +20,7 @@ export default function Profile() {
     state: 'Tamil Nadu',
   }];
   return (
-    <div style={{ padding: '2rem' }}>
+    <div className="profile-address-container">
       {showAddressForm ? <AddressForm setShowAddressForm={setShowAddressForm} heading="Add New" /> : <Button type="button" variant="outlined" startIcon={<AddIcon />} onClick={() => setShowAddressForm(true)}>Add new address</Button>}
       {data.length > 0 ? (<DisplayAddress data={{ ...data[0] }} />) : ''}
     </div>

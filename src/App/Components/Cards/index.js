@@ -2,30 +2,42 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import React, { useState } from 'react';
+import React from 'react';
 import './Cards.css';
-import { Button } from '@mui/material';
+import { Skeleton, Typography } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { imgData } from '../../Data/data';
+import StarRateIcon from '@mui/icons-material/StarRate';
+import { Link } from 'react-router-dom';
 
 export function Card(props) {
-  const [hover, setHover] = useState(false);
   const { data } = props;
+
   return (
     <div>
-      <div className="cards" onMouseOver={() => setHover(true)} onMouseLeave={() => setHover(false)}>
-        <div className="card-img" style={{ backgroundSize: hover ? '400px' : 'cover', backgroundImage: `url(${data.img})` }} />
-        <div className="cards-context">
-          <h3>Categories</h3>
-          <h2>Price</h2>
-          <p>Tags,types...</p>
-          <Button type="button" variant="contained" disableElevation size="small" sx={{ background: '#33eb91', '&:hover': { background: '#00a152' } }}> Buy </Button>
+      <Link to={`/product/${data.productItemId}`} className="home-card-link">
+        <div className="cards">
+          <div className="card-img-container">
+            <div className="card-img-inner">
+              <img src={data.productItemImage.split(',')[0]} alt="productimg" className="card-img" />
+            </div>
+          </div>
+          <div className="cards-context">
+            <p className="product-name">{data.productItemName}</p>
+            <div className="rating-container">
+              <div className="ratings">
+                <Typography variant="subtitle2" fontSize="inherit" lineHeight="unset">{data.rating}</Typography>
+                <StarRateIcon color="inherit" fontSize="inherit" />
+              </div>
+              <Typography variant="subtitle1" color="GrayText">{`(${data.numberOfRatings} ratings)`}</Typography>
+            </div>
+            <p className="product-price">{`₹ ${data.price}`}</p>
+          </div>
         </div>
-      </div>
+      </Link>
     </div>
   );
 }
@@ -33,7 +45,7 @@ function PreviousBtn(props) {
   const { className, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
-      <ArrowBackIosIcon style={{ color: 'black', fontSize: '30px' }} />
+      <ArrowBackIosIcon className="arrow-icon" />
     </div>
   );
 }
@@ -41,18 +53,19 @@ function NextBtn(props) {
   const { className, onClick } = props;
   return (
     <div className={className} onClick={onClick}>
-      <ArrowForwardIosIcon style={{ color: 'black', fontSize: '30px' }} />
+      <ArrowForwardIosIcon className="arrow-icon" />
     </div>
   );
 }
 
-export default function Cards() {
+export default function Cards(props) {
+  const { mobileData, title } = props;
   const settings = {
     dots: false,
     infinite: false,
     arrows: true,
     speed: 500,
-    slidesToShow: 6,
+    slidesToShow: 5,
     prevArrow: <PreviousBtn />,
     nextArrow: <NextBtn />,
     slidesToScroll: 2,
@@ -94,9 +107,15 @@ export default function Cards() {
 
   return (
     <div className="cards-container carousel">
-      <Slider {...settings}>
-        {imgData.map((item) => <Card data={item} key={item.id} />)}
-      </Slider>
+      <h2>{`${title} mobiles`}</h2>
+      {mobileData.length > 0 ? (
+        <Slider {...settings}>
+          {mobileData?.map((item) => <Card data={item} key={item.productId} />)}
+        </Slider>
+      )
+        : (
+          <Skeleton variant="rectangular" height={150} />
+        )}
     </div>
   );
 }

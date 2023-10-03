@@ -4,6 +4,8 @@
   margin: auto;
   justify-content: center;
   align-items: center;
+  height: 100%;
+  width: 100%;
   gap: 1.5rem;
   background-color: rgba(255, 255, 255, 0.7);
   padding:5%;
@@ -21,7 +23,7 @@
   flex-direction: column;
   gap: 20px;
   align-items: center;
-  /* width: 300px; */
+  width: 100%;
 }
 .form{
   display: flex;
@@ -34,4 +36,21 @@
   background-image: url('../../Images/login.png');
   background-position: center 85%;
   background-repeat: no-repeat;
+}
+.login-container.forgot{
+  width: 80%;
+}
+.login-page-link{
+  color: blue;
+  text-decoration: none;
+}
+.mobile-login-title{
+  display: none;
+}
+
+@media (max-width:500px) {
+  /* .mobile-login-title{
+    display: block;
+  } */
+  
 }

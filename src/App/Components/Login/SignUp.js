@@ -11,11 +11,13 @@ import * as yup from 'yup';
 import { Link, useNavigate } from 'react-router-dom';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { signUpUrl } from '../../Environment/URL';
 
 export default function SignUp(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const { setSignup } = props;
+  const [error, setError] = useState('');
+  const { setSignup, modal } = props;
   const navigate = useNavigate();
   const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   const initialValues = {
@@ -36,18 +38,29 @@ export default function SignUp(props) {
       .oneOf([yup.ref('password')], 'Passwords do not match'),
 
   });
-
   const handleFormSubmit = async (values, actions) => {
-    const userDetails = { ...values, roles: ['Consumer '] };
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(userDetails),
-    };
-    const response = await fetch(URL, options);
-    const responseJson = await response.json();
-    const jwtToken = responseJson.jwt_token;
-    actions.resetForm();
-    navigate(0);
+    setError('');
+    try {
+      const userDetails = { email: values.email, password: values.password, roles: ['Customer'] };
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(userDetails),
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+        },
+      };
+      const response = await fetch(signUpUrl, options);
+      const responseJson = await response.json();
+      if (!response.ok) {
+        setError(responseJson.error[0].description);
+        actions.setSubmitting(false);
+      } else {
+        navigate(0);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -65,9 +78,11 @@ export default function SignUp(props) {
           validationSchema={userSchema}
         >
           {({
-            values, errors, touched, handleBlur, handleChange, handleSubmit,
+            values, errors, touched, handleBlur, handleChange, handleSubmit, isSubmitting,
           }) => (
             <form onSubmit={handleSubmit} className="login-form">
+              <Typography variant="h4" color="#1976d2" className="mobile-login-title" marginBottom={2}>Sign In</Typography>
+              {error && <Typography variant="subtitle1" color="red">{error}</Typography>}
               <TextField
                 variant="standard"
                 placeholder="Email id"
@@ -129,13 +144,16 @@ export default function SignUp(props) {
                   ),
                 }}
               />
-              <Button type="submit" variant="contained" fullWidth>Signup</Button>
+              <Button type="submit" variant="contained" fullWidth disabled={isSubmitting}>Signup</Button>
             </form>
           )}
         </Formik>
         <div>
           <Typography variant="subtitle1" display="inline">  Already have an account?</Typography>
-          <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Login</Button>
+          {
+            modal ? <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Login</Button>
+              : <Link to="/account/login" className="login-page-link"> Login</Link>
+          }
         </div>
       </div>
     </div>

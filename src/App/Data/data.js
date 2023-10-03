@@ -11,34 +11,18 @@ export const states = ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 
   'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab',
   'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'];
 
-export const categories = [{
-  id: 1,
-  title: 'Grocery',
-  img: 'https://cdn.pixabay.com/photo/2016/04/21/11/32/groceries-1343141_1280.jpg',
-}, {
-  id: 2,
-  title: 'Mobiles',
+export const categoriesImg = [{
+  categoryName: 'Mobiles',
   img: 'https://cdn.pixabay.com/photo/2016/11/29/12/30/phone-1869510_640.jpg',
 }, {
-  id: 3,
-  title: 'Fashion',
+  categoryName: 'Fashion',
   img: 'https://cdn.pixabay.com/photo/2020/02/05/11/06/woman-4820889_640.jpg',
 }, {
-  id: 4,
-  title: 'Appliances',
+  categoryName: 'Appliances',
   img: 'https://cdn.pixabay.com/photo/2016/10/31/18/50/washing-machine-1786385_640.png',
 }, {
-  id: 5,
-  title: 'Furniture',
-  img: 'https://cdn.pixabay.com/photo/2017/08/02/01/01/living-room-2569325_640.jpg',
-}, {
-  id: 6,
-  title: 'Electronics',
+  categoryName: 'Electronics',
   img: 'https://cdn.pixabay.com/photo/2015/02/05/08/06/macbook-624707_640.jpg',
-}, {
-  id: 7,
-  title: 'Toys',
-  img: 'https://cdn.pixabay.com/photo/2014/11/09/21/44/teddy-bear-524251_640.jpg',
 }];
 
 export const imgData = [

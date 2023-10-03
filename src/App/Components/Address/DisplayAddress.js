@@ -30,7 +30,7 @@ export default function DisplayAddress(props) {
     <div>
       {editAddress ? (<AddressForm heading="Edit" setShowAddressForm={setEditAddress} data={{ ...data }} />)
         : (
-          <Box p={2}>
+          <Box p={2} border="solid 1px gray">
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
               <Typography
                 variant="subtitle1"

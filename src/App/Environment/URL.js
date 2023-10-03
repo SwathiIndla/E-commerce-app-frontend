@@ -1,0 +1,12 @@
+export const signUpUrl = 'https://localhost:7258/api/Auth/signup';
+export const loginUrl = 'https://localhost:7258/api/Auth/login';
+export const findUserUrl = 'https://localhost:7258/api/Auth/find-user';
+export const resetPasswordUrl = 'https://localhost:7258/api/Auth/reset-password';
+export const categoriesUrl = 'https://localhost:7258/api/Categories/hierarchy';
+export const searchUrl = 'https://localhost:7258/api/Search?search=';
+export const getBrandsUrl = 'https://localhost:7258/api/Categories/brands/';
+export const getCategoryPropertiesUrl = 'https://localhost:7258/api/Categories/properties/';
+export const mobilesFilterUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e';
+export const getProductUrl = 'https://localhost:7258/api/Product/';
+export const getProductVariantUrl = 'https://localhost:7258/api/Product/variant/';
+export const cartUrl = 'https://localhost:7258/api/Cart';

@@ -20,7 +20,7 @@
   padding:1% 4%;
   align-items: center;
   justify-content: center;
-  background-color: ghostwhite;
+  background-color: rgb(255, 255, 255);
   border-bottom: 1px solid white;
   box-shadow: 0px 0px 4px grey;
 }
@@ -55,8 +55,8 @@
   list-style: none;
   margin: unset;
   position: absolute;
-  background-color:rgba(245, 245, 245,1);
-  min-width: 120px;
+  background-color:rgb(255, 255, 255);
+  min-width: 200px;
   box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.7);
   z-index: 999;
   transition: all linear .3s;
@@ -80,7 +80,7 @@
   background-color: rgb(201, 198, 198);
   box-shadow: 0px 0px 3px rgb(119, 118, 118);
 }
-.dropdown-item:hover>.inner-menu{
+.dropdown-item:hover>.inner-menu,.avatar-container:hover>.profile-container{
   display:block ;
 }
 .category-card:hover {
@@ -108,6 +108,28 @@
   align-items: center;
   width: 100%;
   justify-content: center;
+}
+.avatar-container{
+  position: relative;
+}
+.avatar-container:hover>.profile-container{
+  display: block;
+}
+.profile-container{
+  position: absolute;
+  right: -50px ;
+  z-index: 999;
+  text-align: center;
+  display: none;
+  padding: 10px;
+  box-shadow: 0px 0px 3px gray;
+  background-color: white;
+  min-width: 150px;
+  min-height: 100px;
+}
+.search-link{
+  color: unset;
+  text-decoration: unset;
 }
 @media (max-width:768px) {
   .login-btn.MuiButton-root{

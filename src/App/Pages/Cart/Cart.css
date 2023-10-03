@@ -8,18 +8,20 @@
 }
 .empty-cart{
   width:100%;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  margin-bottom: 10%;
 }
 .item-img{
-  width: 6rem;
-  height: 6rem;
+  width: 8rem;
+  height: 8rem;
   align-self: center;
 }
 .offer{
   color: green;
+  font-size: 1rem;
 }
 .quantity{
   width: 2.5rem;
