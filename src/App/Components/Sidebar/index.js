@@ -3,6 +3,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { useNavigate, redirect } from 'react-router-dom';
 import {
   FormControlLabel, Checkbox, Button, Typography,
   CircularProgress, Box, Select, FormControl, InputLabel,
@@ -15,28 +16,44 @@ import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 export default function SideBar(props) {
-  const { brands, properties, setFilter } = props;
-  const [price, setPrice] = useState({ MinPrice: '', MaxPrice: '' });
-  const [filters, setFilters] = useState({ Brands: [] });
-  const propertyNames = { ...properties.map((e) => e.propertyName) };
-  console.log(propertyNames);
-  const isMobile = useMediaQuery('(max-width:768px)');
+  const availableFilters = JSON.parse(localStorage.getItem('filters'));
+  const availablePrice = JSON.parse(localStorage.getItem('price'));
+  const { brands, properties, filter } = props;
+  const [price, setPrice] = useState(filter && availablePrice ? availablePrice : { MinPrice: '', MaxPrice: '' });
   const [toggled, setToggled] = useState(false);
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (e.target.checked) {
-      setFilter((prev) => `${prev}${prev.length > 0 ? '&' : ''}${name}=${value}`);
+  const [filters, setFilters] = useState(filter && availableFilters ? availableFilters : []);
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width:768px)');
+  const minprice = [10000, 15000, 20000, 25000];
+  const maxprice = [...minprice.filter((e) => e > price.MinPrice), 30000];
+
+  const handleChange = (event) => {
+    const { name, checked } = event.target;
+    if (checked) {
+      setFilters([...filters, name]);
+    } else if (filters.length === 1) {
+      setFilters([]);
     } else {
-      setFilter((prev) => prev.replace(`${name}=${value}&`, ''));
+      setFilters(filters.filter((element) => element !== name));
     }
   };
+
   const changePrice = (e) => {
     const { name, value } = e.target;
     setPrice((prev) => ({ ...prev, [name]: value }));
-    setFilter((prev) => `${prev}${prev.length > 0 ? '&' : ''}${name}=${value}`);
   };
-  const minprice = [10000, 15000, 20000, 25000];
-  const maxprice = [...minprice.filter((e) => e > price.MinPrice), 30000];
+
+  const applyFilter = () => {
+    localStorage.setItem('filters', JSON.stringify(filters));
+    localStorage.setItem('price', JSON.stringify(price));
+    const filterQuery = filters?.join('&');
+    const priceQuery = `&${price.MinPrice.length !== 0 ? price.MinPrice : ''}&${price.MaxPrice.lenght !== 0 ? price.MaxPrice : ''}`;
+    navigate(`/filter/${filterQuery}${priceQuery.length > 2 ? priceQuery : ''}`);
+    if (filter) {
+      setTimeout(navigate(0), 500);
+    }
+  };
+
   return (
     <div className="side-bar">
       <Sidebar onBackdropClick={() => setToggled(false)} toggled={toggled} breakPoint="768px" backgroundColor="rgb(249, 249, 249)">
@@ -48,13 +65,13 @@ export default function SideBar(props) {
               <FormControl fullWidth>
                 <InputLabel>Min</InputLabel>
                 <Select label="min" value={price.MinPrice} variant="standard" name="MinPrice" onChange={changePrice}>
-                  {minprice.map((i) => (<MenuItem value={i} key={i}>₹{i}</MenuItem>))}
+                  {minprice.map((i) => (<MenuItem value={`MinPrice=${i}`} key={i}>₹{i}</MenuItem>))}
                 </Select>
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel>Max</InputLabel>
                 <Select label="max" value={price.MaxPrice} variant="standard" name="MaxPrice" onChange={changePrice}>
-                  {maxprice.map((i) => (<MenuItem value={i} key={i}>₹{i}</MenuItem>))}
+                  {maxprice.map((i) => (<MenuItem value={`MaxPrice=${i}`} key={i}>₹{i}</MenuItem>))}
                   <MenuItem value="">₹30000+</MenuItem>
                 </Select>
               </FormControl>
@@ -65,9 +82,9 @@ export default function SideBar(props) {
               <MenuItem key={index}>
                 <FormControlLabel
                   control={<Checkbox size="small" onChange={handleChange} />}
-                  name="Brands"
                   label={brand.brandName}
-                  value={brand.brandId}
+                  name={`Brands=${brand.brandId}`}
+                  checked={filters.includes(`Brands=${brand.brandId}`)}
                 />
               </MenuItem>
             )) : <CircularProgress />}
@@ -78,23 +95,23 @@ export default function SideBar(props) {
                 <MenuItem key={ele.propertyValueId}>
                   <FormControlLabel
                     control={<Checkbox size="small" onChange={handleChange} />}
-                    name={property.propertyName}
                     label={ele.propertyValue}
-                    value={ele.propertyValue}
+                    name={`${property.propertyName}=${ele.propertyValue}`}
+                    checked={filters.includes(`${property.propertyName}=${ele.propertyValue}`)}
                   />
                 </MenuItem>
               ))}
             </SubMenu>
           ))}
         </Menu>
-        {!isMobile && <Button type="button" variant="contained" size="large" fullWidth> Apply filter</Button>}
+        {!isMobile && <Button type="button" variant="contained" size="large" fullWidth onClick={applyFilter}> Apply filter</Button>}
       </Sidebar>
       {isMobile && (
         <div className="filter-button">
           <Button onClick={() => setToggled(true)} color="inherit" startIcon={<TuneOutlinedIcon />}>
             Filter
           </Button>
-          <Button type="button" color="inherit" size="large"> Apply filter</Button>
+          <Button type="button" color="inherit" size="large" onClick={applyFilter}> Apply filter</Button>
         </div>
       )}
     </div>

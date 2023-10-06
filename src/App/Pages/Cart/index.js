@@ -24,25 +24,26 @@ export default function Cart() {
   useEffect(() => async () => {
     setLoading(true);
     const customerId = localStorage.getItem('customerId');
-
-    try {
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-      const response = await fetch(`${cartUrl}/${customerId}`, options);
-      if (response.ok) {
-        const responseJson = await response.json();
-        setCartData(responseJson);
-        console.log(responseJson);
+    if (jwtToken) {
+      try {
+        const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        };
+        const response = await fetch(`${cartUrl}/${customerId}`, options);
+        if (response.ok) {
+          const responseJson = await response.json();
+          setCartData(responseJson);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
+
     setLoading(false);
   }, []);
 
@@ -54,6 +55,7 @@ export default function Cart() {
       {
         cartData.length > 0 ? (
           <Paper className="cart-container" elevation={2} sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography variant="h4" textAlign="center" marginBottom={2}>Cart</Typography>
             {cartData.map((data) => <CartItems data={data} key={data.cartProductItemId} />)}
             <Typography variant="h5" sx={{ alignSelf: 'flex-end', marginRight: '20%', marginBottom: '1rem' }}>Total = ₹ {sum}</Typography>
             <Button

@@ -3,7 +3,7 @@ import { Typography, Box, Button } from '@mui/material';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import { mobileBrands } from '../../Data/data';
-import './DetailedCards.css';
+import './index.css';
 
 export default function ColoredCards() {
   return (
@@ -21,11 +21,7 @@ export default function ColoredCards() {
         <div className="colored-cards-description">
           <h3>Mobile Title</h3>
           <p style={{ fontSize: '.75rem' }}>camera and clarity</p>
-          <h3>
-            $25,000
-            {' '}
-            <span style={{ fontSize: '.6rem', textDecoration: 'line-through', fontStyle: 'italic' }}> $28,000</span>
-          </h3>
+          <h3>₹25,000</h3>
         </div>
         <div style={{
           padding: '.5rem 1rem', backgroundColor: '#c1e0f7', width: 'fit-content', borderRadius: '4px',
@@ -40,23 +36,25 @@ export default function ColoredCards() {
 }
 
 export function Brands() {
-  const brands = mobileBrands.map((item) => (
-    <div
-      className="brand-container"
-      style={{
-        display: 'flex', flexDirection: 'column', margin: '1rem', width: '170px', alignItems: 'center', gap: '.5rem',
-      }}
-    >
-      <div className="colred-container">
-        <img src={item.logo} alt="logo" className="logo-img" />
-      </div>
-      <h4 style={{ margin: 'unset' }}>Shop Now</h4>
-      <h3 style={{ margin: 'unset' }} className="mobile-page-link">{item.name}</h3>
-    </div>
-  ));
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div className="brands-container" style={{ display: 'flex' }}>{brands}</div>
+      <div className="brands-container" style={{ display: 'flex', flexWrap: 'wrap' }}>
+        { mobileBrands.map((item) => (
+          <div
+            className="brand-container"
+            style={{
+              display: 'flex', flexDirection: 'column', margin: '1rem', width: '170px', alignItems: 'center', gap: '.5rem',
+            }}
+          >
+            <div className="colred-container">
+              <img src={item.logo} alt="logo" className="logo-img" />
+            </div>
+            <h4 style={{ margin: 'unset' }}>Shop Now</h4>
+            <h3 style={{ margin: 'unset' }} className="mobile-page-link">{item.name}</h3>
+          </div>
+        ))}
+
+      </div>
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         <ColoredCards />
         <ColoredCards />
@@ -71,11 +69,6 @@ export function Brands() {
           </Box>
           <Box display="flex" flexDirection="row">
             <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" width="100%" boxShadow={2} marginBottom={2} bgcolor="whitesmoke">
@@ -85,11 +78,6 @@ export function Brands() {
           </Box>
           <Box display="flex" flexDirection="row">
             <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
           </Box>
         </Box>
         <Box display="flex" flexDirection="column" width="100%" boxShadow={2} marginBottom={2} bgcolor="whitesmoke">
@@ -98,11 +86,6 @@ export function Brands() {
             <Button variant="contained" endIcon={<NavigateNextIcon />}>View All</Button>
           </Box>
           <Box display="flex" flexDirection="row">
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
-            <SingleCard />
             <SingleCard />
           </Box>
         </Box>
@@ -132,17 +115,7 @@ export function SingleCard() {
           </div>
           <Typography variant="subtitle2" color="GrayText">(rating counts)</Typography>
         </div>
-        <Typography>
-          Price
-          <span style={{
-            fontSize: '1rem', textDecoration: 'line-through', margin: '0 8px',
-          }}
-          >
-            {' '}
-            prev
-          </span>
-          <span style={{ fontSize: '1rem', color: 'green' }}> offer </span>
-        </Typography>
+        <Typography>₹Price</Typography>
       </div>
     </div>
   );

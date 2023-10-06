@@ -10,7 +10,7 @@ import {
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import './Login.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, redirect, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
@@ -57,7 +57,7 @@ export default function Login(props) {
       localStorage.setItem('customerEmail', customerEmail);
       Cookies.set('jwtToken', jwtToken, { expires: 90 });
       // actions.resetForm();
-      navigate(0);
+      navigate(-1);
     } else {
       setError(true);
       actions.setSubmitting(false);

@@ -1,9 +1,61 @@
+.profile-container{
+    background-color: gainsboro;
+}
+.profile-outer-container{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 2%;
+    gap: 2%;
+}
+.profile-inner-page-container{
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 2px 4px gray;
+    text-align: center;
+    background-color: white;
+    flex-grow: 1;
+    padding: 10px;
+}
+.profile-page-names{
+    padding: 10px;
+    font-size: 1.125rem;
+    text-wrap: nowrap;
+    cursor: pointer;
+}
 .profile-address-container{
-    margin: 2%;
     padding: 2rem;
     display: flex;
     flex-direction: column;
+    box-shadow: 2px 2px 4px gray;
     gap:1rem;
-    border: solid 1px black;
-    width: fit-content;
+    height: 80vh;
+    width: 80vw;
+    background-color: white;
+    overflow-y: scroll;
+}
+.profile-heading.MuiTypography-h4{
+    margin-left: 2% ;
+    margin-bottom: 2% ;
+}
+.selected{
+    background-color: #f5faff;
+    color: #2874f0;
+}
+@media (max-width:850px) {
+    .profile-address-container{
+        width: 95vw;
+        height: 60vh;
+    }
+    .profile-outer-container{
+        flex-direction: column;
+        gap: 1rem;
+    }
+    .profile-inner-page-container{
+        flex-direction: row;
+        gap: 5px;
+        width: 95vw;
+        overflow-x: scroll ;
+        align-items: center;
+    }
 }

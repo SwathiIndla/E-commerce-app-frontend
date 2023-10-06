@@ -58,12 +58,12 @@ export default function DisplayAddress(props) {
               </Box>
             </Box>
             <Typography sx={{ fontWeight: '500' }}>
-              {data.name}
+              {data.customerName}
               {' '}
-              {data.mobileNumber}
+              {data.phoneNumber}
             </Typography>
             <Typography>
-              { `${data.address},${data.locality},${data.district},${data.state}-${data.pincode}`}
+              { `${data.streetAddress},${data.city},${data.stateProvince},${data.country}-${data.postalcode}`}
             </Typography>
           </Box>
         )}

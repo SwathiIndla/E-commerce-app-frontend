@@ -10,48 +10,65 @@ import {
   Radio, RadioGroup, Button, MenuItem, InputLabel, Select, FormHelperText, Typography,
 } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import Cookies from 'js-cookie';
 import { states } from '../../Data/data';
+import { addressUrl } from '../../Environment/URL';
 
 export default function AddressForm(props) {
-  const { setShowAddressForm, heading } = props;
+  const { setShowAddressForm, heading, type } = props;
   const isNonMobile = useMediaQuery('(min-width:600px)');
   const mobileNumberRegex = '[6-9]{1}[0-9]{9}';
   const pincodeRegex = '^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$';
   const initialValues = {
-    name: '',
-    mobileNumber: '',
-    pincode: '',
-    locality: '',
-    address: '',
-    district: '',
-    state: '',
-    landmark: '',
-    additionalPhoneNumber: '',
+    customerName: '',
+    phoneNumber: '',
+    postalCode: '',
+    streetAddress: '',
+    city: '',
+    country: 'India',
+    stateProvince: '',
     addressType: '',
   };
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const handleFormSubmit = async (values, actions) => {
+    const customerId = localStorage.getItem('customerId');
+    const jwtToken = Cookies.get('jwtToken');
+    try {
+      const userAddress = { ...values, customerId };
+      const editAddress = { ...values, customerId, addressId: props?.data?.addressId };
+      const options = {
+        method: type === 'new' ? 'POST' : 'PUT',
+        body: JSON.stringify(userAddress),
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      };
+      const response = await fetch(addressUrl, options);
+      const responseJson = await response.json();
+      // console.log(responseJson);
+      actions.resetForm();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const userSchema = yup.object().shape({
-    name: yup.string().required('*required'),
-    mobileNumber: yup.string().required('*required').matches(mobileNumberRegex, 'enter a valid mobile number'),
-    pincode: yup.string().required('*required').matches(pincodeRegex, 'enter a valid pincode'),
-    locality: yup.string().required('*required'),
-    address: yup.string().required('*required'),
-    district: yup.string().required('*required'),
-    state: yup.string().required('*required'),
-    landmark: yup.string(),
-    additionalPhoneNumber: yup.string().matches(mobileNumberRegex, 'enter a valid mobile number'),
+    customerName: yup.string().required('*required'),
+    phoneNumber: yup.string().required('*required').matches(mobileNumberRegex, 'enter a valid mobile number'),
+    postalCode: yup.string().required('*required').matches(pincodeRegex, 'enter a valid pincode'),
+    streetAddress: yup.string().required('*required'),
+    stateProvince: yup.string().required('*required'),
+    city: yup.string().required('*required'),
     addressType: yup.string().required('*required'),
   });
 
   return (
-    <Box width="fit-content" bgcolor="whitesmoke" p="2rem">
+    <Box width="100%" p="2rem">
       <Typography variant="h5" sx={{ color: '#519fec' }} marginBottom={2}>{`${heading} Address`}</Typography>
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={Object.keys(props).length > 2 ? props.data : initialValues}
+        initialValues={Object.keys(props).length > 3 ? props.data : initialValues}
         validationSchema={userSchema}
       >
         {({
@@ -69,45 +86,34 @@ export default function AddressForm(props) {
               <TextField
                 type="text"
                 label="Name"
-                name="name"
-                value={values.name}
+                name="customerName"
+                value={values.customerName}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.name && errors.name}
-                helperText={touched.name && errors.name}
+                error={touched.customerName && errors.customerName}
+                helperText={touched.customerName && errors.customerName}
                 sx={{ gridColumn: 'span 2' }}
               />
               <TextField
                 type="text"
                 label="Mobile number"
-                name="mobileNumber"
-                value={values.mobileNumber}
+                name="phoneNumber"
+                value={values.phoneNumber}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.mobileNumber && errors.mobileNumber}
-                helperText={touched.mobileNumber && errors.mobileNumber}
+                error={touched.phoneNumber && errors.phoneNumber}
+                helperText={touched.phoneNumber && errors.phoneNumber}
                 sx={{ gridColumn: 'span 2' }}
               />
               <TextField
                 type="text"
                 label="Pincode"
-                name="pincode"
-                value={values.pincode}
+                name="postalCode"
+                value={values.postalCode}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.pincode && errors.pincode}
-                helperText={touched.pincode && errors.pincode}
-                sx={{ gridColumn: 'span 2' }}
-              />
-              <TextField
-                type="text"
-                label="Locality"
-                name="locality"
-                value={values.locality}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.locality && errors.locality}
-                helperText={touched.locality && errors.locality}
+                error={touched.postalCode && errors.postalCode}
+                helperText={touched.postalCode && errors.postalCode}
                 sx={{ gridColumn: 'span 2' }}
               />
               <TextField
@@ -115,23 +121,23 @@ export default function AddressForm(props) {
                 multiline
                 rows={3}
                 label="Address(Area and street)"
-                name="address"
-                value={values.address}
+                name="streetAddress"
+                value={values.streetAddress}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 sx={{ gridColumn: 'span 4' }}
-                error={touched.address && errors.address}
-                helperText={touched.address && errors.address}
+                error={touched.streetAddress && errors.streetAddress}
+                helperText={touched.streetAddress && errors.streetAddress}
               />
               <TextField
                 type="text"
-                label="District"
-                name="district"
-                value={values.district}
+                label="City"
+                name="city"
+                value={values.city}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={touched.district && errors.district}
-                helperText={touched.district && errors.district}
+                error={touched.city && errors.city}
+                helperText={touched.city && errors.city}
                 sx={{ gridColumn: 'span 2' }}
               />
               <FormControl fullWidth sx={{ gridColumn: 'span 2' }}>
@@ -144,38 +150,26 @@ export default function AddressForm(props) {
                 <Select
                   labelId="select-state"
                   label="Select your state"
-                  name="state"
-                  value={values.state}
+                  name="stateProvince"
+                  value={values.stateProvince}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  error={touched.state && errors.state}
+                  error={touched.stateProvince && errors.stateProvince}
                 >
                   {states.map((state) => (<MenuItem value={state}>{state}</MenuItem>))}
                 </Select>
-                <FormHelperText error={touched.state && errors.state}>
-                  {touched.state && errors.state}
+                <FormHelperText error={touched.stateProvince && errors.stateProvince}>
+                  {touched.stateProvince && errors.stateProvince}
                 </FormHelperText>
               </FormControl>
               <TextField
                 type="text"
-                label="Landmard(optional)"
-                name="landmark"
-                value={values.landmark}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.landmark && errors.landmark}
-                helperText={touched.landmark && errors.landmark}
-                sx={{ gridColumn: 'span 2' }}
-              />
-              <TextField
-                type="text"
-                label="Additional mobile number(optional)"
-                name="additionalPhoneNumber"
-                value={values.additionalPhoneNumber}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                error={touched.additionalPhoneNumber && errors.additionalPhoneNumber}
-                helperText={touched.additionalPhoneNumber && errors.additionalPhoneNumber}
+                label="Country"
+                name="country"
+                value={values.country}
+                disabled
+                error={touched.country && errors.country}
+                helperText={touched.country && errors.country}
                 sx={{ gridColumn: 'span 2' }}
               />
               <FormControl>
@@ -204,7 +198,7 @@ export default function AddressForm(props) {
               </FormControl>
               <Box sx={{ gridColumn: 'span 4' }}>
                 <Button type="submit" variant="contained" sx={{ width: '200px' }}>Save</Button>
-                <Button type="button" variant="text" onClick={() => setShowAddressForm(false)}>Cancel</Button>
+                <Button type="button" variant="text" sx={{ width: '200px' }} onClick={() => setShowAddressForm(false)}>Cancel</Button>
               </Box>
             </Box>
           </form>

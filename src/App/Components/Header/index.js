@@ -52,29 +52,31 @@ export default function Header() {
   useEffect(() => async () => {
     const jwtToken = Cookies.get('jwtToken');
     const customerId = localStorage.getItem('customerId');
-
-    try {
-      const options = {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-      const response = await fetch(`${cartUrl}/${customerId}`, options);
-      if (response.ok) {
-        const responseJson = await response.json();
-        setCartCount(responseJson.length);
+    if (jwtToken) {
+      try {
+        const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        };
+        const response = await fetch(`${cartUrl}/${customerId}`, options);
+        if (response.ok) {
+          const responseJson = await response.json();
+          setCartCount(responseJson.length);
+        }
+      } catch (err) {
+        console.log(err);
       }
-    } catch (err) {
-      console.log(err);
     }
   }, []);
 
   const logOut = () => {
     localStorage.clear();
     Cookies.remove('jwtToken');
+    navigate(0);
   };
 
   return (
@@ -94,10 +96,13 @@ export default function Header() {
             email ? (
               <div className="avatar-container">
                 <Avatar sx={{ color: 'blue', backgroundColor: 'white' }}>{email[0]}</Avatar>
-                <div className="profile-container">
+                <div className="profile-dropdown-container">
                   <Button type="button" onClick={logOut}>
                     <PowerSettingsNewIcon />
                     Logout
+                  </Button>
+                  <Button type="button" onClick={() => navigate('/profile')}>
+                    Profile
                   </Button>
                 </div>
               </div>

@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link } from 'react-router-dom';
 import { Skeleton } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { categoriesImg } from '../../Data/data';
 import { categoriesUrl } from '../../Environment/URL';
 
@@ -69,7 +71,17 @@ export function CategoryCard(props) {
       >
         <div className="category-card">
           {images && <img src={item.img} alt={item.categoryName} loading="lazy" />}
-          <h5 className="item-title">{item.categoryName}</h5>
+          <h5 className="item-title">
+            {item.categoryName}
+            <span>
+              {item.childCategories.length > 0 && (
+              <>
+                {!openMenu && <KeyboardArrowDownIcon className="dropdown-arrow-icon" fontSize="small" />}
+                {openMenu && <KeyboardArrowUpIcon className="dropdown-arrow-icon" fontSize="small" />}
+              </>
+              )}
+            </span>
+          </h5>
         </div>
         {item.childCategories.length > 0 && !isMobile && openMenu
           && (

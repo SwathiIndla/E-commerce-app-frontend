@@ -10,3 +10,4 @@ export const mobilesFilterUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2
 export const getProductUrl = 'https://localhost:7258/api/Product/';
 export const getProductVariantUrl = 'https://localhost:7258/api/Product/variant/';
 export const cartUrl = 'https://localhost:7258/api/Cart';
+export const addressUrl = 'https://localhost:7258/api/Address';

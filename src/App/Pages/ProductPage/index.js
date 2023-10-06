@@ -1,3 +1,6 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
 /* eslint-disable react/jsx-curly-brace-presence */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -28,7 +31,7 @@ export default function ProductPage() {
   const [imgData, setImgData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isProductInCart, setIsProductInCart] = useState(false);
-  const isMobile = useMediaQuery('(max-width:800px)');
+  const isMobile = useMediaQuery('(max-width:850px)');
   const { id } = useParams();
   const navigate = useNavigate();
   const { specifications, sellers, productItemDescription } = data;
@@ -43,18 +46,7 @@ export default function ProductPage() {
     boxShadow: '0px 0px 3px blue',
   };
 
-  const bankOffers = [];
-  for (let i = 0; i < 5; i += 1) {
-    bankOffers.push(
-      <Box display="flex" flexDirection="row" gap="4px">
-        <LocalOfferIcon color="success" fontSize="3" />
-        <Typography variant="body2">
-          Bank Offer ₹3000 Off On HDFC Bank Credit Non EMI,
-          Credit and Debit Card EMI Transactions T&C
-        </Typography>
-      </Box>,
-    );
-  }
+  const bankOffers = [1, 2, 3, 4, 5];
 
   useEffect(() => async () => {
     try {
@@ -104,32 +96,37 @@ export default function ProductPage() {
     const customerId = localStorage.getItem('customerId');
     const jwtToken = Cookies.get('jwtToken');
 
-    const cartItem = {
-      customerId,
-      productItemId: data.productItemId,
-      quantity: 1,
-      sellerId: sellers[0].sellerId,
-    };
-    try {
-      const options = {
-        method: 'POST',
-        body: JSON.stringify(cartItem),
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
+    if (jwtToken) {
+      const cartItem = {
+        customerId,
+        productItemId: data.productItemId,
+        quantity: 1,
+        sellerId: sellers[0].sellerId,
       };
-      const response = await fetch(cartUrl, options);
-      const responseJson = await response.json();
-    } catch (err) {
-      console.log(err);
+      try {
+        const options = {
+          method: 'POST',
+          body: JSON.stringify(cartItem),
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        };
+        const response = await fetch(cartUrl, options);
+        const responseJson = await response.json();
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      navigate('/account/login');
     }
     setLoading(false);
+    checkProductInCart();
   };
 
   return (
-    <Box sx={{ overflowY: 'scroll' }} height="100vh" bgcolor="#e8eaed">
+    <Box sx={{ overflow: 'auto' }} height="100vh" bgcolor="#e8eaed">
       <Header />
       <Categories />
       {
@@ -137,10 +134,10 @@ export default function ProductPage() {
           ? (
             <Box display={isMobile ? 'block' : 'grid'} gridTemplateColumns="45% 55%" margin={isMobile ? '0 1rem' : '0 2.5px'} bgcolor="ghostwhite">
               <Box>
-                <Box display="flex" justifyContent="center" alignItems="center" sx={isMobile && { flexDirection: 'column-reverse' }}>
-                  <Box display="flex" flexDirection={isMobile ? 'row' : 'column'} alignItems="center" justifyContent="center" m={1} overflow="auto" width={isMobile ? '100%' : '20%'}>
+                <Box display="flex" justifyContent="center" alignItems="center" flexDirection={isMobile ? 'column-reverse' : 'row'}>
+                  <Box display="flex" flexDirection={isMobile ? 'row' : 'column'} alignItems="center" justifyContent="center" m={1} overflow={isMobile && 'auto'} width={isMobile ? '100%' : '20%'}>
                     {imgData.length > 0 && imgData.map((img, index) => (
-                      <div className="img-item" style={hover === `${index}` ? style : {}}>
+                      <div key={`${index * 2}`} className="img-item" style={hover === `${index}` ? style : { border: '1px double black' }}>
                         <img src={img} id={index} alt="img" onMouseOver={handleChange} onClick={handleChange} className="product-img" />
                       </div>
                     ))}
@@ -181,7 +178,15 @@ export default function ProductPage() {
                       {''} 3% discount
                     </Typography>
                     <Typography>Delivery within 3 days of order</Typography>
-                    {bankOffers}
+                    {bankOffers.map((i) => (
+                      <Box display="flex" flexDirection="row" gap="4px" key={`offers${i}`}>
+                        <LocalOfferIcon color="success" fontSize="3" />
+                        <Typography variant="body2">
+                          Bank Offer ₹3000 Off On HDFC Bank Credit Non EMI,
+                          Credit and Debit Card EMI Transactions T&C
+                        </Typography>
+                      </Box>
+                    ))}
                   </div>
                   <Box display="grid" fontSize="14px">
                     <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" alignItems="center">
@@ -215,7 +220,7 @@ export default function ProductPage() {
                       </Box>
                     </Box>
                   </Box>
-                  <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" width={isMobile ? '100%' : '50%'} fontSize="14px">
+                  <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" fontSize="14px">
                     <Box><Typography color="GrayText" fontSize="inherit">Highlights</Typography></Box>
                     <Box>
                       <ul className="highlights-list">
@@ -227,18 +232,17 @@ export default function ProductPage() {
                       </ul>
                     </Box>
                   </Box>
-                  <Box marginTop={1} display="grid" gridTemplateColumns="30% 60%" rowGap={2} fontSize="14px">
+                  <Box marginTop={1} display="grid" rowGap={2} fontSize="14px">
                     {
                       descriptions.map((e, index) => {
                         if (index % 2 === 0) {
                           return (
-                            <>
+                            <Box display="grid" gridTemplateColumns="30% 60%" key={e}>
                               <Box><Typography color="GrayText" fontSize="inherit">{e}</Typography></Box>
                               <Box>{descriptions[index + 1]}</Box>
-                            </>
+                            </Box>
                           );
                         }
-                        return '';
                       })
                     }
                   </Box>

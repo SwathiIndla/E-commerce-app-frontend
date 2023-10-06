@@ -9,30 +9,48 @@ import {
   TextField, Box, Typography, InputAdornment,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { searchUrl } from '../../Environment/URL';
 
 function Search() {
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const navigateSearch = (e) => {
+    const { type, key } = e;
+    if (inputValue !== '' && (type === 'click' || (type === 'keydown' && key === 'Enter'))) {
+      navigate(`/search/${inputValue}`);
+      navigate(0);
+    }
+  };
 
   const handleChange = (e) => {
     const { value } = e.target;
     setInputValue(value);
-    const getSuggestion = setTimeout(async () => {
-      const options = {
-        method: 'GET',
-      };
-      try {
-        const response = await fetch(`${searchUrl}${value}`, options);
-        const responseJson = await response.json();
-        const { searchResults } = responseJson;
-        searchResults ? setSuggestions(searchResults) : setSuggestions([]);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }, 500);
-    return () => clearTimeout(getSuggestion);
+    if (value === '') {
+      setSuggestions([]);
+    } else {
+      const getSuggestion = setTimeout(async () => {
+        const options = {
+          method: 'GET',
+        };
+        try {
+          const response = await fetch(`${searchUrl}${value}`, options);
+          if (response.ok) {
+            const responseJson = await response.json();
+            const { searchResults } = responseJson;
+            searchResults ? setSuggestions(searchResults) : setSuggestions([]);
+          } else {
+            setSuggestions([]);
+          }
+        } catch (error) {
+          console.log('Error fetching data:', error);
+        }
+      }, 500);
+      return () => clearTimeout(getSuggestion);
+    }
   };
 
   return (
@@ -44,7 +62,8 @@ function Search() {
         fullWidth
         value={inputValue}
         onChange={handleChange}
-        InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon sx={{ cursor: 'pointer' }} /></InputAdornment>) }}
+        onKeyDown={navigateSearch}
+        InputProps={{ endAdornment: (<InputAdornment position="end"><SearchIcon sx={{ cursor: 'pointer' }} onClick={navigateSearch} /></InputAdornment>) }}
         sx={{
           background: 'whitesmoke', color: 'white', position: 'relative',
         }}
@@ -62,7 +81,7 @@ function Search() {
         }}
       >
         {suggestions.map((suggestion) => (
-          <Link to={`/product/${suggestion.productItemId}`} className="search-link">
+          <Link to={`/product/${suggestion.productItemId}`} className="search-link" key={suggestion.productItemId}>
             <Typography variant="body2" sx={{ borderBottom: '1px solid gray', padding: '.5rem' }}>
               {suggestion.productItemName}
             </Typography>
