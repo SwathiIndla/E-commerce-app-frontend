@@ -11,6 +11,7 @@ import Profile from './Pages/Profile';
 import Account from './Pages/Account/Account';
 import Compare from './Pages/ComparePage';
 import FilteredMobiles from './Pages/Mobiles/FilteredMobiles';
+import { Brands } from './Components/ColoredCards';
 
 function App() {
   const jwtToken = Cookies.get('jwtToken');
@@ -26,6 +27,7 @@ function App() {
       <Route path="/compare" element={<Compare />} />
       <Route path="/search/:id" element={<FilteredMobiles />} />
       <Route path="/filter/:id" element={<FilteredMobiles />} />
+      <Route path="/brands" element={<Brands />} />
     </Routes>
   );
 }

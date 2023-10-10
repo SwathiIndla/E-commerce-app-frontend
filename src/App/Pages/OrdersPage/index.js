@@ -19,7 +19,6 @@ function Orders() {
     const response = await fetch(url);
     if (response.ok) {
       const responseData = await response.json();
-      console.log(responseData);
       setOrders(responseData);
       setIsOrdersPresent(responseData.length > 0);
       setIsLoading(false);
