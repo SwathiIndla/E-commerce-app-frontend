@@ -6,14 +6,16 @@ import { Categories } from '../../Components/Header/Categories';
 import Footer from '../../Components/Footer';
 import CompareImageCard from '../../Components/CompareImageCard';
 import SpecificationsCard from '../../Components/SpecificationsCard';
+import { getProductUrl } from '../../Environment/URL';
 import './index.css';
 
 function Compare() {
-  const productItemIdFirst = 'A117DC1F-4B2F-4194-962E-1A2C2AB38CCF';
-  const productItemIdSecond = 'D24B070A-03AB-49A6-AB8F-E924BF1CD1A2';
+  const compareProducts = JSON.parse(localStorage.getItem('compare'));
+  // const productItemIdFirst = 'A117DC1F-4B2F-4194-962E-1A2C2AB38CCF';
+  // const productItemIdSecond = 'D24B070A-03AB-49A6-AB8F-E924BF1CD1A2';
 
-  // const firstProduct = JSON.parse(localStorage.getItem(productItemIdFirst));
-  // const secondProduct = JSON.parse(localStorage.getItem(productItemIdSecond));
+  const productItemIdFirst = compareProducts[0].id;
+  const productItemIdSecond = compareProducts[1].id;
 
   const [firstProduct, setFirstProduct] = useState({});
   const [secondProduct, setSecondProduct] = useState({});
@@ -22,7 +24,7 @@ function Compare() {
 
   const GetProductItemData = async (productItemId, id) => {
     try {
-      const url = `https://localhost:7258/api/Product/${productItemId}`;
+      const url = `${getProductUrl}${productItemId}`;
       const response = await fetch(url);
       if (response.ok) {
         const responseData = await response.json();

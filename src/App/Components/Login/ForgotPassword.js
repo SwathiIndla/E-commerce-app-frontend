@@ -79,7 +79,7 @@ export default function ForgotPassword() {
       } else {
         const responseJson = await response.json();
         setMessage(responseJson.message);
-        setTimeout(() => navigate('/'), 3000);
+        setTimeout(() => navigate('/account/login?value=true'), 3000);
       }
     } catch (err) {
       console.error(err);
@@ -119,7 +119,7 @@ export default function ForgotPassword() {
                 helperText={touched.email && errors.email}
                 disabled={isUserAvailable}
               />
-              <Button type="submit" variant="contained" fullWidth disabled={isUserAvailable}>Next</Button>
+              <Button type="submit" variant="contained" fullWidth disabled={isUserAvailable}>Verify Email</Button>
             </form>
           )}
         </Formik>

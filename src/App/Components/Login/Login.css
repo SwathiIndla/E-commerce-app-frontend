@@ -48,9 +48,8 @@
   display: none;
 }
 
-@media (max-width:500px) {
-  /* .mobile-login-title{
-    display: block;
-  } */
-  
+@media (max-width:768px) {
+  .login-page.not-modal{
+  grid-template-columns: unset;
+  }
 }

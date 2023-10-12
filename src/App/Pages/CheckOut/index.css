@@ -1,0 +1,41 @@
+.checkout-page{
+	background-color: #f1f3f6;
+}
+.checkout-page-inner-container{
+	display: flex;
+	justify-content: center;
+	margin: 1rem auto;
+	width: 100%;
+}
+.contents-container{
+	width: 800px;
+}
+p{
+	margin: unset;
+}
+.checkout-page-sub-containers{
+	width: 100%;
+	background-color: #fff;
+	padding: .5rem 1rem ;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .2);
+	display: flex;
+	margin-bottom: 1rem;
+}
+.checkout-titles{
+	font-size: 1rem;
+	font-weight: 500;
+	color: #878787;
+	margin-bottom: 1rem;
+}
+.title-num{
+	font-size: .75rem;
+	color: #2874f0;
+	background-color: #f0f0f0;
+	border-radius: 2px;
+	padding: 3px 7px;
+	vertical-align: baseline;
+	margin-right: 17px;
+}
+.email{
+	font-size: 14px;
+}

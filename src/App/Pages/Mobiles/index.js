@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, CircularProgress } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import Header from '../../Components/Header';
 import { Categories } from '../../Components/Header/Categories';
 import ImageCarousel from '../../Components/Header/ImageCarousel';
@@ -17,9 +17,10 @@ export default function Mobiles() {
   const [properties, setProperties] = useState([]);
   const [mobileData, setMobileData] = useState([]);
   const isMobile = useMediaQuery('(max-width:768px)');
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const categoriesId = searchParams.get('cid');
   const style = {
-    position: 'sticky', top: '88px', left: '0', zIndex: '10', width: '100vw',
+    position: 'sticky', top: '88px', left: '0', zIndex: '10',
   };
 
   const getMobileProperties = async () => {
@@ -28,7 +29,7 @@ export default function Mobiles() {
         method: 'GET',
       };
 
-      const response = await fetch(`${getCategoryPropertiesUrl}${id}`, options);
+      const response = await fetch(`${getCategoryPropertiesUrl}${categoriesId}`, options);
       if (response.ok) {
         const responseJson = await response.json();
         setProperties(responseJson);
@@ -60,7 +61,7 @@ export default function Mobiles() {
         method: 'GET',
       };
 
-      const response = await fetch(`${getBrandsUrl}${id}`, options);
+      const response = await fetch(`${getBrandsUrl}${categoriesId}`, options);
       if (response.ok) {
         const responseJson = await response.json();
         setBrands(responseJson);
@@ -87,9 +88,7 @@ export default function Mobiles() {
         <Box width={isMobile ? '100%' : '60%'} flexGrow={1}>
           <ImageCarousel />
           {/* <Brands /> */}
-          {mobileData.length > 0
-            ? mobileData.map((data) => <DetailedCards mobileData={data} key={data.productItemId} />)
-            : <Box textAlign="center"><CircularProgress /></Box>}
+          <DetailedCards mobileData={mobileData[0]} />
         </Box>
       </Box>
       <Footer />

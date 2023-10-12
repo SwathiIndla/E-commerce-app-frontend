@@ -20,7 +20,10 @@ export default function Login(props) {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const { setSignup, modal } = props;
+  const {
+    setSignup, modal, redirectTo, handleClose,
+  } = props;
+  const redirectLink = redirectTo || '/';
   const navigate = useNavigate();
   const initialValues = {
     email: '',
@@ -56,8 +59,8 @@ export default function Login(props) {
       localStorage.setItem('customerId', customerId);
       localStorage.setItem('customerEmail', customerEmail);
       Cookies.set('jwtToken', jwtToken, { expires: 90 });
-      // actions.resetForm();
-      navigate(-1);
+      if (modal) handleClose();
+      navigate(redirectLink);
     } else {
       setError(true);
       actions.setSubmitting(false);
@@ -65,7 +68,7 @@ export default function Login(props) {
   };
 
   return (
-    <div className="login-page">
+    <div className={`login-page ${!modal && 'not-modal'}`}>
       <div className="login-text-container">
         <Typography variant="h4" color="ghostwhite" marginBottom={2}>Login</Typography>
         <Typography variant="subtitle1" color="whitesmoke">
@@ -128,10 +131,10 @@ export default function Login(props) {
           <Typography variant="subtitle1" display="inline">  New here ?</Typography>
           {
             modal ? <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Create an account</Button>
-              : <Link to="/account/signup" className="login-page-link"> Signup</Link>
+              : <Link to="/account/login?signup=true" className="login-page-link"> Signup</Link>
           }
         </div>
-        <Link to="/account/forgot" className="login-page-link">Forgot Password?</Link>
+        <Link to="/account/login?forgot=true" className="login-page-link">Forgot Password?</Link>
       </div>
     </div>
   );

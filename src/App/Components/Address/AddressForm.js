@@ -10,13 +10,17 @@ import {
   Radio, RadioGroup, Button, MenuItem, InputLabel, Select, FormHelperText, Typography,
 } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { states } from '../../Data/data';
 import { addressUrl } from '../../Environment/URL';
 
 export default function AddressForm(props) {
-  const { setShowAddressForm, heading, type } = props;
+  const {
+    setShowAddressForm, heading, mode, setAddressState,
+  } = props;
   const isNonMobile = useMediaQuery('(min-width:600px)');
+  const navigate = useNavigate();
   const mobileNumberRegex = '[6-9]{1}[0-9]{9}';
   const pincodeRegex = '^[1-9]{1}[0-9]{2}\s{0,1}[0-9]{3}$';
   const initialValues = {
@@ -29,6 +33,7 @@ export default function AddressForm(props) {
     stateProvince: '',
     addressType: '',
   };
+
   const handleFormSubmit = async (values, actions) => {
     const customerId = localStorage.getItem('customerId');
     const jwtToken = Cookies.get('jwtToken');
@@ -36,7 +41,7 @@ export default function AddressForm(props) {
       const userAddress = { ...values, customerId };
       const editAddress = { ...values, customerId, addressId: props?.data?.addressId };
       const options = {
-        method: type === 'new' ? 'POST' : 'PUT',
+        method: mode === 'new' ? 'POST' : 'PUT',
         body: JSON.stringify(userAddress),
         headers: {
           'Content-Type': 'application/json',
@@ -46,8 +51,9 @@ export default function AddressForm(props) {
       };
       const response = await fetch(addressUrl, options);
       const responseJson = await response.json();
-      // console.log(responseJson);
       actions.resetForm();
+      setShowAddressForm(false);
+      setAddressState((prev) => prev + 1);
     } catch (err) {
       console.error(err);
     }
@@ -68,7 +74,7 @@ export default function AddressForm(props) {
       <Typography variant="h5" sx={{ color: '#519fec' }} marginBottom={2}>{`${heading} Address`}</Typography>
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={Object.keys(props).length > 3 ? props.data : initialValues}
+        initialValues={Object.keys(props).length > 4 ? props.data : initialValues}
         validationSchema={userSchema}
       >
         {({
@@ -156,7 +162,7 @@ export default function AddressForm(props) {
                   onBlur={handleBlur}
                   error={touched.stateProvince && errors.stateProvince}
                 >
-                  {states.map((state) => (<MenuItem value={state}>{state}</MenuItem>))}
+                  {states.map((state) => (<MenuItem value={state} key={state}>{state}</MenuItem>))}
                 </Select>
                 <FormHelperText error={touched.stateProvince && errors.stateProvince}>
                   {touched.stateProvince && errors.stateProvince}

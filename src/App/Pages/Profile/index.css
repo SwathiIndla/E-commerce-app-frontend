@@ -1,15 +1,16 @@
 .profile-container{
-    background-color: gainsboro;
+    background-color: rgb(238, 236, 236);
 }
 .profile-outer-container{
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     padding: 2%;
-    gap: 2%;
+    gap: 1%;
 }
 .profile-inner-page-container{
     display: flex;
+    height: 75vh;
     flex-direction: column;
     box-shadow: 2px 2px 4px gray;
     text-align: center;
@@ -29,17 +30,20 @@
     flex-direction: column;
     box-shadow: 2px 2px 4px gray;
     gap:1rem;
-    height: 80vh;
+    align-self: center;
+    height: 70vh;
     width: 80vw;
     background-color: white;
     overflow-y: scroll;
 }
-.profile-heading.MuiTypography-h4{
-    margin-left: 2% ;
-    margin-bottom: 2% ;
+.profile-heading.MuiTypography-h5{
+    margin: 2% ;
+    font-style: italic;
+    color: rgb(0, 85, 255);
+    letter-spacing: .1rem;
 }
 .selected{
-    background-color: #f5faff;
+    background-color: #c3dbf3;
     color: #2874f0;
 }
 @media (max-width:850px) {
@@ -53,9 +57,15 @@
     }
     .profile-inner-page-container{
         flex-direction: row;
+        height: unset;
         gap: 5px;
         width: 95vw;
-        overflow-x: scroll ;
+        overflow-x: auto ;
         align-items: center;
+    }
+}
+@media (max-width: 500px) {
+    .profile-address-container{
+        padding: unset;
     }
 }

@@ -12,7 +12,7 @@ import { Box } from '@mui/system';
 import Cookies from 'js-cookie';
 import Header from '../../Components/Header';
 import { cartUrl } from '../../Environment/URL';
-import './Cart.css';
+import './index.css';
 import Footer from '../../Components/Footer';
 
 const jwtToken = Cookies.get('jwtToken');
@@ -20,6 +20,7 @@ const jwtToken = Cookies.get('jwtToken');
 export default function Cart() {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cartState, setCartState] = useState(0);
 
   useEffect(() => async () => {
     setLoading(true);
@@ -45,34 +46,39 @@ export default function Cart() {
     }
 
     setLoading(false);
-  }, []);
+  }, [cartState]);
 
   const sum = cartData?.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
 
   return (
-    <>
+    <div className="cart-outer-container">
       <Header />
       {
         cartData.length > 0 ? (
-          <Paper className="cart-container" elevation={2} sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="h4" textAlign="center" marginBottom={2}>Cart</Typography>
-            {cartData.map((data) => <CartItems data={data} key={data.cartProductItemId} />)}
-            <Typography variant="h5" sx={{ alignSelf: 'flex-end', marginRight: '20%', marginBottom: '1rem' }}>Total = ₹ {sum}</Typography>
-            <Button
-              type="button"
-              variant="contained"
-              aria-label="place order"
-              color="success"
-              sx={{ alignSelf: 'flex-end', width: '12rem', marginRight: '20%' }}
-            >
-              Place Order
-            </Button>
-          </Paper>
+          <Box className="cart-container" sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ marginBottom: '.5rem', padding: '.5rem' }}>
+              <Typography variant="h5" textAlign="center" fontSize="2rem" className="cart-heading">CART</Typography>
+            </Box>
+            {/* <Box height="60vh" overflow="auto"> */}
+            {cartData.map((data) => (
+              <CartItems
+                data={data}
+                key={data.cartProductItemId}
+                setCartState={setCartState}
+              />
+            ))}
+            {/* </Box> */}
+            {/* <Typography variant="h5" sx={{ alignSelf: 'flex-end',
+               marginRight: '20%', marginBottom: '1rem' }}>Total = ₹ {sum}</Typography> */}
+            <div className="place-order-button-container">
+              <Button type="button" variant="contained" sx={{ width: '12rem', height: '3rem', backgroundColor: '#fb641b' }}>Place Order</Button>
+            </div>
+          </Box>
         )
           : <EmptyCart />
       }
       <Footer />
-    </>
+    </div>
   );
 }
 
@@ -96,17 +102,18 @@ export function EmptyCart() {
 }
 
 export function CartItems(props) {
-  const { data } = props;
-  const [quantity, setQuantity] = useState(data.quantity);
+  const { data, setCartState } = props;
   const navigate = useNavigate();
+  const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const d = new Date();
+  const day = weekdays[d.getDay() - 1];
 
   const changeQuantity = async (e) => {
     const { ariaLabel } = e.target;
-    setQuantity((prev) => (ariaLabel === 'increment' ? prev + 1 : prev - 1));
 
     const cartItem = {
       cartProductItemId: data.cartProductItemId,
-      quantity: ariaLabel === 'increment' ? quantity + 1 : quantity - 1,
+      quantity: ariaLabel === 'increment' ? data.quantity + 1 : data.quantity - 1,
     };
     try {
       const options = {
@@ -119,7 +126,7 @@ export function CartItems(props) {
         },
       };
       const response = await fetch(cartUrl, options);
-      // // const responseJson = await response.json();
+      if (response.ok) setCartState((prev) => prev + 1);
     } catch (err) {
       console.log(err);
     }
@@ -136,9 +143,7 @@ export function CartItems(props) {
         },
       };
       const response = await fetch(`${cartUrl}/${data.cartProductItemId}`, options);
-      // const responseJson = await response.json();
-      console.log(response, 'cart');
-      navigate(0);
+      if (response.ok) setCartState((prev) => prev + 1);
     } catch (err) {
       console.log(err);
     }
@@ -156,7 +161,7 @@ export function CartItems(props) {
         </Link>
         <Box gap={1} display="flex" flexDirection="column">
           <Typography variant="h5" fontWeight={400} fontSize={24}>{data.productItemName}</Typography>
-          <Typography variant="body1" fontSize={16} color="GrayText">Specifications</Typography>
+          <Typography variant="body1" fontSize={16}>Delivery by next {day}</Typography>
           <Typography variant="body1" fontSize={16} color="GrayText">{data.sellerName}</Typography>
           <Typography fontWeight={500} fontSize={20}>
             ₹{data.price}
@@ -165,10 +170,10 @@ export function CartItems(props) {
         </Box>
       </Box>
       <ButtonGroup sx={{ margin: '1rem 0' }}>
-        <IconButton onClick={changeQuantity} aria-label="decrement" disabled={quantity === 1}>
+        <IconButton onClick={changeQuantity} aria-label="decrement" disabled={data.quantity === 1}>
           <RemoveIcon aria-label="decrement" className="icon-button" fontSize="2rem" />
         </IconButton>
-        <span className="quantity">{quantity}</span>
+        <span className="quantity">{data.quantity}</span>
         <IconButton onClick={changeQuantity} aria-label="increment">
           <AddIcon aria-label="increment" className="icon-button" fontSize="2rem" />
         </IconButton>

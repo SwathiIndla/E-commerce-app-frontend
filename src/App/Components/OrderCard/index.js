@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import Cookies from 'js-cookie';
 import Modal from 'react-modal';
 import OrderItem from '../OrderItem';
 import './index.css';
+
+const jwtToken = Cookies.get('jwtToken');
 
 function OrderCard(props) {
   const {
@@ -32,7 +35,7 @@ function OrderCard(props) {
         headers: {
           'Content-Type': 'application/json',
           accept: 'application/json',
-          Authorization: 'Bearer jwttoken',
+          Authorization: `Bearer ${jwtToken}`,
         },
       };
       const response = await fetch(url, options);
@@ -66,7 +69,7 @@ function OrderCard(props) {
         headers: {
           'Content-Type': 'application/json',
           accept: 'application/json',
-          Authorization: 'Bearer jwttoken',
+          Authorization: `Bearer ${jwtToken}`,
         },
       };
       const response = await fetch(url, options);

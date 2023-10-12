@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-unused-vars */
@@ -48,70 +49,69 @@ export default function SideBar(props) {
     localStorage.setItem('price', JSON.stringify(price));
     const filterQuery = filters?.join('&');
     const priceQuery = `&${price.MinPrice.length !== 0 ? price.MinPrice : ''}&${price.MaxPrice.lenght !== 0 ? price.MaxPrice : ''}`;
-    navigate(`/filter/${filterQuery}${priceQuery.length > 2 ? priceQuery : ''}`);
-    if (filter) {
-      setTimeout(navigate(0), 500);
-    }
+    navigate(`/mobiles/filter/${filterQuery}${priceQuery.length > 2 ? priceQuery : ''}`);
   };
 
   return (
     <div className="side-bar">
       <Sidebar onBackdropClick={() => setToggled(false)} toggled={toggled} breakPoint="768px" backgroundColor="rgb(249, 249, 249)">
-        <Menu>
-          <Typography variant="h5" textAlign="center">Filters</Typography>
-          <Box padding="0 1.5rem">
-            <Typography variant="subtitle1" marginBottom="1rem">Price</Typography>
-            <Box display="flex" justifyContent="space-between">
-              <FormControl fullWidth>
-                <InputLabel>Min</InputLabel>
-                <Select label="min" value={price.MinPrice} variant="standard" name="MinPrice" onChange={changePrice}>
-                  {minprice.map((i) => (<MenuItem value={`MinPrice=${i}`} key={i}>₹{i}</MenuItem>))}
-                </Select>
-              </FormControl>
-              <FormControl fullWidth>
-                <InputLabel>Max</InputLabel>
-                <Select label="max" value={price.MaxPrice} variant="standard" name="MaxPrice" onChange={changePrice}>
-                  {maxprice.map((i) => (<MenuItem value={`MaxPrice=${i}`} key={i}>₹{i}</MenuItem>))}
-                  <MenuItem value="">₹30000+</MenuItem>
-                </Select>
-              </FormControl>
+        <Box height="72vh" overflow="auto">
+          <Menu>
+            <Typography variant="h5" textAlign="center">Filters</Typography>
+            <Box padding="0 1.5rem">
+              <Typography variant="subtitle1" marginBottom="1rem">Price</Typography>
+              <Box display="flex" justifyContent="space-between">
+                <FormControl fullWidth>
+                  <InputLabel>Min</InputLabel>
+                  <Select label="min" value={price.MinPrice} variant="standard" name="MinPrice" onChange={changePrice}>
+                    {minprice.map((i) => (<MenuItem value={`MinPrice=${i}`} key={i}>₹{i}</MenuItem>))}
+                  </Select>
+                </FormControl>
+                <FormControl fullWidth>
+                  <InputLabel>Max</InputLabel>
+                  <Select label="max" value={price.MaxPrice} variant="standard" name="MaxPrice" onChange={changePrice}>
+                    {maxprice.map((i) => (<MenuItem value={`MaxPrice=${i}`} key={i}>₹{i}</MenuItem>))}
+                    <MenuItem value="">₹30000+</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </Box>
-          </Box>
-          <SubMenu label="Brands">
-            {brands ? brands?.map((brand, index) => (
-              <MenuItem key={index}>
-                <FormControlLabel
-                  control={<Checkbox size="small" onChange={handleChange} />}
-                  label={brand.brandName}
-                  name={`Brands=${brand.brandId}`}
-                  checked={filters.includes(`Brands=${brand.brandId}`)}
-                />
-              </MenuItem>
-            )) : <CircularProgress />}
-          </SubMenu>
-          {properties && properties.map((property) => (
-            <SubMenu label={property.propertyName.replace(/_/g, ' ')} key={property.propertyId}>
-              {property.propertyValues.map((ele) => (
-                <MenuItem key={ele.propertyValueId}>
+            <SubMenu label="Brands">
+              {brands ? brands?.map((brand, index) => (
+                <MenuItem key={index}>
                   <FormControlLabel
                     control={<Checkbox size="small" onChange={handleChange} />}
-                    label={ele.propertyValue}
-                    name={`${property.propertyName}=${ele.propertyValue}`}
-                    checked={filters.includes(`${property.propertyName}=${ele.propertyValue}`)}
+                    label={brand.brandName}
+                    name={`Brands=${brand.brandId}`}
+                    checked={filters.includes(`Brands=${brand.brandId}`)}
                   />
                 </MenuItem>
-              ))}
+              )) : <CircularProgress />}
             </SubMenu>
-          ))}
-        </Menu>
-        {!isMobile && <Button type="button" variant="contained" size="large" fullWidth onClick={applyFilter}> Apply filter</Button>}
+            {properties && properties.map((property) => (
+              <SubMenu label={property.propertyName.replace(/_/g, ' ')} key={property.propertyId}>
+                {property.propertyValues.map((ele) => (
+                  <MenuItem key={ele.propertyValueId}>
+                    <FormControlLabel
+                      control={<Checkbox size="small" onChange={handleChange} />}
+                      label={ele.propertyValue}
+                      name={`${property.propertyName}=${ele.propertyValue}`}
+                      checked={filters.includes(`${property.propertyName}=${ele.propertyValue}`)}
+                    />
+                  </MenuItem>
+                ))}
+              </SubMenu>
+            ))}
+          </Menu>
+        </Box>
+        <Button type="button" variant="contained" size="large" fullWidth onClick={applyFilter}> Apply filter</Button>
       </Sidebar>
       {isMobile && (
         <div className="filter-button">
           <Button onClick={() => setToggled(true)} color="inherit" startIcon={<TuneOutlinedIcon />}>
             Filter
           </Button>
-          <Button type="button" color="inherit" size="large" onClick={applyFilter}> Apply filter</Button>
+          {/* <Button type="button" color="inherit" size="large" onClick={applyFilter}> Apply filter</Button> */}
         </div>
       )}
     </div>

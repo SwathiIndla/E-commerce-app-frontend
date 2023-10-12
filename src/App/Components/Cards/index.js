@@ -22,17 +22,29 @@ export function Card(props) {
         <div className="cards">
           <div className="card-img-container">
             <div className="card-img-inner">
-              <img src={data.productItemImage.split(',')[0]} alt="productimg" className="card-img" />
+              <img
+                src={data.productItemImage.split(',')[0]}
+                alt="productimg"
+                className="card-img"
+              />
             </div>
           </div>
           <div className="cards-context">
             <p className="product-name">{data.productItemName}</p>
             <div className="rating-container">
               <div className="ratings">
-                <Typography variant="subtitle2" fontSize="inherit" lineHeight="unset">{data.rating}</Typography>
+                <Typography
+                  variant="subtitle2"
+                  fontSize="inherit"
+                  lineHeight="unset"
+                >
+                  {data.rating}
+                </Typography>
                 <StarRateIcon color="inherit" fontSize="inherit" />
               </div>
-              <Typography variant="subtitle1" color="GrayText">{`(${data.numberOfRatings} ratings)`}</Typography>
+              <Typography variant="subtitle1" color="GrayText">
+                {`(${data.numberOfRatings} ratings)`}
+              </Typography>
             </div>
             <p className="product-price">{`₹ ${data.price}`}</p>
           </div>
@@ -108,14 +120,15 @@ export default function Cards(props) {
   return (
     <div className="cards-container carousel">
       <h2>{`${title} mobiles`}</h2>
-      {mobileData.length > 0 ? (
+      {mobileData?.length > 0 ? (
         <Slider {...settings}>
-          {mobileData?.map((item) => <Card data={item} key={item.productId} />)}
+          {mobileData?.map((item) => (
+            <Card data={item} key={item.productId} />
+          ))}
         </Slider>
-      )
-        : (
-          <Skeleton variant="rectangular" height={150} />
-        )}
+      ) : (
+        <Skeleton variant="rectangular" height={150} />
+      )}
     </div>
   );
 }

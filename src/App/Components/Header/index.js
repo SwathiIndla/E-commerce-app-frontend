@@ -5,6 +5,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import MenuIcon from '@mui/icons-material/Menu';
 import {
   Typography, Button, Badge, IconButton, Box, Modal, Backdrop, Fade, Avatar,
 } from '@mui/material';
@@ -76,7 +77,7 @@ export default function Header() {
   const logOut = () => {
     localStorage.clear();
     Cookies.remove('jwtToken');
-    navigate(0);
+    navigate('/');
   };
 
   return (
@@ -101,7 +102,7 @@ export default function Header() {
                     <PowerSettingsNewIcon />
                     Logout
                   </Button>
-                  <Button type="button" onClick={() => navigate('/profile')}>
+                  <Button type="button" onClick={() => navigate('/profile?value=email')}>
                     Profile
                   </Button>
                 </div>
@@ -134,6 +135,9 @@ export default function Header() {
               </Button>
             )
 }
+          <Button>
+            <MenuIcon sx={{ color: '#fff', fontSize: '2rem' }} />
+          </Button>
         </div>
       </nav>
       {isMobile && (
@@ -154,7 +158,7 @@ export default function Header() {
       >
         <Fade in={open}>
           <Box sx={style}>
-            {signup ? <SignUp setSignup={setSignup} modal /> : <Login setSignup={setSignup} modal />}
+            {signup ? <SignUp setSignup={setSignup} modal /> : <Login setSignup={setSignup} modal handleClose={handleClose} />}
           </Box>
         </Fade>
       </Modal>

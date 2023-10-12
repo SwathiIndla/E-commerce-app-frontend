@@ -13,7 +13,7 @@ import { Box } from '@mui/system';
 import {
   useMediaQuery, Typography, CircularProgress, Button,
 } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
@@ -22,7 +22,7 @@ import Cookies from 'js-cookie';
 import Header from '../../Components/Header';
 import { Categories } from '../../Components/Header/Categories';
 import Footer from '../../Components/Footer';
-import './ProductPage.css';
+import './index.css';
 import { getProductUrl, cartUrl } from '../../Environment/URL';
 
 export default function ProductPage() {
@@ -34,6 +34,7 @@ export default function ProductPage() {
   const isMobile = useMediaQuery('(max-width:850px)');
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { specifications, sellers, productItemDescription } = data;
   const descriptions = productItemDescription?.split('_');
 
@@ -119,7 +120,7 @@ export default function ProductPage() {
         console.log(err);
       }
     } else {
-      navigate('/account/login');
+      navigate(`/account/login?value=true&redirectTo=${location.pathname}`);
     }
     setLoading(false);
     checkProductInCart();
@@ -133,7 +134,7 @@ export default function ProductPage() {
         Object.keys(data).length > 0
           ? (
             <Box display={isMobile ? 'block' : 'grid'} gridTemplateColumns="45% 55%" margin={isMobile ? '0 1rem' : '0 2.5px'} bgcolor="ghostwhite">
-              <Box>
+              <Box position={isMobile ? 'static' : 'sticky'} top="60px" height={isMobile ? 'unset' : '90vh'}>
                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection={isMobile ? 'column-reverse' : 'row'}>
                   <Box display="flex" flexDirection={isMobile ? 'row' : 'column'} alignItems="center" justifyContent="center" m={1} overflow={isMobile && 'auto'} width={isMobile ? '100%' : '20%'}>
                     {imgData.length > 0 && imgData.map((img, index) => (
@@ -142,7 +143,7 @@ export default function ProductPage() {
                       </div>
                     ))}
                   </Box>
-                  <Box margin={2} width="80%" textAlign="center">
+                  <Box margin={2} width="100%" className="displaying-img-container">
                     <img src={imgData[hover]} alt="img" className="displaying-img" />
                   </Box>
                 </Box>
@@ -250,7 +251,7 @@ export default function ProductPage() {
               </Box>
             </Box>
           )
-          : <CircularProgress />
+          : <Box height="50vh" textAlign="center" width="100vw"><CircularProgress /></Box>
       }
       <Footer />
     </Box>

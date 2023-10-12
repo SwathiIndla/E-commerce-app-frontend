@@ -9,20 +9,18 @@ import {
   TextField, Box, Typography, InputAdornment,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { searchUrl } from '../../Environment/URL';
 
 function Search() {
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const navigateSearch = (e) => {
     const { type, key } = e;
     if (inputValue !== '' && (type === 'click' || (type === 'keydown' && key === 'Enter'))) {
-      navigate(`/search/${inputValue}`);
-      navigate(0);
+      navigate(`/search?value=${inputValue}`);
     }
   };
 

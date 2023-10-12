@@ -1,12 +1,16 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { Box, Button, CircularProgress } from '@mui/material';
+import {
+  Box, Button, CircularProgress, IconButton,
+} from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import {
+  useNavigate, useParams, useLocation, useSearchParams,
+} from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import Header from '../../Components/Header';
 import { Categories } from '../../Components/Header/Categories';
-import ImageCarousel from '../../Components/Header/ImageCarousel';
 import SideBar from '../../Components/Sidebar';
 import DetailedCards from '../../Components/DetailedCards';
 import Footer from '../../Components/Footer';
@@ -14,6 +18,7 @@ import {
   getBrandsUrl, getCategoryPropertiesUrl, mobilesFilterUrl, searchUrl,
 } from '../../Environment/URL';
 import './index.css';
+import NoResultsFound from '../../Components/NoResultsFound';
 
 export default function FilteredMobiles() {
   const productsToCompare = JSON.parse(localStorage.getItem('compare'));
@@ -21,13 +26,16 @@ export default function FilteredMobiles() {
   const [properties, setProperties] = useState([]);
   const [mobileData, setMobileData] = useState([]);
   const [compare, setCompare] = useState(productsToCompare || []);
+  const [isRequestedDataAvailable, setIsRequestedDataAvailable] = useState(true);
   const isMobile = useMediaQuery('(max-width:768px)');
+  const [searchParams] = useSearchParams();
+  const searchValue = searchParams.get('value');
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const isThisFilterPage = location.pathname.includes('filter');
   const style = {
-    position: 'sticky', top: '88px', left: '0', zIndex: '10', width: '100vw',
+    position: 'sticky', top: '88px', left: '0', zIndex: '10',
   };
 
   const getMobileProperties = async () => {
@@ -40,6 +48,8 @@ export default function FilteredMobiles() {
       if (response.ok) {
         const responseJson = await response.json();
         setProperties(responseJson);
+      } else {
+        console.log(response.status);
       }
     } catch (err) {
       console.log(err);
@@ -47,16 +57,20 @@ export default function FilteredMobiles() {
   };
 
   const getMobilesData = async () => {
+    setIsRequestedDataAvailable(true);
     try {
       const options = {
         method: 'GET',
       };
-      const url = isThisFilterPage ? `${mobilesFilterUrl}?${id[-1] === '&' ? id.slice(0, -1) : id}` : `${searchUrl}${id}`;
+      const url = isThisFilterPage ? `${mobilesFilterUrl}?${id[-1] === '&' ? id.slice(0, -1) : id}` : `${searchUrl}${searchValue}`;
       const response = await fetch(url, options);
       if (response.ok) {
         const responseJson = await response.json();
         const { filteredProductItems, searchResults } = responseJson;
         setMobileData(isThisFilterPage ? filteredProductItems : searchResults);
+      }
+      if (response.status === 404) {
+        setIsRequestedDataAvailable(false);
       }
     } catch (err) {
       console.log(err);
@@ -83,12 +97,13 @@ export default function FilteredMobiles() {
     getBrands();
     getMobileProperties();
     getMobilesData();
-  }, []);
+  }, [id]);
 
   const removeProductFromCompare = (e) => {
     const { ariaLabel } = e.target;
-    setCompare(compare.filter((i) => i.id !== ariaLabel));
+    const newArray = compare.filter((i) => i.id !== ariaLabel);
     localStorage.setItem('compare', JSON.stringify(compare.filter((i) => i.id !== ariaLabel)));
+    setCompare([...newArray]);
   };
 
   const navigateToComparePage = () => {
@@ -99,13 +114,12 @@ export default function FilteredMobiles() {
     <Box>
       <Header />
       <Categories images={false} />
-      <Box display="flex" flexDirection={isMobile ? 'column' : 'row'}>
+      <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} marginBottom="1rem">
         <Box sx={isMobile ? style : { }}>
           <SideBar brands={brands} properties={properties} filter={isThisFilterPage} />
         </Box>
-        <Box width={isMobile ? '100%' : '60%'} flexGrow={1}>
-          <ImageCarousel />
-          {mobileData.length > 0
+        <Box width={isMobile ? '100%' : '60%'} flexGrow={1} height="80vh" overflow="auto">
+          {isRequestedDataAvailable ? (mobileData.length > 0
             ? mobileData.map((data) => (
               <DetailedCards
                 mobileData={data}
@@ -114,7 +128,8 @@ export default function FilteredMobiles() {
                 setCompare={setCompare}
               />
             ))
-            : <Box textAlign="center"><CircularProgress /></Box>}
+            : <Box textAlign="center"><CircularProgress /></Box>)
+            : <NoResultsFound />}
         </Box>
         {!isMobile && compare.length > 0 && (
           <div className="compare-button-container">
@@ -124,7 +139,13 @@ export default function FilteredMobiles() {
                 <p className="compare-button-helper-text" key={element.id}>
                   {element.name}
                   {' '}
-                  <ClearIcon className="clear-icon" aria-label={element.id} onClick={removeProductFromCompare} />
+                  <IconButton
+                    disableTouchRipple
+                    aria-label={element.id}
+                    onClick={removeProductFromCompare}
+                  >
+                    <ClearIcon className="clear-icon" aria-label={element.id} />
+                  </IconButton>
                 </p>
               ))
             )}

@@ -56,7 +56,7 @@ export default function SignUp(props) {
         setError(responseJson.error[0].description);
         actions.setSubmitting(false);
       } else {
-        navigate(0);
+        navigate('/account/login?value?true');
       }
     } catch (err) {
       console.error(err);
@@ -152,7 +152,7 @@ export default function SignUp(props) {
           <Typography variant="subtitle1" display="inline">  Already have an account?</Typography>
           {
             modal ? <Button variant="text" onClick={() => (setSignup((prev) => !prev))} disableTouchRipple>Login</Button>
-              : <Link to="/account/login" className="login-page-link"> Login</Link>
+              : <Link to="/account/login?value=true" className="login-page-link"> Login</Link>
           }
         </div>
       </div>

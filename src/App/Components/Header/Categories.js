@@ -62,7 +62,7 @@ export function CategoryCard(props) {
   };
 
   return (
-    <Link to={`/${(item.categoryName).toLowerCase()}/${item.categoryId}`} className="category-links">
+    <Link to={`/${(item.categoryName).toLowerCase()}?cid=${item.categoryId}`} className="category-links">
       <div
         className="category-card-category-container"
         onMouseEnter={handleOPen}

@@ -9,7 +9,7 @@
     background-color: rgb(200, 229, 247);
     border-radius: 4px;
     box-shadow: 0px 0px 3px gray ;
-    padding: 1rem;
+    padding: .5rem;
     display: none;
     flex-direction: row;
     align-items: center;
