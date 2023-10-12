@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { Box, Button, CircularProgress } from '@mui/material';
@@ -9,18 +10,27 @@ import ImageCarousel from '../../Components/Header/ImageCarousel';
 import SideBar from '../../Components/Sidebar';
 import DetailedCards from '../../Components/DetailedCards';
 import Footer from '../../Components/Footer';
-import { Brands } from '../../Components/ColoredCards';
-import { getBrandsUrl, getCategoryPropertiesUrl, mobilesFilterUrl } from '../../Environment/URL';
+import ColoredCards, { Brands } from '../../Components/ColoredCards';
+import {
+  getBrandsUrl, getCategoryPropertiesUrl, samsungMobilesUrl, appleMobilesUrl,
+  oppoMobilesUrl, vivoMobilesUrl, redmiMobilesUrl, oneplusMobilesUrl,
+} from '../../Environment/URL';
 
 export default function Mobiles() {
   const [brands, setBrands] = useState([]);
   const [properties, setProperties] = useState([]);
-  const [mobileData, setMobileData] = useState([]);
+  const [samsungMobiles, setSamsungMobiles] = useState([]);
+  const [appleMobiles, setAppleMobiles] = useState([]);
+  const [vivoMobiles, setVivoMobiles] = useState([]);
+  const [oppoMobiles, setOppoMobiles] = useState([]);
+  const [redmiMobiles, setRedmiMobiles] = useState([]);
+  const [oneplusMobiles, setOneplusMobiles] = useState([]);
+
   const isMobile = useMediaQuery('(max-width:768px)');
   const [searchParams] = useSearchParams();
   const categoriesId = searchParams.get('cid');
   const style = {
-    position: 'sticky', top: '88px', left: '0', zIndex: '10',
+    position: 'sticky', top: '86px', left: '0', zIndex: '10',
   };
 
   const getMobileProperties = async () => {
@@ -39,16 +49,16 @@ export default function Mobiles() {
     }
   };
 
-  const getFilteredMobiles = async () => {
+  const getMobilesData = async (url, setter) => {
     try {
       const options = {
         method: 'GET',
       };
 
-      const response = await fetch(mobilesFilterUrl, options);
+      const response = await fetch(url, options);
       if (response.ok) {
         const responseJson = await response.json();
-        setMobileData(responseJson.filteredProductItems);
+        setter(responseJson.filteredProductItems);
       }
     } catch (err) {
       console.log(err);
@@ -74,21 +84,49 @@ export default function Mobiles() {
   useEffect(() => {
     getBrands();
     getMobileProperties();
-    getFilteredMobiles();
+    getMobilesData(samsungMobilesUrl, setSamsungMobiles);
+    getMobilesData(redmiMobilesUrl, setRedmiMobiles);
+    getMobilesData(oppoMobilesUrl, setOppoMobiles);
+    getMobilesData(vivoMobilesUrl, setVivoMobiles);
+    getMobilesData(oneplusMobilesUrl, setOneplusMobiles);
+    getMobilesData(appleMobilesUrl, setAppleMobiles);
   }, []);
 
   return (
     <Box>
       <Header />
       <Categories images={false} />
-      <Box display="flex" flexDirection={isMobile ? 'column' : 'row'}>
-        <Box sx={isMobile ? style : { }}>
+      <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} margin="1rem 0">
+        <Box sx={isMobile ? style : {
+          position: 'sticky', top: '65px', zIndex: '1', height: '100%',
+        }}
+        >
           <SideBar brands={brands} properties={properties} />
         </Box>
         <Box width={isMobile ? '100%' : '60%'} flexGrow={1}>
-          <ImageCarousel />
-          {/* <Brands /> */}
-          <DetailedCards mobileData={mobileData[0]} />
+          {/* <Box>
+            <ImageCarousel />
+          </Box> */}
+          {(samsungMobiles.length > 0 && appleMobiles.length > 0 && vivoMobiles.length > 0 && oppoMobiles.length > 0 && redmiMobiles.length > 0 && oneplusMobiles.length > 0) && (
+          <Brands
+            samsung={samsungMobiles}
+            oppo={oppoMobiles}
+            vivo={vivoMobiles}
+            oneplus={oneplusMobiles}
+            apple={appleMobiles}
+            redmi={redmiMobiles}
+          />
+          )}
+          {/* {samsungMobiles.length > 0 && (
+            samsungMobiles.map((data) => (
+              <DetailedCards
+                mobileData={data}
+                key={data.productItemId}
+                // compare={compare}
+                // setCompare={setCompare}
+              />
+            ))
+          )} */}
         </Box>
       </Box>
       <Footer />

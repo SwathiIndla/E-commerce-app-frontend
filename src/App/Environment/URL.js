@@ -12,3 +12,8 @@ export const getProductVariantUrl = 'https://localhost:7258/api/Product/variant/
 export const cartUrl = 'https://localhost:7258/api/Cart';
 export const addressUrl = 'https://localhost:7258/api/Address/';
 export const samsungMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=dc4c75e8-b1d9-4185-a58d-3062f037d405';
+export const appleMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=ace7dfb1-09c2-4bc8-8798-54f83fa6a8eb';
+export const vivoMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=216056f2-dd65-4be4-8140-f468c87fb936';
+export const redmiMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=6a57f13a-9162-4d62-a994-4b62fb75cccf';
+export const oppoMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=a4668a87-2793-4b5f-8e6d-77c34b92549a';
+export const oneplusMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=5810639b-e4bc-43e0-a83f-aaab39bd585e';

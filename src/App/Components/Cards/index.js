@@ -4,7 +4,7 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React from 'react';
 import './index.css';
-import { Skeleton, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,7 +18,7 @@ export function Card(props) {
 
   return (
     <div>
-      <Link to={`/product/${data.productItemId}`} className="home-card-link">
+      <Link to={`/product?id=${data.productItemId}`} className="home-card-link">
         <div className="cards">
           <div className="card-img-container">
             <div className="card-img-inner">
@@ -127,7 +127,7 @@ export default function Cards(props) {
           ))}
         </Slider>
       ) : (
-        <Skeleton variant="rectangular" height={150} />
+        <Box height="30vh" textAlign="center" width="100vw"><CircularProgress /></Box>
       )}
     </div>
   );

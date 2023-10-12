@@ -79,7 +79,7 @@ function Search() {
         }}
       >
         {suggestions.map((suggestion) => (
-          <Link to={`/product/${suggestion.productItemId}`} className="search-link" key={suggestion.productItemId}>
+          <Link to={`/product?id=${suggestion.productItemId}`} className="search-link" key={suggestion.productItemId}>
             <Typography variant="body2" sx={{ borderBottom: '1px solid gray', padding: '.5rem' }}>
               {suggestion.productItemName}
             </Typography>

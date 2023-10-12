@@ -49,13 +49,13 @@ export default function SideBar(props) {
     localStorage.setItem('price', JSON.stringify(price));
     const filterQuery = filters?.join('&');
     const priceQuery = `&${price.MinPrice.length !== 0 ? price.MinPrice : ''}&${price.MaxPrice.lenght !== 0 ? price.MaxPrice : ''}`;
-    navigate(`/mobiles/filter/${filterQuery}${priceQuery.length > 2 ? priceQuery : ''}`);
+    navigate(`/mobiles/filter?query=${filterQuery}${priceQuery.length > 2 ? priceQuery : ''}`);
   };
 
   return (
     <div className="side-bar">
       <Sidebar onBackdropClick={() => setToggled(false)} toggled={toggled} breakPoint="768px" backgroundColor="rgb(249, 249, 249)">
-        <Box height="72vh" overflow="auto">
+        <Box height="80vh" overflow="auto">
           <Menu>
             <Typography variant="h5" textAlign="center">Filters</Typography>
             <Box padding="0 1.5rem">

@@ -5,7 +5,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import {
   Typography, Button, Badge, IconButton, Box, Modal, Backdrop, Fade, Avatar,
 } from '@mui/material';
@@ -135,9 +135,9 @@ export default function Header() {
               </Button>
             )
 }
-          <Button>
+          {/* <Button>
             <MenuIcon sx={{ color: '#fff', fontSize: '2rem' }} />
-          </Button>
+          </Button> */}
         </div>
       </nav>
       {isMobile && (

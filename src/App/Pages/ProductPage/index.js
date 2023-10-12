@@ -13,7 +13,7 @@ import { Box } from '@mui/system';
 import {
   useMediaQuery, Typography, CircularProgress, Button,
 } from '@mui/material';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FlashOnIcon from '@mui/icons-material/FlashOn';
@@ -24,6 +24,7 @@ import { Categories } from '../../Components/Header/Categories';
 import Footer from '../../Components/Footer';
 import './index.css';
 import { getProductUrl, cartUrl } from '../../Environment/URL';
+import ProductRatingsAndReviews from '../../Components/ProductPageReviews';
 
 export default function ProductPage() {
   const [data, setData] = useState({});
@@ -32,7 +33,8 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(false);
   const [isProductInCart, setIsProductInCart] = useState(false);
   const isMobile = useMediaQuery('(max-width:850px)');
-  const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get('id');
   const navigate = useNavigate();
   const location = useLocation();
   const { specifications, sellers, productItemDescription } = data;
@@ -46,8 +48,6 @@ export default function ProductPage() {
     border: '1px solid blue',
     boxShadow: '0px 0px 3px blue',
   };
-
-  const bankOffers = [1, 2, 3, 4, 5];
 
   useEffect(() => async () => {
     try {
@@ -120,20 +120,20 @@ export default function ProductPage() {
         console.log(err);
       }
     } else {
-      navigate(`/account/login?value=true&redirectTo=${location.pathname}`);
+      navigate(`/account/login?value=true&redirectTo=${location.pathname}${location.search}`);
     }
     setLoading(false);
     checkProductInCart();
   };
 
   return (
-    <Box sx={{ overflow: 'auto' }} height="100vh" bgcolor="#e8eaed">
+    <Box sx={{ overflow: 'auto' }} height="100vh" bgcolor="#f1f3f6">
       <Header />
       <Categories />
       {
         Object.keys(data).length > 0
           ? (
-            <Box display={isMobile ? 'block' : 'grid'} gridTemplateColumns="45% 55%" margin={isMobile ? '0 1rem' : '0 2.5px'} bgcolor="ghostwhite">
+            <Box display={isMobile ? 'block' : 'grid'} gridTemplateColumns="45% 55%" margin={isMobile ? '1rem 1rem' : '.5rem'} bgcolor="#fff">
               <Box position={isMobile ? 'static' : 'sticky'} top="60px" height={isMobile ? 'unset' : '90vh'}>
                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection={isMobile ? 'column-reverse' : 'row'}>
                   <Box display="flex" flexDirection={isMobile ? 'row' : 'column'} alignItems="center" justifyContent="center" m={1} overflow={isMobile && 'auto'} width={isMobile ? '100%' : '20%'}>
@@ -179,19 +179,24 @@ export default function ProductPage() {
                       {''} 3% discount
                     </Typography>
                     <Typography>Delivery within 3 days of order</Typography>
-                    {bankOffers.map((i) => (
-                      <Box display="flex" flexDirection="row" gap="4px" key={`offers${i}`}>
-                        <LocalOfferIcon color="success" fontSize="3" />
-                        <Typography variant="body2">
-                          Bank Offer ₹3000 Off On HDFC Bank Credit Non EMI,
-                          Credit and Debit Card EMI Transactions T&C
-                        </Typography>
-                      </Box>
-                    ))}
+                    <Box display="flex" flexDirection="row" gap="4px">
+                      <LocalOfferIcon color="success" fontSize="3" />
+                      <Typography variant="body2">
+                        Bank Offer ₹3000 Off On HDFC Bank Credit Non EMI,
+                        Credit and Debit Card EMI Transactions T&C
+                      </Typography>
+                    </Box>
+                    <Box display="flex" flexDirection="row" gap="4px">
+                      <LocalOfferIcon color="success" fontSize="3" />
+                      <Typography variant="body2">
+                        Bank Offer ₹5000 Off On ICICI Bank Credit Non EMI,
+                        Credit and Debit Card EMI Transactions T&C
+                      </Typography>
+                    </Box>
                   </div>
                   <Box display="grid" fontSize="14px">
                     <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" alignItems="center">
-                      <Box><Typography color="GrayText" fontSize="inherit">Color</Typography></Box>
+                      <Box><Typography fontWeight="500" fontSize="inherit">Color</Typography></Box>
                       <Box>
                         <ul className="color-list">
                           <li>white</li>
@@ -201,7 +206,7 @@ export default function ProductPage() {
                       </Box>
                     </Box>
                     <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" alignItems="center">
-                      <Box><Typography color="GrayText" fontSize="inherit">RAM</Typography></Box>
+                      <Box><Typography fontWeight="500" fontSize="inherit">RAM</Typography></Box>
                       <Box>
                         <ul className="color-list">
                           <li>6gb</li>
@@ -211,7 +216,7 @@ export default function ProductPage() {
                       </Box>
                     </Box>
                     <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" alignItems="center">
-                      <Box><Typography color="GrayText" fontSize="inherit">Storage</Typography></Box>
+                      <Box><Typography fontWeight="500" fontSize="inherit">Storage</Typography></Box>
                       <Box>
                         <ul className="color-list">
                           <li>64gb</li>
@@ -222,12 +227,12 @@ export default function ProductPage() {
                     </Box>
                   </Box>
                   <Box marginTop={1} display="grid" gridTemplateColumns="30% 70%" fontSize="14px">
-                    <Box><Typography color="GrayText" fontSize="inherit">Highlights</Typography></Box>
+                    <Box><Typography fontWeight="500" fontSize="inherit">Highlights</Typography></Box>
                     <Box>
                       <ul className="highlights-list">
                         <li>{specifications.RAM} RAM | {specifications.Storage} ROM</li>
                         <li>{specifications.Screen_Size} {specifications.Resolution} AMOLED Display</li>
-                        <li>{specifications.Primary_Camera} (OIS) + 8MP + 2MP | {specifications.Secondary_Camera} Front Camera</li>
+                        <li>{specifications.Primary_Camera} (OIS) Primary Camera | {specifications.Secondary_Camera} Front Camera</li>
                         <li>{specifications.Battery} Lithium Polymer Battery</li>
                         <li>{specifications.Processor}</li>
                       </ul>
@@ -239,13 +244,16 @@ export default function ProductPage() {
                         if (index % 2 === 0) {
                           return (
                             <Box display="grid" gridTemplateColumns="30% 60%" key={e}>
-                              <Box><Typography color="GrayText" fontSize="inherit">{e}</Typography></Box>
-                              <Box>{descriptions[index + 1]}</Box>
+                              <Box><Typography fontWeight="500" fontSize="inherit">{e}</Typography></Box>
+                              <Box color="GrayText">{descriptions[index + 1]}</Box>
                             </Box>
                           );
                         }
                       })
                     }
+                  </Box>
+                  <Box>
+                    <ProductRatingsAndReviews productId={data.productId} />
                   </Box>
                 </div>
               </Box>

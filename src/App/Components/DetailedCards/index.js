@@ -41,7 +41,7 @@ function DetailedCards(props) {
     mobileData && (
     <Paper className="mobile-container">
       {isMobile ? (
-        <Link to={`/product/${productItemId}`} className="detailed-card-link">
+        <Link to={`/product?id=${productItemId}`} className="detailed-card-link">
           <div className="mobile-card">
             <div className="mobile-img-container">
               <img src={mobileData.productItemImage.split(',')[0]} alt="mobile-img" className="mobile-img" />
@@ -71,7 +71,7 @@ function DetailedCards(props) {
       )
         : (
           <>
-            <Link to={`/product/${productItemId}`} className="detailed-card-link">
+            <Link to={`/product?id=${productItemId}`} className="detailed-card-link">
               <div className="mobile-card">
                 <div className="mobile-img-container">
                   <img src={mobileData.productItemImage.split(',')[0]} alt="mobile-img" className="mobile-img" />

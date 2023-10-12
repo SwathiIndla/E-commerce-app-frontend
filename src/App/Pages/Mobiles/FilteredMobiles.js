@@ -6,7 +6,7 @@ import {
 } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import {
-  useNavigate, useParams, useLocation, useSearchParams,
+  useNavigate, useLocation, useSearchParams,
 } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import Header from '../../Components/Header';
@@ -30,12 +30,12 @@ export default function FilteredMobiles() {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [searchParams] = useSearchParams();
   const searchValue = searchParams.get('value');
-  const { id } = useParams();
+  const query = searchParams.get('query');
   const navigate = useNavigate();
   const location = useLocation();
   const isThisFilterPage = location.pathname.includes('filter');
   const style = {
-    position: 'sticky', top: '88px', left: '0', zIndex: '10',
+    position: 'sticky', top: '86px', left: '0', zIndex: '10',
   };
 
   const getMobileProperties = async () => {
@@ -62,7 +62,7 @@ export default function FilteredMobiles() {
       const options = {
         method: 'GET',
       };
-      const url = isThisFilterPage ? `${mobilesFilterUrl}?${id[-1] === '&' ? id.slice(0, -1) : id}` : `${searchUrl}${searchValue}`;
+      const url = isThisFilterPage ? `${mobilesFilterUrl}?${query[-1] === '&' ? query.slice(0, -1) : query}` : `${searchUrl}${searchValue}`;
       const response = await fetch(url, options);
       if (response.ok) {
         const responseJson = await response.json();
@@ -97,7 +97,7 @@ export default function FilteredMobiles() {
     getBrands();
     getMobileProperties();
     getMobilesData();
-  }, [id]);
+  }, [query]);
 
   const removeProductFromCompare = (e) => {
     const { ariaLabel } = e.target;
@@ -115,10 +115,13 @@ export default function FilteredMobiles() {
       <Header />
       <Categories images={false} />
       <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} marginBottom="1rem">
-        <Box sx={isMobile ? style : { }}>
+        <Box sx={isMobile ? style : {
+          position: 'sticky', top: '65px', zIndex: '1', height: '100%',
+        }}
+        >
           <SideBar brands={brands} properties={properties} filter={isThisFilterPage} />
         </Box>
-        <Box width={isMobile ? '100%' : '60%'} flexGrow={1} height="80vh" overflow="auto">
+        <Box width={isMobile ? '100%' : '60%'} flexGrow={1}>
           {isRequestedDataAvailable ? (mobileData.length > 0
             ? mobileData.map((data) => (
               <DetailedCards

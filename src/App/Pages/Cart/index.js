@@ -152,7 +152,7 @@ export function CartItems(props) {
   return (
     <Box className="cart-item-container" display="flex" flexDirection="column">
       <Box className="cart-item" display="flex" gap="4%">
-        <Link to={`/product/${data.productItemId}`}>
+        <Link to={`/product?id=${data.productItemId}`}>
           <img
             className="item-img"
             src={data.productItemImage.split(',')[0]}

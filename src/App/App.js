@@ -5,6 +5,7 @@ import './App.css';
 import Cookies from 'js-cookie';
 import AuthenticatedRoutes from './Components/AuthenticatedRoutes';
 import NoResultsFound from './Components/NoResultsFound';
+import NewFeature from './Pages/NewFeature';
 // import Cart from './Pages/Cart';
 // import Profile from './Pages/Profile';
 
@@ -27,10 +28,10 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/mobiles">
           <Route path="" element={<Mobiles />} />
-          <Route path="filter/:id" element={<FilteredMobiles />} />
+          <Route path="filter" element={<FilteredMobiles />} />
         </Route>
         <Route path="/search" element={<FilteredMobiles />} />
-        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/product" element={<ProductPage />} />
         <Route path="/account/login" element={<Account />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/checkout" element={<CheckOut />} />
@@ -50,7 +51,7 @@ function App() {
             </AuthenticatedRoutes>
             )}
         />
-        <Route path="*" element={<NoResultsFound />} />
+        <Route path="*" element={<NewFeature />} />
       </Routes>
     </Suspense>
   );

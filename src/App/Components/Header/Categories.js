@@ -7,7 +7,7 @@
 import React, { useEffect, useState } from 'react';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link } from 'react-router-dom';
-import { Skeleton } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { categoriesImg } from '../../Data/data';
@@ -41,8 +41,8 @@ export function Categories(props) {
           data.length > 0
             ? data.map((item, index) => (<CategoryCard item={item} key={index} images={images} />
             ))
-            : <Skeleton variant="rounded" height={80} width="100%" />
-        }
+            : <Box height="20vh" textAlign="center" width="100vw"><CircularProgress /></Box>
+          }
       </div>
     </div>
   );
