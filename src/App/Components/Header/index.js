@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import './Header.css';
 import Cookies from 'js-cookie';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../Images/favicon.ico';
 import Login from '../Login/Login';
@@ -21,7 +21,8 @@ import SignUp from '../Login/SignUp';
 import Search from './Search';
 import { cartUrl } from '../../Environment/URL';
 
-export default function Header() {
+export default function Header(props) {
+  const { home, accountPage } = props;
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
   const [cartCount, setCartCount] = useState(0);
@@ -83,6 +84,7 @@ export default function Header() {
   return (
     <div className="header">
       <nav className="nav-bar">
+        {!home && <ArrowBackIcon onClick={() => { navigate(-1); }} />}
         <Link to="/" className="logo-link-element">
           <div className="logo-heading">
             <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
@@ -98,18 +100,17 @@ export default function Header() {
               <div className="avatar-container">
                 <Avatar sx={{ color: 'blue', backgroundColor: 'white' }}>{email[0]}</Avatar>
                 <div className="profile-dropdown-container">
-                  <Button type="button" onClick={logOut}>
-                    <PowerSettingsNewIcon />
-                    Logout
-                  </Button>
                   <Button type="button" onClick={() => navigate('/profile?value=email')}>
                     Profile
+                  </Button>
+                  <Button type="button" onClick={logOut}>
+                    Logout
                   </Button>
                 </div>
               </div>
             )
               : (
-                <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} className="login-btn">Login</Button>)
+                <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} disabled={accountPage} className="login-btn">Login</Button>)
           }
           {
           isMobile

@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header />
+      <Header home />
       <Categories images />
       <ImageCarousel />
       <Cards mobileData={samsungMobiles} title="Samsung" />

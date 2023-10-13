@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react';
 import { TailSpin } from 'react-loader-spinner';
 import OrderCard from '../../Components/OrderCard';
+import { orderUrl } from '../../Environment/URL';
 import './index.css';
 
 function Orders() {
@@ -15,8 +16,8 @@ function Orders() {
   const imageNotFound = 'https://cdni.iconscout.com/illustration/premium/thumb/man-finding-nothing-in-order-4006350-3309936.png?f=webp';
 
   const GetOrders = async () => {
-    const url = 'https://localhost:7258/api/Order/BDB52F9F-92BE-44E3-BD23-61CD36B513BF';
-    const response = await fetch(url);
+    const customerId = localStorage.getItem('customerId');
+    const response = await fetch(`${orderUrl}/${customerId}`);
     if (response.ok) {
       const responseData = await response.json();
       setOrders(responseData);

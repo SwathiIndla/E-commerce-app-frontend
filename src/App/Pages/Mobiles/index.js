@@ -107,16 +107,16 @@ export default function Mobiles() {
           {/* <Box>
             <ImageCarousel />
           </Box> */}
-          {(samsungMobiles.length > 0 && appleMobiles.length > 0 && vivoMobiles.length > 0 && oppoMobiles.length > 0 && redmiMobiles.length > 0 && oneplusMobiles.length > 0) && (
-          <Brands
-            samsung={samsungMobiles}
-            oppo={oppoMobiles}
-            vivo={vivoMobiles}
-            oneplus={oneplusMobiles}
-            apple={appleMobiles}
-            redmi={redmiMobiles}
-          />
-          )}
+          {(samsungMobiles.length > 0 && appleMobiles.length > 0 && vivoMobiles.length > 0 && oppoMobiles.length > 0 && redmiMobiles.length > 0 && oneplusMobiles.length > 0) ? (
+            <Brands
+              samsung={samsungMobiles}
+              oppo={oppoMobiles}
+              vivo={vivoMobiles}
+              oneplus={oneplusMobiles}
+              apple={appleMobiles}
+              redmi={redmiMobiles}
+            />
+          ) : <Box height="40vh" textAlign="center" width="100%" padding="20%"><CircularProgress /></Box>}
           {/* {samsungMobiles.length > 0 && (
             samsungMobiles.map((data) => (
               <DetailedCards

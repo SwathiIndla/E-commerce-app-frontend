@@ -7,6 +7,7 @@ import React from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import { Link } from 'react-router-dom';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { mobileBrands } from '../../Data/data';
 import './index.css';
@@ -17,17 +18,19 @@ export default function ColoredCards(props) {
   return (
     <div className="colored-cards-container">
       <p className="cashback-text">Extra cashback $2000</p>
-      <div className="colored-cards-inner-container">
-        <div className="colored-cards-description">
-          <h5>{data.productItemName}</h5>
-          <p style={{ fontSize: '.75rem' }}>{`${specifications.Primary_Camera} Camera & ${specifications.Processor}`}</p>
-          <h3>{`₹${data.price}`}</h3>
-        </div>
-        <div className="colored-cards-image-container">
-          <img src={data.productItemImage.split(',')[0]} width="70px" height="100px" alt="sample" />
-        </div>
+      <Link to={`/product?id=${data.productItemId}`} className="colored-cardd-links">
+        <div className="colored-cards-inner-container">
+          <div className="colored-cards-description">
+            <h5>{data.productItemName}</h5>
+            <p style={{ fontSize: '.75rem' }}>{`${specifications.Primary_Camera} Camera & ${specifications.Processor}`}</p>
+            <h3>{`₹${data.price}`}</h3>
+          </div>
+          <div className="colored-cards-image-container">
+            <img src={data.productItemImage.split(',')[0]} width="70px" height="100px" alt="sample" />
+          </div>
 
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }
@@ -45,13 +48,15 @@ export function Brands(props) {
     <Box display="flex" flexDirection="column">
       <div className="brands-collective-container">
         { mobileBrands.map((item, index) => (
-          <div className="brand-container" key={index}>
-            <div className="brand-image-container">
-              <img src={item.logo} alt="logo" className="logo-img" />
+          <Link to={`/mobiles/filter?Brands=${item.brandId}`} className="colored-cardd-links" key={index}>
+            <div className="brand-container">
+              <div className="brand-image-container">
+                <img src={item.logo} alt="logo" className="logo-img" />
+              </div>
+              <h4 className="brands-text">Shop Now</h4>
+              <h3 className="brands-text mobile-page-link">{item.name}</h3>
             </div>
-            <h4 className="brands-text">Shop Now</h4>
-            <h3 className="brands-text mobile-page-link">{item.name}</h3>
-          </div>
+          </Link>
         ))}
       </div>
       <Box display="flex" flexDirection="column" padding="8px">

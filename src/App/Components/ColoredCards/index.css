@@ -50,6 +50,10 @@
     width: 120px;
     text-align: center;
   }
+  .colored-cardd-links{
+    text-decoration: unset;
+    color: unset;
+  }
   .brands-collective-container{
     column-gap: 8px;
     row-gap: 16px;

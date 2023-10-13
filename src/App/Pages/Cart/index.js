@@ -21,6 +21,7 @@ export default function Cart() {
   const [cartData, setCartData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [cartState, setCartState] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => async () => {
     setLoading(true);
@@ -48,7 +49,9 @@ export default function Cart() {
     setLoading(false);
   }, [cartState]);
 
-  const sum = cartData?.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
+  const toCheckOut = () => { navigate('/checkout'); };
+  // const sum = cartData?.reduce((accumulator,
+  // currentValue) => accumulator + currentValue.price, 0);
 
   return (
     <div className="cart-outer-container">
@@ -71,7 +74,7 @@ export default function Cart() {
             {/* <Typography variant="h5" sx={{ alignSelf: 'flex-end',
                marginRight: '20%', marginBottom: '1rem' }}>Total = ₹ {sum}</Typography> */}
             <div className="place-order-button-container">
-              <Button type="button" variant="contained" sx={{ width: '12rem', height: '3rem', backgroundColor: '#fb641b' }}>Place Order</Button>
+              <button type="button" className="place-order" onClick={toCheckOut}>Place Order</button>
             </div>
           </Box>
         )
@@ -103,17 +106,14 @@ export function EmptyCart() {
 
 export function CartItems(props) {
   const { data, setCartState } = props;
-  const navigate = useNavigate();
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const d = new Date();
   const day = weekdays[d.getDay() - 1];
 
-  const changeQuantity = async (e) => {
-    const { ariaLabel } = e.target;
-
+  const changeQuantity = async (mode) => {
     const cartItem = {
       cartProductItemId: data.cartProductItemId,
-      quantity: ariaLabel === 'increment' ? data.quantity + 1 : data.quantity - 1,
+      quantity: mode === 'increment' ? data.quantity + 1 : data.quantity - 1,
     };
     try {
       const options = {
@@ -131,6 +131,9 @@ export function CartItems(props) {
       console.log(err);
     }
   };
+
+  const increaseQuantity = () => { changeQuantity('increment'); };
+  const decreaseQuantity = () => { changeQuantity('decrement'); };
 
   const removeProduct = async () => {
     try {
@@ -170,12 +173,12 @@ export function CartItems(props) {
         </Box>
       </Box>
       <ButtonGroup sx={{ margin: '1rem 0' }}>
-        <IconButton onClick={changeQuantity} aria-label="decrement" disabled={data.quantity === 1}>
-          <RemoveIcon aria-label="decrement" className="icon-button" fontSize="2rem" />
+        <IconButton onClick={decreaseQuantity} disabled={data.quantity <= 1}>
+          <RemoveIcon className="icon-button" fontSize="2rem" />
         </IconButton>
         <span className="quantity">{data.quantity}</span>
-        <IconButton onClick={changeQuantity} aria-label="increment">
-          <AddIcon aria-label="increment" className="icon-button" fontSize="2rem" />
+        <IconButton onClick={increaseQuantity}>
+          <AddIcon className="icon-button" fontSize="2rem" />
         </IconButton>
         <Button type="button" variant="text" color="inherit" aria-label="remove" onClick={removeProduct}>Remove</Button>
       </ButtonGroup>

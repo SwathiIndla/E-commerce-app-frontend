@@ -17,4 +17,14 @@
     color: white;
     border: none;
     cursor: pointer;
+    margin-top: 10px;
+}
+.order-placed-image{
+    width: 30%;
+}
+
+@media (max-width: 768px) {
+    .coming-soon-image{
+        width: 100%;
+    }
 }

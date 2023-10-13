@@ -23,7 +23,7 @@ export default function Account() {
     jwtToken ? (<Navigate to="/" replace />)
       : (
         <div style={{ backgroundColor: 'ghostwhite' }}>
-          <Header />
+          <Header accountPage />
           <Categories images={false} />
           <Box height="80vh" width={isMobile ? '100vw' : '60vw'} margin="auto">
             {value && <Login redirectTo={redirectTo} />}

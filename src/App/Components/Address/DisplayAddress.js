@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useRef, useState, useEffect } from 'react';
 import {
@@ -13,7 +12,7 @@ export default function DisplayAddress(props) {
   const jwtToken = Cookies.get('jwtToken');
   const [show, setShow] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
-  const { data, setAddressState } = props;
+  const { data, setAddressState, profile } = props;
   const ref = useRef();
 
   const handleClick = () => {
@@ -58,10 +57,10 @@ export default function DisplayAddress(props) {
   };
 
   return (
-    <div>
+    <Box margin=".5rem">
       {editAddress ? (<AddressForm heading="Edit" mode="edit" setShowAddressForm={setEditAddress} data={{ ...data }} setAddressState={setAddressState} />)
         : (
-          <Box p={2} border="solid 1px gray">
+          <Box p={2} border={profile ? 'solid 1px gray' : 'none'}>
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
               <Typography
                 variant="subtitle1"
@@ -98,6 +97,6 @@ export default function DisplayAddress(props) {
             </Typography>
           </Box>
         )}
-    </div>
+    </Box>
   );
 }

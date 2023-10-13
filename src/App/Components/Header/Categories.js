@@ -41,7 +41,7 @@ export function Categories(props) {
           data.length > 0
             ? data.map((item, index) => (<CategoryCard item={item} key={index} images={images} />
             ))
-            : <Box height="20vh" textAlign="center" width="100vw"><CircularProgress /></Box>
+            : <Box height="10vh" textAlign="center" width="100vw"><CircularProgress /></Box>
           }
       </div>
     </div>

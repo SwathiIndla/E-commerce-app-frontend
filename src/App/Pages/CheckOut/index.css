@@ -39,3 +39,23 @@ p{
 .email{
 	font-size: 14px;
 }
+.icon-button{
+  border-radius: 50%;
+  border: 1px solid rgb(209, 206, 206);
+  padding: .25rem;
+  font-size: 2rem;
+}
+.quantity{
+  width: 2.5rem;
+  text-align: center;
+  border: 1px solid rgb(209, 206, 206);
+  align-self: center;
+  padding: .25rem;
+  cursor:default;
+}
+.checkout-button{
+	justify-content: space-between;
+	font-size: .9rem;
+	align-items: center;
+	padding: 1rem;
+}

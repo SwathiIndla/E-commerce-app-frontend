@@ -30,7 +30,7 @@ export default function FilteredMobiles() {
   const isMobile = useMediaQuery('(max-width:768px)');
   const [searchParams] = useSearchParams();
   const searchValue = searchParams.get('value');
-  const query = searchParams.get('query');
+  const query = searchParams.toString();
   const navigate = useNavigate();
   const location = useLocation();
   const isThisFilterPage = location.pathname.includes('filter');

@@ -39,16 +39,16 @@ export default function ProductPage() {
   const location = useLocation();
   const { specifications, sellers, productItemDescription } = data;
   const descriptions = productItemDescription?.split('_');
-
-  const handleChange = (e) => {
-    setHover(e.target.id);
-  };
-
+  const customerId = localStorage.getItem('customerId');
+  const jwtToken = Cookies.get('jwtToken');
   const style = {
     border: '1px solid blue',
     boxShadow: '0px 0px 3px blue',
   };
 
+  const handleChange = (e) => {
+    setHover(e.target.id);
+  };
   useEffect(() => async () => {
     try {
       const options = {
@@ -65,9 +65,6 @@ export default function ProductPage() {
   }, []);
 
   const checkProductInCart = async () => {
-    const jwtToken = Cookies.get('jwtToken');
-    const customerId = localStorage.getItem('customerId');
-
     if (jwtToken && Object.keys(data).length > 0) {
       try {
         const options = {
@@ -88,14 +85,10 @@ export default function ProductPage() {
     }
   };
 
-  useEffect(() => {
-    setTimeout(checkProductInCart, 500);
-  }, [data]);
+  useEffect(() => { setTimeout(checkProductInCart, 500); }, [data]);
 
   const addToCart = async () => {
     setLoading(true);
-    const customerId = localStorage.getItem('customerId');
-    const jwtToken = Cookies.get('jwtToken');
 
     if (jwtToken) {
       const cartItem = {
@@ -124,6 +117,15 @@ export default function ProductPage() {
     }
     setLoading(false);
     checkProductInCart();
+  };
+
+  const handleBuyNow = async () => {
+    if (jwtToken) {
+      if (!isProductInCart) await addToCart();
+      navigate(`/checkout?buynow=${data.productItemId}`);
+    } else {
+      navigate(`/account/login?value=true&redirectTo=${location.pathname}${location.search}`);
+    }
   };
 
   return (
@@ -162,7 +164,7 @@ export default function ProductPage() {
                       )
 
                   }
-                  <button type="button" className="buy-button"><FlashOnIcon fontSize="inherit" /> BUY NOW</button>
+                  <button type="button" className="buy-button" onClick={handleBuyNow} disabled={isProductInCart}><FlashOnIcon fontSize="inherit" /> BUY NOW</button>
                 </Box>
               </Box>
               <Box m={1} flexGrow={1}>
@@ -174,10 +176,10 @@ export default function ProductPage() {
                   </div>
                   <div className="mobile-price-tag">
                     <Typography variant="h5" component="h5">{`₹ ${data.price}`}</Typography>
-                    <Typography variant="subtitle1" className="deals">
+                    {/* <Typography variant="subtitle1" className="deals">
                       <span style={{ color: 'gray', textDecoration: 'line-through' }}>{`₹ ${data.price - 3000}`}</span>
                       {''} 3% discount
-                    </Typography>
+                    </Typography> */}
                     <Typography>Delivery within 3 days of order</Typography>
                     <Box display="flex" flexDirection="row" gap="4px">
                       <LocalOfferIcon color="success" fontSize="3" />

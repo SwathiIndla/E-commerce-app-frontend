@@ -106,6 +106,10 @@
   background:rgb(78, 108, 241);
   color: ghostwhite; 
 }
+.login-btn.MuiButton-root:disabled{
+  background-color: gray;
+  color: #fff;
+}
 .logo-heading,.nav-tools{
   display: flex;
   gap: 20px;

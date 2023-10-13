@@ -5,7 +5,7 @@ import './App.css';
 import Cookies from 'js-cookie';
 import AuthenticatedRoutes from './Components/AuthenticatedRoutes';
 import NoResultsFound from './Components/NoResultsFound';
-import NewFeature from './Pages/NewFeature';
+import NewFeature, { OrderPlaced } from './Pages/NewFeature';
 // import Cart from './Pages/Cart';
 // import Profile from './Pages/Profile';
 
@@ -19,7 +19,6 @@ const Account = lazy(() => import('./Pages/Account'));
 const Compare = lazy(() => import('./Pages/Compare'));
 const CheckOut = lazy(() => import('./Pages/CheckOut'));
 const FilteredMobiles = lazy(() => import('./Pages/Mobiles/FilteredMobiles'));
-const { Brands } = lazy(() => import('./Components/ColoredCards'));
 
 function App() {
   return (
@@ -34,7 +33,14 @@ function App() {
         <Route path="/product" element={<ProductPage />} />
         <Route path="/account/login" element={<Account />} />
         <Route path="/compare" element={<Compare />} />
-        <Route path="/checkout" element={<CheckOut />} />
+        <Route
+          path="/checkout"
+          element={(
+            <AuthenticatedRoutes>
+              <CheckOut />
+            </AuthenticatedRoutes>
+              )}
+        />
         <Route
           path="/profile"
           element={(
@@ -51,6 +57,7 @@ function App() {
             </AuthenticatedRoutes>
             )}
         />
+        <Route path="/orderplaced" element={<OrderPlaced />} />
         <Route path="*" element={<NewFeature />} />
       </Routes>
     </Suspense>
