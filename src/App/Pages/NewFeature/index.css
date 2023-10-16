@@ -22,9 +22,22 @@
 .order-placed-image{
     width: 30%;
 }
+.order-placed-button-container{
+    display: flex;
+    gap: 1rem;
+}
 
 @media (max-width: 768px) {
     .coming-soon-image{
         width: 100%;
+    }
+    .order-placed-image{
+        width: 100%;
+    }
+}
+
+@media (max-width: 568px) {
+    .order-placed-button-container{
+        flex-direction: column;
     }
 }

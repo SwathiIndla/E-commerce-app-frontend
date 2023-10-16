@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box } from '@mui/material';
 import orderplaced from '../../Images/orderplace.webp';
 import './index.css';
 
@@ -33,10 +32,10 @@ export function OrderPlaced() {
   return (
     <div className="new-feature-container">
       <img src={orderplaced} alt="coming soon" className="order-placed-image" />
-      <Box display="flex" gap={1}>
+      <div className="order-placed-button-container">
         <button type="button" className="orange-button" onClick={ToHome}>Go To Home</button>
         <button type="button" className="orange-button" onClick={ToOrder}>Go To Order Page</button>
-      </Box>
+      </div>
     </div>
   );
 }

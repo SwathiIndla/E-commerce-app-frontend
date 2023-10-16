@@ -26,7 +26,7 @@ export default function CheckOut() {
   const [searchParams] = useSearchParams();
   const buyNowId = searchParams.get('buynow');
   const navigate = useNavigate();
-  console.log(deliveryAddress);
+
   useEffect(() => async () => {
     if (jwtToken) {
       try {

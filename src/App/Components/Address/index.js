@@ -93,7 +93,7 @@ export default function Address(props) {
 
       {profile && availableAddresses.length > 0
       && (availableAddresses.map((data) => (
-        <DisplayAddress data={data} setAddressState={setAddressState} profile />))) }
+        <DisplayAddress data={data} setAddressState={setAddressState} profile key={data.addressId} />))) }
 
       {!profile && availableAddresses.length > 0
       && (
@@ -107,6 +107,7 @@ export default function Address(props) {
             <FormControlLabel
               value={data.addressId}
               control={<Radio />}
+              key={data.addressId}
               label={(
                 <>
                   <DisplayAddress data={data} setAddressState={setAddressState} />
