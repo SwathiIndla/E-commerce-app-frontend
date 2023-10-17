@@ -43,10 +43,12 @@
 }
 .item-title{
   margin: unset;
+  display: flex;
+  align-items: center;
 }
 .dropdown-arrow-icon{
   position: relative;
-  top: 5px;
+  top: 2px;
 }
 .logo-link-element{
   color: inherit;
