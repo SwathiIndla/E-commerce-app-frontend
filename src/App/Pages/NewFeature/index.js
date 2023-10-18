@@ -14,7 +14,7 @@ function NewFeature() {
   return (
     <div className="new-feature-container">
       <img src={comingSoonUrl} alt="coming soon" className="coming-soon-image" />
-      <button type="button" className="go-back-button" onClick={GoBack}>Go Back</button>
+      <button type="button" className="go-back-button" onClick={GoBack}>Continue Shopping</button>
     </div>
   );
 }
