@@ -341,7 +341,7 @@ function ProductRatingsAndReviews(props) {
               {' '}
               of
               {' '}
-              {Math.ceil(reviewSummary.totalReviews / 10)}
+              {Math.ceil(reviewSummary.totalReviews / 10) || 1 }
             </span>
             <button onClick={NextReviewsPage} disabled={reviewPage >= Math.ceil(reviewSummary.totalReviews / 10)} className="pagination-buttons box-shadow-class"><AiOutlineRight /></button>
           </div>

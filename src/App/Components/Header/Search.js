@@ -13,6 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { searchUrl } from '../../Environment/URL';
 
 function Search() {
+  const [open, setOpen] = useState(true);
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
@@ -20,11 +21,14 @@ function Search() {
   const navigateSearch = (e) => {
     const { type, key } = e;
     if (inputValue !== '' && (type === 'click' || (type === 'keydown' && key === 'Enter'))) {
+      e.target.blur();
+      setOpen(false);
       navigate(`/search?value=${inputValue}`);
     }
   };
 
   const handleChange = (e) => {
+    setOpen(true);
     const { value } = e.target;
     setInputValue(value);
     if (value === '') {
@@ -66,7 +70,7 @@ function Search() {
           background: 'whitesmoke', color: 'white', position: 'relative',
         }}
       />
-      {suggestions.length > 0 && (
+      {open && suggestions.length > 0 && (
       <Box
         alignItems="center"
         sx={{
@@ -79,8 +83,8 @@ function Search() {
         }}
       >
         {suggestions.map((suggestion) => (
-          <Link to={`/product?id=${suggestion.productItemId}`} className="search-link" key={suggestion.productItemId}>
-            <Typography variant="body2" sx={{ borderBottom: '1px solid gray', padding: '.5rem' }}>
+          <Link to={`/product?id=${suggestion.productItemId}`} className="search-link" key={suggestion.productItemId} onClick={() => setOpen(false)}>
+            <Typography variant="body2" sx={{ padding: '.5rem' }}>
               {suggestion.productItemName}
             </Typography>
           </Link>

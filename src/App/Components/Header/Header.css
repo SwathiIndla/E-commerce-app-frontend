@@ -117,7 +117,12 @@
   gap: 20px;
   align-items: center;
   width: 100%;
+}
+.logo-heading{
   justify-content: center;
+}
+.nav-tools{
+  justify-content: flex-end;
 }
 .avatar-container{
   position: relative;

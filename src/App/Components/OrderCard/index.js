@@ -147,7 +147,7 @@ function OrderCard(props) {
           </div>
           <div className="shipping-address">
             <span style={{ fontWeight: '500' }}>Delivery Address</span>
-            <p className="shipping-header-paragraph">{shippingAddress.split('\n')[1]}</p>
+            <p className="shipping-header-paragraph">{shippingAddress.split('\n').slice(1).join(',')}</p>
           </div>
         </div>
       </div>

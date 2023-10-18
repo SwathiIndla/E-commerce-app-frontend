@@ -24,13 +24,13 @@ export default function ImageCarousel() {
     <div className="carousel-container carousel">
       <Slider {...settings}>
         <div>
-          <img src="https://images.unsplash.com/photo-1542228227152-511d6b6bbe1c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTU4fHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image1" style={{ minHeight: '150px' }} />
+          <img src="https://rukminim1.flixcart.com/fk-p-flap/1600/270/image/ca91bc801722969e.jpg?auto=format&fit=crop&h=300&w=1600&q=60" alt="image1" style={{ minHeight: '150px' }} />
         </div>
         <div>
-          <img src="https://images.unsplash.com/photo-1565274265853-9d1f55d9cb7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTcwfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image2" style={{ minHeight: '150px' }} />
+          <img src="https://rukminim2.flixcart.com/fk-p-flap/844/140/image/4abe35ff7e0ceb05.jpg?auto=format&fit=crop&h=300&w=1600&q=60" alt="image2" style={{ minHeight: '150px' }} />
         </div>
         <div>
-          <img src="https://images.unsplash.com/photo-1534272521029-e035b59b146e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjAxfHxmcmVlJTIwaW1hZ2VzfGVufDB8fDB8fHww&auto=format&fit=crop&h=300&w=1600&q=60" alt="image3" style={{ minHeight: '150px' }} />
+          <img src="https://rukminim2.flixcart.com/fk-p-flap/844/140/image/8a33f6ded30bb8e8.jpg?auto=format&fit=crop&h=300&w=1600&q=60" alt="image3" style={{ minHeight: '150px' }} />
         </div>
       </Slider>
     </div>

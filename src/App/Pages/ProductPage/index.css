@@ -27,9 +27,16 @@
 }
 .color-list>li{
   margin-right: 1rem;
-  border: 2px dotted darkgrey;
   padding: .25rem .5rem;
-  color: rgb(65, 64, 64);
+  cursor: pointer;
+}
+.not-selected{
+  border: 2px solid darkgrey;
+  color: black;
+}
+.selected{
+  border: 2px solid #2874f0;
+  color: #2874f0;
 }
 .rating{
   display: flex;

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
 /* eslint-disable react/no-array-index-key */
@@ -34,6 +35,7 @@ export default function ProductPage() {
   const [isProductInCart, setIsProductInCart] = useState(false);
   const isMobile = useMediaQuery('(max-width:850px)');
   const [searchParams] = useSearchParams();
+  const [variants, setVariants] = useState({});
   const id = searchParams.get('id');
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,20 +51,24 @@ export default function ProductPage() {
   const handleChange = (e) => {
     setHover(e.target.id);
   };
-  useEffect(() => async () => {
+
+  const getData = async () => {
     try {
       const options = {
         method: 'GET',
       };
-
       const response = await fetch(`${getProductUrl}${id}`, options);
       const responseJson = await response.json();
-      setData(responseJson.productItemDetails);
-      setImgData(responseJson.productItemDetails.productItemImage.split(','));
+      const { productItemDetails, availableVariantOptions } = responseJson;
+      setData({ ...productItemDetails });
+      setImgData(productItemDetails.productItemImage.split(','));
+      setVariants(availableVariantOptions);
     } catch (err) {
       console.log(err);
     }
-  }, []);
+  };
+
+  useEffect(() => { getData(); }, [id]);
 
   const checkProductInCart = async () => {
     if (jwtToken && Object.keys(data).length > 0) {
@@ -128,6 +134,21 @@ export default function ProductPage() {
     }
   };
 
+  const navigateVariant = async (e) => {
+    const { ariaLabel, innerText } = e.target;
+    try {
+      const options = {
+        method: 'GET',
+      };
+
+      const response = await fetch(`https://localhost:7258/api/Product/variant/${data.productId}?${ariaLabel}=${innerText}`, options);
+      const responseJson = await response.json();
+      navigate(`/product?id=${responseJson.variants[0].productItemId}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Box sx={{ overflow: 'auto' }} height="100vh" bgcolor="#f1f3f6">
       <Header />
@@ -176,10 +197,6 @@ export default function ProductPage() {
                   </div>
                   <div className="mobile-price-tag">
                     <Typography variant="h5" component="h5">{`₹ ${data.price}`}</Typography>
-                    {/* <Typography variant="subtitle1" className="deals">
-                      <span style={{ color: 'gray', textDecoration: 'line-through' }}>{`₹ ${data.price - 3000}`}</span>
-                      {''} 3% discount
-                    </Typography> */}
                     <Typography>Delivery within 3 days of order</Typography>
                     <Box display="flex" flexDirection="row" gap="4px">
                       <LocalOfferIcon color="success" fontSize="3" />
@@ -201,9 +218,7 @@ export default function ProductPage() {
                       <Box><Typography fontWeight="500" fontSize="inherit">Color</Typography></Box>
                       <Box>
                         <ul className="color-list">
-                          <li>white</li>
-                          <li>black</li>
-                          <li>blue</li>
+                          {variants.Colour.map((color) => <li className={color === specifications.Colour ? 'selected' : 'not-selected'} aria-label="Colour" onClick={navigateVariant} key={color}>{color}</li>)}
                         </ul>
                       </Box>
                     </Box>
@@ -211,9 +226,7 @@ export default function ProductPage() {
                       <Box><Typography fontWeight="500" fontSize="inherit">RAM</Typography></Box>
                       <Box>
                         <ul className="color-list">
-                          <li>6gb</li>
-                          <li>8gb</li>
-                          <li>12gb</li>
+                          {variants.RAM.map((ram) => <li className={ram === specifications.RAM ? 'selected' : 'not-selected'} aria-label="RAM" onClick={navigateVariant} key={ram}>{ram}</li>)}
                         </ul>
                       </Box>
                     </Box>
@@ -221,9 +234,7 @@ export default function ProductPage() {
                       <Box><Typography fontWeight="500" fontSize="inherit">Storage</Typography></Box>
                       <Box>
                         <ul className="color-list">
-                          <li>64gb</li>
-                          <li>128gb</li>
-                          <li>256gb</li>
+                          {variants.Storage.map((storage) => <li className={storage === specifications.Storage ? 'selected' : 'not-selected'} aria-label="Storage" onClick={navigateVariant} key={storage}>{storage}</li>)}
                         </ul>
                       </Box>
                     </Box>
@@ -239,6 +250,10 @@ export default function ProductPage() {
                         <li>{specifications.Processor}</li>
                       </ul>
                     </Box>
+                  </Box>
+                  <Box marginTop={1} marginBottom={1} display="grid" gridTemplateColumns="30% 70%" fontSize="14px">
+                    <Box><Typography fontWeight="500" fontSize="inherit">Available Sellers</Typography></Box>
+                    <Box><label htmlFor="seller"><input type="radio" id="seller" defaultChecked /> {sellers[0].sellerName}</label></Box>
                   </Box>
                   <Box marginTop={1} display="grid" rowGap={2} fontSize="14px">
                     {

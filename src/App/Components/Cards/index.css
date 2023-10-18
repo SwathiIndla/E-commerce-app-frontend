@@ -62,9 +62,11 @@
   height: 200px;
   width: 200px;
 }
-.card-img{
-  height: 100%;
-  width: 100%;
+.carousel img.card-img{
+  width: unset;
+  max-height: 100%;
+  max-width: 100%;
+  margin: auto;
 }
 .card-img-container:hover>.card-img-inner{
   height: 210px;

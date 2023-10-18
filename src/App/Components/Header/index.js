@@ -22,7 +22,7 @@ import Search from './Search';
 import { cartUrl } from '../../Environment/URL';
 
 export default function Header(props) {
-  const { home, accountPage } = props;
+  const { homePage, accountPage } = props;
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
   const [cartCount, setCartCount] = useState(0);
@@ -84,7 +84,7 @@ export default function Header(props) {
   return (
     <div className="header">
       <nav className="nav-bar">
-        {!home && <ArrowBackIcon onClick={() => { navigate(-1); }} />}
+        {!homePage && <ArrowBackIcon onClick={() => { navigate(-1); }} />}
         <Link to="/" className="logo-link-element">
           <div className="logo-heading">
             <img src={logo} alt="logo" width={isMobile ? '40px' : '60px'} height={isMobile ? '30px' : '40px'} style={{ background: 'white' }} />
