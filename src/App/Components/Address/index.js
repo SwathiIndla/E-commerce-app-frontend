@@ -13,7 +13,7 @@ import DisplayAddress from './DisplayAddress';
 import { addressUrl } from '../../Environment/URL';
 
 export default function Address(props) {
-  const { profile, setDeliveryAddress, setSelected } = props;
+  const { profilePage, setDeliveryAddress, setSelected } = props;
   const jwtToken = Cookies.get('jwtToken');
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [availableAddresses, setAvailableAddesses] = useState([]);
@@ -75,7 +75,7 @@ export default function Address(props) {
 
   return (
     <Box display="flex" flexDirection="column" gap="1rem">
-      {profile && <Typography variant="h5">Address</Typography>}
+      {profilePage && <Typography variant="h5">Address</Typography>}
       {showAddressForm
         ? <AddressForm setShowAddressForm={setShowAddressForm} heading="Add New" mode="new" setAddressState={setAddressState} />
         : (
@@ -83,6 +83,7 @@ export default function Address(props) {
             type="button"
             variant="outlined"
             startIcon={<AddIcon />}
+            sx={{ width: '50%' }}
             onClick={() => setShowAddressForm(true)}
           >
             Add new address
@@ -91,11 +92,11 @@ export default function Address(props) {
       {/* {availableAddresses.length > 0 ? (<DisplayAddress data={availableAddresses[0]}
          setAddressState={setAddressState} />) : ''} */}
 
-      {profile && availableAddresses.length > 0
+      {profilePage && availableAddresses.length > 0
       && (availableAddresses.map((data) => (
-        <DisplayAddress data={data} setAddressState={setAddressState} profile key={data.addressId} />))) }
+        <DisplayAddress data={data} setAddressState={setAddressState} profilePage key={data.addressId} />))) }
 
-      {!profile && availableAddresses.length > 0
+      {!profilePage && availableAddresses.length > 0
       && (
       <FormControl>
         <RadioGroup

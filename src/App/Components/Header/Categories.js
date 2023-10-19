@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -62,48 +63,62 @@ export function CategoryCard(props) {
   };
 
   return (
-    <Link to={`/${(item.categoryName).toLowerCase()}?cid=${item.categoryId}`} className="category-links">
-      <div
-        className="category-card-category-container"
-        onMouseEnter={handleOPen}
-        onMouseLeave={handleClose}
-        style={{ width: 'fit-content' }}
-      >
-        <div className="category-card">
-          {images && <img src={item.img} alt={item.categoryName} loading="lazy" />}
-          <h5 className="item-title">
+    <div
+      className="category-card-category-container"
+      onMouseEnter={handleOPen}
+      onMouseLeave={handleClose}
+      style={{ width: 'fit-content' }}
+    >
+      <div className="category-card">
+        <Link to={`/${(item.categoryName).toLowerCase()}?cid=${item.categoryId}`} className="category-links">
+          {images && <img src={item.img} className="category-img" alt={item.categoryName} loading="lazy" />}
+        </Link>
+        {item.childCategories.length > 0 ? (
+          <h5 className="item-title" onClick={() => setOpenMenu((prev) => !prev)}>
             {item.categoryName}
             <span>
-              {item.childCategories.length > 0 && (
-              <>
-                {!openMenu && <KeyboardArrowDownIcon className="dropdown-arrow-icon" fontSize="small" />}
-                {openMenu && <KeyboardArrowUpIcon className="dropdown-arrow-icon" fontSize="small" />}
-              </>
-              )}
+              {!openMenu && <KeyboardArrowDownIcon className="dropdown-arrow-icon" fontSize="small" />}
+              {openMenu && <KeyboardArrowUpIcon className="dropdown-arrow-icon" fontSize="small" />}
             </span>
           </h5>
-        </div>
-        {item.childCategories.length > 0 && !isMobile && openMenu
+        )
+          : (
+            <Link to={`/${(item.categoryName).toLowerCase()}?cid=${item.categoryId}`} className="category-links">
+              <h5 className="item-title">
+                {item.categoryName}
+              </h5>
+            </Link>
+          )}
+      </div>
+      {item.childCategories.length > 0 && openMenu
           && (
           <div className="dropdown">
             <ul className="dropdown-menu" onMouseEnter={handleOPen}>
               {item.childCategories.map((ele, index) => (
-                <li className="dropdown-item" onClick={handleClose} id={ele.categoryId} key={index}>
-                  {ele.categoryName.replace(/_/g, ' ')}
-                  {
-                    ele.childCategories.length > 0 && (
-                      <ul className="inner-menu">
-                        {ele.childCategories.map((childcategory) => (<li>{childcategory.categoryName}</li>))}
-                      </ul>
-                    )
-                  }
-                </li>
+                ele.childCategories.length > 0 ? (
+                  <li className="dropdown-item" onClick={handleClose} id={ele.categoryId} key={index}>
+                    {ele.categoryName.replace(/_/g, ' ')}
+                    <ul className="inner-menu">
+                      {ele.childCategories.map((childcategory) => (
+                        <Link to={`/${(childcategory.categoryName).toLowerCase()}?cid=${item.categoryId}`} className="category-links">
+                          <li>{childcategory.categoryName}</li>
+                        </Link>
+                      ))}
+                    </ul>
+                  </li>
+                )
+                  : (
+                    <Link to={`/${(ele.categoryName.replace(/_/g, ' ')).toLowerCase()}?cid=${item.categoryId}`} key={index} className="category-links">
+                      <li className="dropdown-item" onClick={handleClose} id={ele.categoryId}>
+                        {ele.categoryName.replace(/_/g, ' ')}
+                      </li>
+                    </Link>
+                  )
               ))}
             </ul>
           </div>
           )}
 
-      </div>
-    </Link>
+    </div>
   );
 }

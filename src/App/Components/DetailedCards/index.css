@@ -75,9 +75,10 @@
 }
 .mobile-specification-details.MuiTypography-root{
   margin: .5rem;
-  padding: .5rem;
-  background-color: darkgrey;
-  color: whitesmoke;
+  padding: .25rem;
+  color: #2a55ef;
+  border: 1px solid #2a55ef;
+  font-weight: 500;
 }
 .detailed-card-link{
   color: unset;
@@ -94,7 +95,12 @@
 
 @media (max-width:768px) {
   .mobile-img-container{
+    height: unset;
+    width: unset;
+    flex-shrink: 0;
+  }  
+  .mobile-img{
     height: 8rem;
     width: 8rem;
-  }  
+  }
 }

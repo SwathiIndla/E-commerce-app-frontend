@@ -6,6 +6,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { BsFillStarFill } from 'react-icons/bs';
 import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai';
 import ReviewCard from '../ReviewCard';
@@ -16,6 +17,7 @@ import './index.css';
 
 function ProductRatingsAndReviews(props) {
   const customerId = localStorage.getItem('customerId');
+  const jwtToken = Cookies.get('jwtToken');
   const { productId } = props;
   const [reviewSummary, setReviewSummary] = useState({});
   const [reviewPage, setReviewPage] = useState(1);
@@ -39,8 +41,16 @@ function ProductRatingsAndReviews(props) {
 
   const GetReviews = async () => {
     try {
+      const options = {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      };
       const reviewFetchUrl = `https://localhost:7258/api/Review/all/${productId}?sortOnRatingAsc=${sortingOnRatingAsc}&page=${reviewPage}`;
-      const response = await fetch(reviewFetchUrl);
+      const response = await fetch(reviewFetchUrl, options);
       if (response.ok) {
         const responseData = await response.json();
         setReviewSummary(responseData);
@@ -57,14 +67,22 @@ function ProductRatingsAndReviews(props) {
     if (customerId) {
       setRateProductClicked(true);
       try {
+        const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            accept: 'application/json',
+            Authorization: `Bearer ${jwtToken}`,
+          },
+        };
         const isProductReviewableUrl = `https://localhost:7258/api/Review/IsProductReviewable/${customerId}/${productId}`;
-        const response = await fetch(isProductReviewableUrl);
+        const response = await fetch(isProductReviewableUrl, options);
         if (response.ok) {
           setReviewable(true);
           setreviewableFetchStatus('success');
           const fetchReviewUrl = `https://localhost:7258/api/Review/IsReviewPresent/${customerId}/${productId}`;
           try {
-            const reviewResponse = await fetch(fetchReviewUrl);
+            const reviewResponse = await fetch(fetchReviewUrl, options);
             if (reviewResponse.ok) {
               setReviewDataFetchStatus('success');
               const reviewData = await reviewResponse.json();
@@ -89,7 +107,7 @@ function ProductRatingsAndReviews(props) {
         setreviewableFetchStatus('failure');
       }
     } else {
-      navigate(`/account/login?value=true&redirectTo=${location.pathname}`);
+      navigate(`/account/login?value=true&redirectTo=${location.pathname}${location.search}`);
     }
   };
 
@@ -139,6 +157,8 @@ function ProductRatingsAndReviews(props) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          accept: 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(addReviewObject),
       };
@@ -166,6 +186,7 @@ function ProductRatingsAndReviews(props) {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
         },
         body: JSON.stringify(editReviewObject),
       };

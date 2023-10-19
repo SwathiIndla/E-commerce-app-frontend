@@ -64,6 +64,8 @@
 .shipping-header-paragraph {
     margin-top: 2px;
     margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .inner-modal-container{
     display: flex;

@@ -185,7 +185,7 @@ export default function ProductPage() {
                       )
 
                   }
-                  <button type="button" className="buy-button" onClick={handleBuyNow} disabled={isProductInCart}><FlashOnIcon fontSize="inherit" /> BUY NOW</button>
+                  <button type="button" className="buy-button" onClick={handleBuyNow}><FlashOnIcon fontSize="inherit" /> BUY NOW</button>
                 </Box>
               </Box>
               <Box m={1} flexGrow={1}>
@@ -218,7 +218,7 @@ export default function ProductPage() {
                       <Box><Typography fontWeight="500" fontSize="inherit">Color</Typography></Box>
                       <Box>
                         <ul className="color-list">
-                          {variants.Colour.map((color) => <li className={color === specifications.Colour ? 'selected' : 'not-selected'} aria-label="Colour" onClick={navigateVariant} key={color}>{color}</li>)}
+                          {variants.Colour.map((color) => <li className={color === specifications.Colour ? 'selected-specs' : 'not-selected-specs'} aria-label="Colour" onClick={navigateVariant} key={color}>{color}</li>)}
                         </ul>
                       </Box>
                     </Box>
@@ -226,7 +226,7 @@ export default function ProductPage() {
                       <Box><Typography fontWeight="500" fontSize="inherit">RAM</Typography></Box>
                       <Box>
                         <ul className="color-list">
-                          {variants.RAM.map((ram) => <li className={ram === specifications.RAM ? 'selected' : 'not-selected'} aria-label="RAM" onClick={navigateVariant} key={ram}>{ram}</li>)}
+                          {variants.RAM.map((ram) => <li className={ram === specifications.RAM ? 'selected-specs' : 'not-selected-specs'} aria-label="RAM" onClick={navigateVariant} key={ram}>{ram}</li>)}
                         </ul>
                       </Box>
                     </Box>
@@ -234,7 +234,7 @@ export default function ProductPage() {
                       <Box><Typography fontWeight="500" fontSize="inherit">Storage</Typography></Box>
                       <Box>
                         <ul className="color-list">
-                          {variants.Storage.map((storage) => <li className={storage === specifications.Storage ? 'selected' : 'not-selected'} aria-label="Storage" onClick={navigateVariant} key={storage}>{storage}</li>)}
+                          {variants.Storage.map((storage) => <li className={storage === specifications.Storage ? 'selected-specs' : 'not-selected-specs'} aria-label="Storage" onClick={navigateVariant} key={storage}>{storage}</li>)}
                         </ul>
                       </Box>
                     </Box>

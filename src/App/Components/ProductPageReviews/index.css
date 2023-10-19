@@ -142,7 +142,8 @@
     background-color: orangered;
 }
 .reviews-summary{
-    display: flex;
+    display: grid;
+    grid-template-columns: 30% 10% 60%;
     justify-content: center;
 }
 .average-product-rating{

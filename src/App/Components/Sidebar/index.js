@@ -48,7 +48,8 @@ export default function SideBar(props) {
     localStorage.setItem('filters', JSON.stringify(filters));
     localStorage.setItem('price', JSON.stringify(price));
     const filterQuery = filters?.join('&');
-    const priceQuery = `&${price.MinPrice.length !== 0 ? price.MinPrice : ''}&${price.MaxPrice.lenght !== 0 ? price.MaxPrice : ''}`;
+    const priceQuery = `&${price.MinPrice.length !== 0 ? price.MinPrice : ''}&${price.MaxPrice.length !== 0 ? price.MaxPrice : ''}`;
+    if (isMobile) setToggled((prev) => !prev);
     navigate(`/mobiles/filter?${filterQuery}${priceQuery.length > 2 ? priceQuery : ''}`);
   };
 

@@ -9,8 +9,6 @@
     width: 40%;
 }
 .go-back-button{
-    width: 90px;
-    height: 35px;
     font-size: 16px;
     font-weight: 500;
     background-color: rgb(42, 42, 252);
@@ -18,6 +16,7 @@
     border: none;
     cursor: pointer;
     margin-top: 10px;
+    padding: 1em;
 }
 .order-placed-image{
     width: 30%;

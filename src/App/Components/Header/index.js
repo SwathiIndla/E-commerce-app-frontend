@@ -110,8 +110,8 @@ export default function Header(props) {
               </div>
             )
               : (
-                <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} disabled={accountPage} className="login-btn">Login</Button>)
-          }
+                !accountPage && <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} className="login-btn">Login</Button>)
+               }
           {
           isMobile
             ? (

@@ -58,7 +58,7 @@ export default function Cart() {
       <Header />
       {
         cartData.length > 0 ? (
-          <Box className="cart-container" sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Box className="cart-container">
             <Box sx={{ marginBottom: '.5rem', padding: '.5rem' }}>
               <Typography variant="h5" textAlign="center" fontSize="2rem" className="cart-heading">CART</Typography>
             </Box>

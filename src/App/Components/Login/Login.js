@@ -58,9 +58,9 @@ export default function Login(props) {
       const { jwtToken, customerId, customerEmail } = responseJson;
       localStorage.setItem('customerId', customerId);
       localStorage.setItem('customerEmail', customerEmail);
-      Cookies.set('jwtToken', jwtToken, { expires: 90 });
+      Cookies.set('jwtToken', jwtToken, { expires: 30 });
       if (modal) handleClose();
-      navigate(redirectLink);
+      else navigate(redirectLink);
     } else {
       setError(true);
       actions.setSubmitting(false);

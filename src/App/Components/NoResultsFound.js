@@ -27,7 +27,10 @@ export function RestrictedAccess(props) {
       <img src={NoResultsImage} alt="no-results" />
       <h3>Authentication Required</h3>
       <p>Login to access this page</p>
-      <Button variant="contained" onClick={navigateToLogin} fullWidth>Login</Button>
+      <Box display="flex" gap="2%" justifyContent="center" width="100%">
+        <Button variant="contained" onClick={navigateToLogin}>Login</Button>
+        <Button variant="contained" onClick={() => navigate(-1)}>Go Back</Button>
+      </Box>
     </Box>
   );
 }

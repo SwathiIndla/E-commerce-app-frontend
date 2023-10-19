@@ -74,7 +74,7 @@ export default function AddressForm(props) {
       <Typography variant="h5" sx={{ color: '#519fec' }} marginBottom={2}>{`${heading} Address`}</Typography>
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={Object.keys(props).length > 4 ? props.data : initialValues}
+        initialValues={mode === 'new' ? initialValues : props.data}
         validationSchema={userSchema}
       >
         {({

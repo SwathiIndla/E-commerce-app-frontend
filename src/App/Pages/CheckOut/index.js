@@ -16,11 +16,12 @@ import Address from '../../Components/Address';
 import { cartUrl, orderUrl } from '../../Environment/URL';
 import './index.css';
 
+const jwtToken = Cookies.get('jwtToken');
+
 export default function CheckOut() {
   const [checkoutData, setCheckoutData] = useState([]);
   const email = localStorage.getItem('customerEmail');
   const customerId = localStorage.getItem('customerId');
-  const jwtToken = Cookies.get('jwtToken');
   const [selected, setSelected] = useState(2);
   const [deliveryAddress, setDeliveryAddress] = useState();
   const [searchParams] = useSearchParams();
@@ -83,7 +84,7 @@ export default function CheckOut() {
     }
   };
 
-  const sum = checkoutData?.reduce((accumulator, currentValue) => accumulator + currentValue.price, 0);
+  const sum = checkoutData?.reduce((accumulator, currentValue) => accumulator + currentValue.price * currentValue.quantity, 0);
 
   return (
     <div className="checkout-page">
@@ -175,8 +176,29 @@ function CheckOutItem(props) {
       })));
   };
 
-  const increaseQuantity = () => { changeQuantity('increment'); };
-  const decreaseQuantity = () => { changeQuantity('decrement'); };
+  const changeCartQuantity = async (mode) => {
+    const cartItem = {
+      cartProductItemId: data.cartProductItemId,
+      quantity: mode === 'increment' ? data.quantity + 1 : data.quantity - 1,
+    };
+    try {
+      const options = {
+        method: 'PUT',
+        body: JSON.stringify(cartItem),
+        headers: {
+          'Content-Type': 'application/json',
+          accept: 'application/json',
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      };
+      const response = await fetch(cartUrl, options);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const increaseQuantity = () => { changeQuantity('increment'); changeCartQuantity('increment'); };
+  const decreaseQuantity = () => { changeQuantity('decrement'); changeCartQuantity('decrement'); };
 
   const removeProduct = () => {
     setCheckoutData((prev) => prev.filter((element) => element.productItemId !== data.productItemId));

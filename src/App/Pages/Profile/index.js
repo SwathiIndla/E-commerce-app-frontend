@@ -5,7 +5,7 @@
 import React from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { TextField, Typography } from '@mui/material';
+import { TextField, Typography, useMediaQuery } from '@mui/material';
 import Header from '../../Components/Header';
 import { Categories } from '../../Components/Header/Categories';
 import Footer from '../../Components/Footer';
@@ -18,6 +18,7 @@ export default function Profile() {
   // const [selected, setSelected] = useState('Email');
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const isMobile = useMediaQuery('(max-width:768px)');
   const value = searchParams.get('value');
   const selected = value || 'email';
 
@@ -38,7 +39,7 @@ export default function Profile() {
       <Categories />
       <div className="profile-outer-container">
         <div className="profile-inner-page-container">
-          <Typography variant="h5" fontSize="2rem" className="profile-heading">Profile</Typography>
+          {!isMobile && <Typography variant="h5" fontSize="2rem" className="profile-heading">Profile</Typography>}
           <div onClick={handleClick} className={`profile-page-names ${selected === 'email' && 'selected'}`}>Email</div>
           <div onClick={handleClick} className={`profile-page-names ${selected === 'address' && 'selected'}`}>Address</div>
           <div onClick={handleClick} className={`profile-page-names ${selected === 'orders' && 'selected'}`}>Orders</div>
@@ -54,7 +55,7 @@ export default function Profile() {
               </>
               )
             }
-          {selected === 'address' && <Address profile />}
+          {selected === 'address' && <Address profilePage />}
           {selected === 'orders' && <Orders />}
           {/* </div> */}
         </div>

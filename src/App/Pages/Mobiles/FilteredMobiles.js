@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
@@ -23,6 +24,7 @@ import NoResultsFound from '../../Components/NoResultsFound';
 export default function FilteredMobiles() {
   const productsToCompare = JSON.parse(localStorage.getItem('compare'));
   const [brands, setBrands] = useState([]);
+  const [page, setPage] = useState(1);
   const [properties, setProperties] = useState([]);
   const [mobileData, setMobileData] = useState([]);
   const [compare, setCompare] = useState(productsToCompare || []);
@@ -37,6 +39,7 @@ export default function FilteredMobiles() {
   const style = {
     position: 'sticky', top: '86px', left: '0', zIndex: '10',
   };
+  let totalPages;
 
   const getMobileProperties = async () => {
     try {
@@ -66,8 +69,11 @@ export default function FilteredMobiles() {
       const response = await fetch(url, options);
       if (response.ok) {
         const responseJson = await response.json();
-        const { filteredProductItems, searchResults } = responseJson;
+        const {
+          filteredProductItems, searchResults, totalSearchResults, totalFilterResults,
+        } = responseJson;
         setMobileData(isThisFilterPage ? filteredProductItems : searchResults);
+        totalPages = isThisFilterPage ? Math.ceil(totalFilterResults % 20) : Math.ceil(totalSearchResults % 20);
       }
       if (response.status === 404) {
         setIsRequestedDataAvailable(false);
@@ -159,6 +165,11 @@ export default function FilteredMobiles() {
 
           </div>
         )}
+      </Box>
+      <Box display="flex" alignItems="center" justifyContent="center">
+        <Button sx={{ fontSize: '2rem', color: 'black' }}>&#8249;</Button>
+        <span>{` page ${page} of ${totalPages}`}</span>
+        <Button sx={{ fontSize: '2rem', color: 'black' }}>&#8250;</Button>
       </Box>
       <Footer />
     </Box>

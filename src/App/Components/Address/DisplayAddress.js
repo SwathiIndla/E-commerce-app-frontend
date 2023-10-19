@@ -12,7 +12,7 @@ export default function DisplayAddress(props) {
   const jwtToken = Cookies.get('jwtToken');
   const [show, setShow] = useState(false);
   const [editAddress, setEditAddress] = useState(false);
-  const { data, setAddressState, profile } = props;
+  const { data, setAddressState, profilePage } = props;
   const ref = useRef();
 
   const handleClick = () => {
@@ -60,7 +60,7 @@ export default function DisplayAddress(props) {
     <Box margin=".5rem">
       {editAddress ? (<AddressForm heading="Edit" mode="edit" setShowAddressForm={setEditAddress} data={{ ...data }} setAddressState={setAddressState} />)
         : (
-          <Box p={2} border={profile ? 'solid 1px gray' : 'none'}>
+          <Box p={2} border={profilePage ? 'solid 1px gray' : 'none'}>
             <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="center">
               <Typography
                 variant="subtitle1"

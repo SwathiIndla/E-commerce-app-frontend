@@ -49,7 +49,8 @@
 @media (max-width:850px) {
     .profile-address-container{
         width: 95vw;
-        height: 60vh;
+        height: unset;
+        overflow: unset;
     }
     .profile-outer-container{
         flex-direction: column;
@@ -58,10 +59,10 @@
     .profile-inner-page-container{
         flex-direction: row;
         height: unset;
+        align-self: stretch;
         gap: 5px;
-        width: 95vw;
-        overflow-x: auto ;
         align-items: center;
+        justify-content: space-between;
     }
 }
 @media (max-width: 500px) {

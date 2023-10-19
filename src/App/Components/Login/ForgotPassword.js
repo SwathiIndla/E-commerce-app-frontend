@@ -87,7 +87,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="login-page">
+    <div className="login-page not-modal">
       <div className="login-text-container">
         <Typography variant="h4" color="ghostwhite" marginBottom={2}>Forgot your Password?</Typography>
         <Typography variant="subtitle1" color="whitesmoke">

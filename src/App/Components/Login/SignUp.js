@@ -56,7 +56,7 @@ export default function SignUp(props) {
         setError(responseJson.error[0].description);
         actions.setSubmitting(false);
       } else {
-        navigate('/account/login?value?true');
+        navigate('/account/login?value=true');
       }
     } catch (err) {
       console.error(err);
@@ -64,7 +64,7 @@ export default function SignUp(props) {
   };
 
   return (
-    <div className="login-page">
+    <div className={`login-page ${!modal && 'not-modal'}`}>
       <div className="login-text-container">
         <Typography variant="h4" color="ghostwhite" marginBottom={2}>Looks like you're new here!</Typography>
         <Typography variant="subtitle1" color="whitesmoke">

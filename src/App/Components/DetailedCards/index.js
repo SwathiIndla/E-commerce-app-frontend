@@ -46,9 +46,11 @@ function DetailedCards(props) {
             <div className="mobile-img-container">
               <img src={mobileData.productItemImage.split(',')[0]} alt="mobile-img" className="mobile-img" />
             </div>
-            { isFavorite ? <FavoriteIcon sx={{ color: 'red' }} onClick={handleChange} fontSize="small" /> : <FavoriteIcon sx={{ color: 'gray' }} onClick={handleChange} fontSize="small" /> }
+            <div style={{ paddingTop: '5px' }}>
+              { isFavorite ? <FavoriteIcon sx={{ color: 'red' }} onClick={handleChange} fontSize="small" /> : <FavoriteIcon sx={{ color: 'gray' }} onClick={handleChange} fontSize="small" /> }
+            </div>
             <div className="mobile-details">
-              <Typography variant="h6" className="mobile-title">{productItemName}</Typography>
+              <Typography variant="h6" fontSize="1rem" className="mobile-title">{productItemName}</Typography>
               <div className="rating">
                 <Typography variant="subtitle2" fontSize="inherit" lineHeight="unset">{mobileData.rating}</Typography>
                 <StarRateIcon color="inherit" fontSize="inherit" />
@@ -76,9 +78,11 @@ function DetailedCards(props) {
                 <div className="mobile-img-container">
                   <img src={mobileData.productItemImage.split(',')[0]} alt="mobile-img" className="mobile-img" />
                 </div>
-                { isFavorite ? <FavoriteIcon sx={{ color: 'red' }} onClick={handleChange} fontSize="small" /> : <FavoriteIcon sx={{ color: 'gray' }} onClick={handleChange} fontSize="small" /> }
+                <div style={{ paddingTop: '5px' }}>
+                  { isFavorite ? <FavoriteIcon sx={{ color: 'red' }} onClick={handleChange} fontSize="small" /> : <FavoriteIcon sx={{ color: 'gray' }} onClick={handleChange} fontSize="small" /> }
+                </div>
                 <Box flexGrow={1}>
-                  <Typography variant="h5" className="mobile-title">{productItemName}</Typography>
+                  <Typography variant="h6" className="mobile-title">{productItemName}</Typography>
                   <div className="specification-price-outer-container">
                     <div className="mobile-details">
                       <div className="rating">

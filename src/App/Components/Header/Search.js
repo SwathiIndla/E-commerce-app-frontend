@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/no-array-index-key */
 // src/components/AutocompleteOnlineSearch.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 // import axios from 'axios';
 import {
   TextField, Box, Typography, InputAdornment,
@@ -17,6 +17,7 @@ function Search() {
   const [inputValue, setInputValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const navigate = useNavigate();
+  const ref = useRef();
 
   const navigateSearch = (e) => {
     const { type, key } = e;
@@ -26,6 +27,18 @@ function Search() {
       navigate(`/search?value=${inputValue}`);
     }
   };
+
+  useEffect(() => {
+    const checkIfClickedOutside = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('click', checkIfClickedOutside);
+    return () => {
+      document.removeEventListener('click', checkIfClickedOutside);
+    };
+  }, [navigateSearch]);
 
   const handleChange = (e) => {
     setOpen(true);
@@ -56,7 +69,7 @@ function Search() {
   };
 
   return (
-    <Box width="100%" position="relative">
+    <Box width="100%" position="relative" ref={ref}>
       <TextField
         placeholder="search for products"
         variant="outlined"
