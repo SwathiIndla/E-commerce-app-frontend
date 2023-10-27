@@ -53,7 +53,7 @@ export default function SignUp(props) {
       const response = await fetch(signUpUrl, options);
       const responseJson = await response.json();
       if (!response.ok) {
-        setError(responseJson.error[0].description);
+        setError(responseJson.error[0].description || 'Something went wrong.Try again.');
         actions.setSubmitting(false);
       } else {
         navigate('/account/login?value=true');

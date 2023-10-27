@@ -2,6 +2,7 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/button-has-type */
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 import { TailSpin } from 'react-loader-spinner';
 import OrderCard from '../../Components/OrderCard';
 import { orderUrl } from '../../Environment/URL';
@@ -12,12 +13,22 @@ function Orders() {
   const [IsLoading, setIsLoading] = useState(true);
   const [OrdersPresent, setIsOrdersPresent] = useState(false);
   const [error, setError] = useState(false);
+  const jwtToken = Cookies.get('jwtToken');
 
   const imageNotFound = 'https://cdni.iconscout.com/illustration/premium/thumb/man-finding-nothing-in-order-4006350-3309936.png?f=webp';
 
   const GetOrders = async () => {
     const customerId = localStorage.getItem('customerId');
-    const response = await fetch(`${orderUrl}/${customerId}`);
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    };
+
+    const response = await fetch(`${orderUrl}/${customerId}`, options);
     if (response.ok) {
       const responseData = await response.json();
       setOrders(responseData);

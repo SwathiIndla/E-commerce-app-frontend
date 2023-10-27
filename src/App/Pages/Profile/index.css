@@ -13,14 +13,15 @@
     height: 75vh;
     flex-direction: column;
     box-shadow: 2px 2px 4px gray;
-    text-align: center;
     background-color: white;
     flex-grow: 1;
     padding: 10px;
+    position: sticky;
+    top: 80px;
 }
 .profile-page-names{
     padding: 10px;
-    font-size: 1.125rem;
+    font-size: 1rem;
     text-wrap: nowrap;
     cursor: pointer;
 }
@@ -31,16 +32,15 @@
     box-shadow: 2px 2px 4px gray;
     gap:1rem;
     align-self: center;
-    height: 75vh;
+    min-height: 75vh;
     width: 80vw;
     background-color: white;
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
 }
 .profile-heading.MuiTypography-h5{
     margin: 2% ;
-    font-style: italic;
     color: rgb(0, 85, 255);
-    letter-spacing: .1rem;
+    font-weight: 500;
 }
 .selected{
     background-color: #c3dbf3;

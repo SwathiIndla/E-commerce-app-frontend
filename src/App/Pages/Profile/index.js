@@ -39,7 +39,7 @@ export default function Profile() {
       <Categories />
       <div className="profile-outer-container">
         <div className="profile-inner-page-container">
-          {!isMobile && <Typography variant="h5" fontSize="2rem" className="profile-heading">Profile</Typography>}
+          {!isMobile && <Typography variant="h5" fontSize="1.5rem" className="profile-heading">Profile</Typography>}
           <div onClick={handleClick} className={`profile-page-names ${selected === 'email' && 'selected'}`}>Email</div>
           <div onClick={handleClick} className={`profile-page-names ${selected === 'address' && 'selected'}`}>Address</div>
           <div onClick={handleClick} className={`profile-page-names ${selected === 'orders' && 'selected'}`}>Orders</div>
