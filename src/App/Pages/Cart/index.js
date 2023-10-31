@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   Button, ButtonGroup, IconButton, Paper, Typography, Snackbar,
 } from '@mui/material';
@@ -14,44 +14,22 @@ import Header from '../../Components/Header';
 import { cartUrl } from '../../Environment/URL';
 import './index.css';
 import Footer from '../../Components/Footer';
+import { CartContext } from '../../Components/Context/CartContext';
 
 const jwtToken = Cookies.get('jwtToken');
 
 export default function Cart() {
+  const [cartItems] = useContext(CartContext);
   const [cartData, setCartData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [cartState, setCartState] = useState(0);
+  // const [loading, setLoading] = useState(false);
+  // const [cartState, setCartState] = useState(0);
   const navigate = useNavigate();
 
-  useEffect(() => async () => {
-    setLoading(true);
-    const customerId = localStorage.getItem('customerId');
-    if (jwtToken) {
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        };
-        const response = await fetch(`${cartUrl}/${customerId}`, options);
-        if (response.ok) {
-          const responseJson = await response.json();
-          setCartData(responseJson);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-
-    setLoading(false);
-  }, [cartState]);
+  useEffect(() => {
+    setCartData(cartItems);
+  }, [cartItems]);
 
   const toCheckOut = () => { navigate('/checkout'); };
-  // const sum = cartData?.reduce((accumulator,
-  // currentValue) => accumulator + currentValue.price, 0);
 
   return (
     <div className="cart-outer-container">
@@ -62,17 +40,12 @@ export default function Cart() {
             <Box sx={{ marginBottom: '.5rem', padding: '.5rem' }}>
               <Typography variant="h5" textAlign="center" fontSize="2rem" className="cart-heading">CART</Typography>
             </Box>
-            {/* <Box height="60vh" overflow="auto"> */}
             {cartData.map((data) => (
               <CartItems
                 data={data}
                 key={data.cartProductItemId}
-                setCartState={setCartState}
               />
             ))}
-            {/* </Box> */}
-            {/* <Typography variant="h5" sx={{ alignSelf: 'flex-end',
-               marginRight: '20%', marginBottom: '1rem' }}>Total = ₹ {sum}</Typography> */}
             <div className="place-order-button-container">
               <button type="button" className="place-order" onClick={toCheckOut}>Place Order</button>
             </div>
@@ -105,35 +78,14 @@ export function EmptyCart() {
 }
 
 export function CartItems(props) {
-  const { data, setCartState } = props;
+  const [cartItems, setCartState, changeQuantity] = useContext(CartContext);
+  const { data } = props;
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const d = new Date();
   const day = weekdays[d.getDay() - 1];
 
-  const changeQuantity = async (mode) => {
-    const cartItem = {
-      cartProductItemId: data.cartProductItemId,
-      quantity: mode === 'increment' ? data.quantity + 1 : data.quantity - 1,
-    };
-    try {
-      const options = {
-        method: 'PUT',
-        body: JSON.stringify(cartItem),
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-      const response = await fetch(cartUrl, options);
-      if (response.ok) setCartState((prev) => prev + 1);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const increaseQuantity = () => { changeQuantity('increment'); };
-  const decreaseQuantity = () => { changeQuantity('decrement'); };
+  const increaseQuantity = () => { changeQuantity(data.cartProductItemId, data.quantity + 1); };
+  const decreaseQuantity = () => { changeQuantity(data.cartProductItemId, data.quantity - 1); };
 
   const removeProduct = async () => {
     try {

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Cookies from 'js-cookie';
 import {
   Box, Button, ButtonGroup, IconButton, Typography,
@@ -15,10 +15,12 @@ import Footer from '../../Components/Footer';
 import Address from '../../Components/Address';
 import { cartUrl, orderUrl } from '../../Environment/URL';
 import './index.css';
+import { CartContext } from '../../Components/Context/CartContext';
 
 const jwtToken = Cookies.get('jwtToken');
 
 export default function CheckOut() {
+  const [cartItems] = useContext(CartContext);
   const [checkoutData, setCheckoutData] = useState([]);
   const email = localStorage.getItem('customerEmail');
   const customerId = localStorage.getItem('customerId');
@@ -30,25 +32,9 @@ export default function CheckOut() {
 
   useEffect(() => async () => {
     if (jwtToken) {
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        };
-        const response = await fetch(`${cartUrl}/${customerId}`, options);
-        if (response.ok) {
-          const responseJson = await response.json();
-          if (buyNowId) {
-            setCheckoutData(responseJson.filter((data) => data.productItemId === buyNowId));
-          } else setCheckoutData(responseJson);
-        }
-      } catch (err) {
-        console.log(err);
-      }
+      if (buyNowId) {
+        setCheckoutData(cartItems.filter((data) => data.productItemId === buyNowId));
+      } else setCheckoutData(cartItems);
     }
   }, []);
 
@@ -160,12 +146,13 @@ export default function CheckOut() {
 }
 
 function CheckOutItem(props) {
+  const [cartItems, setCartState, changeQuantity] = useContext(CartContext);
   const { data, setCheckoutData } = props;
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const d = new Date();
   const day = weekdays[d.getDay() - 1];
 
-  const changeQuantity = (mode) => {
+  const changeCheckOutQuantity = (mode) => {
     setCheckoutData((prev) => (
       prev.map((element) => {
         if (element.productItemId === data.productItemId) {
@@ -176,29 +163,8 @@ function CheckOutItem(props) {
       })));
   };
 
-  const changeCartQuantity = async (mode) => {
-    const cartItem = {
-      cartProductItemId: data.cartProductItemId,
-      quantity: mode === 'increment' ? data.quantity + 1 : data.quantity - 1,
-    };
-    try {
-      const options = {
-        method: 'PUT',
-        body: JSON.stringify(cartItem),
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-      const response = await fetch(cartUrl, options);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const increaseQuantity = () => { changeQuantity('increment'); changeCartQuantity('increment'); };
-  const decreaseQuantity = () => { changeQuantity('decrement'); changeCartQuantity('decrement'); };
+  const increaseQuantity = () => { changeCheckOutQuantity('increment'); changeQuantity(data.cartProductItemId, data.quantity + 1); };
+  const decreaseQuantity = () => { changeCheckOutQuantity('decrement'); changeQuantity(data.cartProductItemId, data.quantity - 1); };
 
   const removeProduct = () => {
     setCheckoutData((prev) => prev.filter((element) => element.productItemId !== data.productItemId));

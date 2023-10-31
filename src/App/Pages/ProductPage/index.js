@@ -9,7 +9,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import {
   useMediaQuery, Typography, CircularProgress, Button,
@@ -26,13 +26,15 @@ import Footer from '../../Components/Footer';
 import './index.css';
 import { getProductUrl, cartUrl } from '../../Environment/URL';
 import ProductRatingsAndReviews from '../../Components/ProductPageReviews';
+import { CartContext } from '../../Components/Context/CartContext';
 
 export default function ProductPage() {
   const [data, setData] = useState({});
   const [hover, setHover] = useState('0');
   const [imgData, setImgData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [isProductInCart, setIsProductInCart] = useState(false);
+  const [cartItems, setCartState, changeQuantity] = useContext(CartContext);
+  const isProductInCart = cartItems.filter((item) => item.productItemId === data?.productItemId).length > 0;
   const isMobile = useMediaQuery('(max-width:850px)');
   const [searchParams] = useSearchParams();
   const [variants, setVariants] = useState({});
@@ -70,28 +72,28 @@ export default function ProductPage() {
 
   useEffect(() => { getData(); }, [id]);
 
-  const checkProductInCart = async () => {
-    if (jwtToken && Object.keys(data).length > 0) {
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        };
-        const url = `${cartUrl}/IsProductItemInCart/${customerId}/${data.productItemId}`;
-        const response = await fetch(url, options);
-        const responseJson = await response.json();
-        setIsProductInCart(responseJson.isAvailable);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
+  // const checkProductInCart = async () => {
+  //   if (jwtToken && Object.keys(data).length > 0) {
+  //     try {
+  //       const options = {
+  //         method: 'GET',
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           accept: 'application/json',
+  //           Authorization: `Bearer ${jwtToken}`,
+  //         },
+  //       };
+  //       const url = `${cartUrl}/IsProductItemInCart/${customerId}/${data.productItemId}`;
+  //       const response = await fetch(url, options);
+  //       const responseJson = await response.json();
+  //       setIsProductInCart(responseJson.isAvailable);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  // };
 
-  useEffect(() => { setTimeout(checkProductInCart, 500); }, [data]);
+  // useEffect(() => { setTimeout(checkProductInCart, 500); }, [data]);
 
   const addToCart = async () => {
     setLoading(true);
@@ -115,6 +117,7 @@ export default function ProductPage() {
         };
         const response = await fetch(cartUrl, options);
         const responseJson = await response.json();
+        setCartState((prev) => prev + 1);
       } catch (err) {
         console.log(err);
       }
@@ -122,7 +125,7 @@ export default function ProductPage() {
       navigate(`/account/login?value=true&redirectTo=${location.pathname}${location.search}`);
     }
     setLoading(false);
-    checkProductInCart();
+    // checkProductInCart();
   };
 
   const handleBuyNow = async () => {

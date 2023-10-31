@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 // import MenuIcon from '@mui/icons-material/Menu';
 import {
@@ -19,13 +19,14 @@ import logo from '../../Images/favicon.ico';
 import Login from '../Login/Login';
 import SignUp from '../Login/SignUp';
 import Search from './Search';
-import { cartUrl } from '../../Environment/URL';
+import { CartContext } from '../Context/CartContext';
+// import { cartUrl } from '../../Environment/URL';
 
 export default function Header(props) {
   const { homePage, accountPage } = props;
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
+  const [cartItems] = useContext(CartContext);
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
@@ -50,30 +51,6 @@ export default function Header(props) {
     bgcolor: 'background.paper',
     boxShadow: 44,
   };
-
-  useEffect(() => async () => {
-    const jwtToken = Cookies.get('jwtToken');
-    const customerId = localStorage.getItem('customerId');
-    if (jwtToken) {
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        };
-        const response = await fetch(`${cartUrl}/${customerId}`, options);
-        if (response.ok) {
-          const responseJson = await response.json();
-          setCartCount(responseJson.length);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  }, []);
 
   const logOut = () => {
     localStorage.clear();
@@ -116,7 +93,7 @@ export default function Header(props) {
           isMobile
             ? (
               <IconButton onClick={navigateToCart}>
-                <Badge badgeContent={cartCount} color="warning">
+                <Badge badgeContent={cartItems.length} color="warning">
                   <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
                 </Badge>
               </IconButton>
@@ -125,7 +102,7 @@ export default function Header(props) {
               <Button
                 variant="text"
                 startIcon={(
-                  <Badge badgeContent={cartCount} color="warning">
+                  <Badge badgeContent={cartItems.length} color="warning">
                     <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
                   </Badge>
                         )}
@@ -136,9 +113,6 @@ export default function Header(props) {
               </Button>
             )
 }
-          {/* <Button>
-            <MenuIcon sx={{ color: '#fff', fontSize: '2rem' }} />
-          </Button> */}
         </div>
       </nav>
       {isMobile && (
