@@ -25,6 +25,7 @@ export default function FilteredMobiles() {
   const productsToCompare = JSON.parse(localStorage.getItem('compare'));
   const [brands, setBrands] = useState([]);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [properties, setProperties] = useState([]);
   const [mobileData, setMobileData] = useState([]);
   const [compare, setCompare] = useState(productsToCompare || []);
@@ -39,7 +40,6 @@ export default function FilteredMobiles() {
   const style = {
     position: 'sticky', top: '86px', left: '0', zIndex: '10',
   };
-  let totalPages;
 
   const getMobileProperties = async () => {
     try {
@@ -65,7 +65,7 @@ export default function FilteredMobiles() {
       const options = {
         method: 'GET',
       };
-      const url = isThisFilterPage ? `${mobilesFilterUrl}?${query[-1] === '&' ? query.slice(0, -1) : query}` : `${searchUrl}${searchValue}`;
+      const url = isThisFilterPage ? `${mobilesFilterUrl}?${query[-1] === '&' ? query.slice(0, -1) : query}&page=${page}` : `${searchUrl}${searchValue}&page=${page}`;
       const response = await fetch(url, options);
       if (response.ok) {
         const responseJson = await response.json();
@@ -73,7 +73,7 @@ export default function FilteredMobiles() {
           filteredProductItems, searchResults, totalSearchResults, totalFilterResults,
         } = responseJson;
         setMobileData(isThisFilterPage ? filteredProductItems : searchResults);
-        totalPages = isThisFilterPage ? Math.ceil(totalFilterResults % 20) : Math.ceil(totalSearchResults % 20);
+        setTotalPages(isThisFilterPage ? Math.ceil(totalFilterResults / 20) : Math.ceil(totalSearchResults / 20));
       }
       if (response.status === 404) {
         setIsRequestedDataAvailable(false);
@@ -102,8 +102,11 @@ export default function FilteredMobiles() {
   useEffect(() => {
     getBrands();
     getMobileProperties();
-    getMobilesData();
   }, [query]);
+
+  useEffect(() => {
+    getMobilesData();
+  }, [query, page]);
 
   const removeProductFromCompare = (e) => {
     const { ariaLabel } = e.target;
@@ -114,6 +117,14 @@ export default function FilteredMobiles() {
 
   const navigateToComparePage = () => {
     navigate('/compare');
+  };
+
+  const nextPage = () => {
+    setPage((prev) => prev + 1);
+  };
+
+  const prevPage = () => {
+    setPage((prev) => prev - 1);
   };
 
   return (
@@ -167,9 +178,9 @@ export default function FilteredMobiles() {
         )}
       </Box>
       <Box display="flex" alignItems="center" justifyContent="center">
-        <Button sx={{ fontSize: '2rem', color: 'black' }}>&#8249;</Button>
+        <Button sx={{ fontSize: '2rem', color: 'black' }} onClick={prevPage} disabled={page === 1}>&#8249;</Button>
         <span>{` page ${page} of ${totalPages}`}</span>
-        <Button sx={{ fontSize: '2rem', color: 'black' }}>&#8250;</Button>
+        <Button sx={{ fontSize: '2rem', color: 'black' }} onClick={nextPage} disabled={page === totalPages}>&#8250;</Button>
       </Box>
       <Footer />
     </Box>
