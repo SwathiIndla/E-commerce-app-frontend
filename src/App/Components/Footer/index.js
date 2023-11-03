@@ -4,6 +4,8 @@ import './Footer.css';
 
 export default function Footer() {
   const style = { color: 'gray', fontWeight: '500', margin: '5px 0px' };
+  const year = new Date();
+  year.setFullYear(2023);
 
   return (
     <div className="footer">
@@ -54,7 +56,10 @@ export default function Footer() {
               cursor: 'default',
             }}
           >
-            ©since 2023,E-commerce.com
+            ©since
+            {' '}
+            {year.getFullYear()}
+            ,E-commerce.com
           </Typography>
         </div>
       </div>
