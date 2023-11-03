@@ -30,7 +30,7 @@ export default function Mobiles() {
   const [searchParams] = useSearchParams();
   const categoriesId = searchParams.get('cid');
   const style = {
-    position: 'sticky', top: '86px', left: '0', zIndex: '10',
+    position: 'sticky', top: '86px', left: '0', zIndex: '9',
   };
 
   const getMobileProperties = async () => {
@@ -98,7 +98,7 @@ export default function Mobiles() {
       <Categories images={false} />
       <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} margin="1rem 0">
         <Box sx={isMobile ? style : {
-          position: 'sticky', top: '65px', zIndex: '1', height: '100%',
+          position: 'sticky', top: '65px', zIndex: '9', height: '100%',
         }}
         >
           <SideBar brands={brands} properties={properties} />

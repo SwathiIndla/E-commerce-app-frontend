@@ -50,7 +50,7 @@ export function Categories(props) {
 }
 
 export function CategoryCard(props) {
-  const [openMenu, setOpenMenu] = React.useState(false);
+  const [openMenu, setOpenMenu] = useState(false);
   const { item, images } = props;
   const isMobile = useMediaQuery('(max-width:768px)');
 

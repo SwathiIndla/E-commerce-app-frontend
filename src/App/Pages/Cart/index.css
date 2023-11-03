@@ -38,6 +38,9 @@
   gap: 1rem;
   margin-bottom: 10%;
 }
+.empty-cart-img{
+  width: 40%;
+}
 .item-img{
   width: 8rem;
   height: 8rem;
@@ -85,5 +88,8 @@
 @media (max-width:600px) {
   .cart-container{
     margin: unset;
+  }
+  .empty-cart-img{
+    width: 100%;
   }
 }

@@ -38,7 +38,7 @@ export default function FilteredMobiles() {
   const location = useLocation();
   const isThisFilterPage = location.pathname.includes('filter');
   const style = {
-    position: 'sticky', top: '86px', left: '0', zIndex: '10',
+    position: 'sticky', top: '86px', left: '0', zIndex: '9',
   };
 
   const getMobileProperties = async () => {
@@ -102,6 +102,8 @@ export default function FilteredMobiles() {
   useEffect(() => {
     getBrands();
     getMobileProperties();
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    setPage(1);
   }, [query]);
 
   useEffect(() => {
@@ -133,7 +135,7 @@ export default function FilteredMobiles() {
       <Categories images={false} />
       <Box display="flex" flexDirection={isMobile ? 'column' : 'row'} marginBottom="1rem">
         <Box sx={isMobile ? style : {
-          position: 'sticky', top: '65px', zIndex: '1', height: '100%',
+          position: 'sticky', top: '65px', zIndex: '9', height: '100%',
         }}
         >
           <SideBar brands={brands} properties={properties} filter={isThisFilterPage} />

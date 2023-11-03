@@ -26,7 +26,7 @@ export default function ColoredCards(props) {
             <h3>{`₹${data.price}`}</h3>
           </div>
           <div className="colored-cards-image-container">
-            <img src={data.productItemImage.split(',')[0]} width="70px" height="100px" alt="sample" />
+            <img src={data.productItemImage.split(',')[0]} width="70px" height="90px" alt="sample" />
           </div>
 
         </div>

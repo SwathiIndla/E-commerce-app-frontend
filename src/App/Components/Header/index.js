@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable react/prop-types */
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 // import MenuIcon from '@mui/icons-material/Menu';
 import {
@@ -19,14 +20,13 @@ import logo from '../../Images/favicon.ico';
 import Login from '../Login/Login';
 import SignUp from '../Login/SignUp';
 import Search from './Search';
-import { CartContext } from '../Context/CartContext';
-// import { cartUrl } from '../../Environment/URL';
+import { useCartContext } from '../Context/CartContext';
 
 export default function Header(props) {
   const { homePage, accountPage } = props;
   const [open, setOpen] = useState(false);
   const [signup, setSignup] = useState(false);
-  const [cartItems] = useContext(CartContext);
+  const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
@@ -55,6 +55,7 @@ export default function Header(props) {
   const logOut = () => {
     localStorage.clear();
     Cookies.remove('jwtToken');
+    setIsLoggedIn(false);
     navigate('/');
   };
 
@@ -89,8 +90,7 @@ export default function Header(props) {
               : (
                 !accountPage && <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} className="login-btn">Login</Button>)
                }
-          {
-          isMobile
+          {isMobile
             ? (
               <IconButton onClick={navigateToCart}>
                 <Badge badgeContent={cartItems.length} color="warning">
@@ -111,8 +111,7 @@ export default function Header(props) {
               >
                 Cart
               </Button>
-            )
-}
+            )}
         </div>
       </nav>
       {isMobile && (

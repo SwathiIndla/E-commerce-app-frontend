@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -12,10 +13,11 @@ import Footer from '../../Components/Footer';
 import Orders from '../OrdersPage';
 import './index.css';
 import Address from '../../Components/Address';
+import { useCartContext } from '../../Components/Context/CartContext';
 
 export default function Profile() {
   const email = localStorage.getItem('customerEmail');
-  // const [selected, setSelected] = useState('Email');
+  const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const isMobile = useMediaQuery('(max-width:768px)');
@@ -30,6 +32,7 @@ export default function Profile() {
   const logOut = () => {
     localStorage.clear();
     Cookies.remove('jwtToken');
+    setIsLoggedIn(false);
     navigate('/');
   };
 

@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import {
   Box, Button, ButtonGroup, IconButton, Typography,
@@ -15,12 +15,12 @@ import Footer from '../../Components/Footer';
 import Address from '../../Components/Address';
 import { cartUrl, orderUrl } from '../../Environment/URL';
 import './index.css';
-import { CartContext } from '../../Components/Context/CartContext';
+import { useCartContext } from '../../Components/Context/CartContext';
 
 const jwtToken = Cookies.get('jwtToken');
 
 export default function CheckOut() {
-  const [cartItems] = useContext(CartContext);
+  const [cartItems] = useCartContext();
   const [checkoutData, setCheckoutData] = useState([]);
   const email = localStorage.getItem('customerEmail');
   const customerId = localStorage.getItem('customerId');
@@ -146,7 +146,7 @@ export default function CheckOut() {
 }
 
 function CheckOutItem(props) {
-  const [cartItems, setCartState, changeQuantity] = useContext(CartContext);
+  const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const { data, setCheckoutData } = props;
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const d = new Date();
@@ -166,7 +166,7 @@ function CheckOutItem(props) {
   const increaseQuantity = () => { changeCheckOutQuantity('increment'); changeQuantity(data.cartProductItemId, data.quantity + 1); };
   const decreaseQuantity = () => { changeCheckOutQuantity('decrement'); changeQuantity(data.cartProductItemId, data.quantity - 1); };
 
-  const removeProduct = () => {
+  const removeCheckOutProduct = () => {
     setCheckoutData((prev) => prev.filter((element) => element.productItemId !== data.productItemId));
   };
 
@@ -204,7 +204,7 @@ function CheckOutItem(props) {
         <IconButton onClick={increaseQuantity}>
           <AddIcon className="icon-button" fontSize="2rem" />
         </IconButton>
-        <Button type="button" variant="text" color="inherit" onClick={removeProduct}>Remove</Button>
+        <Button type="button" variant="text" color="inherit" onClick={removeCheckOutProduct}>Remove</Button>
       </ButtonGroup>
     </Box>
 

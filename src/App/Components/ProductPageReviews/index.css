@@ -164,8 +164,8 @@
 }
 .vertical-separation {
     border: 1px solid lightgray;
-    margin-left: 40px;
-    margin-right: 40px;
+    /* margin-left: 40px;
+    margin-right: 40px; */
 }
 .no-reviews-container{
     display: flex;
@@ -194,7 +194,6 @@
 .individual-rating-list-item{
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 .star-rating-container{
     display: flex;
@@ -272,10 +271,10 @@
         margin-left: 10px;
         margin-right: 10px;
     }
-    .vertical-separation{
+    /* .vertical-separation{
         margin-left: 15px;
         margin-right: 15px;
-    }
+    } */
     .no-reviews-image{
         width: 75%;
     }

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/no-unescaped-entities */
@@ -15,8 +16,10 @@ import Cookies from 'js-cookie';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { loginUrl } from '../../Environment/URL';
+import { useCartContext } from '../Context/CartContext';
 
 export default function Login(props) {
+  const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -59,6 +62,7 @@ export default function Login(props) {
       localStorage.setItem('customerId', customerId);
       localStorage.setItem('customerEmail', customerEmail);
       Cookies.set('jwtToken', jwtToken, { expires: 30 });
+      setIsLoggedIn(true);
       if (modal) handleClose();
       else navigate(redirectLink);
     } else {

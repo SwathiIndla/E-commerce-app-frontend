@@ -1,7 +1,8 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button, ButtonGroup, IconButton, Paper, Typography, Snackbar,
 } from '@mui/material';
@@ -14,12 +15,12 @@ import Header from '../../Components/Header';
 import { cartUrl } from '../../Environment/URL';
 import './index.css';
 import Footer from '../../Components/Footer';
-import { CartContext } from '../../Components/Context/CartContext';
+import { useCartContext } from '../../Components/Context/CartContext';
 
 const jwtToken = Cookies.get('jwtToken');
 
 export default function Cart() {
-  const [cartItems] = useContext(CartContext);
+  const [cartItems] = useCartContext();
   const [cartData, setCartData] = useState([]);
   // const [loading, setLoading] = useState(false);
   // const [cartState, setCartState] = useState(0);
@@ -67,8 +68,8 @@ export function EmptyCart() {
     <Box className="empty-cart">
       <img
         src="https://rukminim2.flixcart.com/www/800/800/promos/16/05/2019/d438a32e-765a-4d8b-b4a6-520b560971e8.png?q=90"
-        width="40%"
         alt="empty cart"
+        className="empty-cart-img"
       />
       <Typography variant="h5">Your cart is Empty</Typography>
       <Typography variant="subtitle2">Add items to the cart</Typography>
@@ -78,30 +79,18 @@ export function EmptyCart() {
 }
 
 export function CartItems(props) {
-  const [cartItems, setCartState, changeQuantity] = useContext(CartContext);
+  const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const { data } = props;
+  const { cartProductItemId } = data;
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const d = new Date();
   const day = weekdays[d.getDay() - 1];
 
-  const increaseQuantity = () => { changeQuantity(data.cartProductItemId, data.quantity + 1); };
-  const decreaseQuantity = () => { changeQuantity(data.cartProductItemId, data.quantity - 1); };
+  const increaseQuantity = () => { changeQuantity(cartProductItemId, data.quantity + 1); };
+  const decreaseQuantity = () => { changeQuantity(cartProductItemId, data.quantity - 1); };
 
-  const removeProduct = async () => {
-    try {
-      const options = {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          accept: 'application/json',
-          Authorization: `Bearer ${jwtToken}`,
-        },
-      };
-      const response = await fetch(`${cartUrl}/${data.cartProductItemId}`, options);
-      if (response.ok) setCartState((prev) => prev + 1);
-    } catch (err) {
-      console.log(err);
-    }
+  const removeProductFromCart = () => {
+    removeProduct(cartProductItemId);
   };
 
   return (
@@ -132,7 +121,7 @@ export function CartItems(props) {
         <IconButton onClick={increaseQuantity}>
           <AddIcon className="icon-button" fontSize="2rem" />
         </IconButton>
-        <Button type="button" variant="text" color="inherit" aria-label="remove" onClick={removeProduct}>Remove</Button>
+        <Button type="button" variant="text" color="inherit" aria-label="remove" onClick={removeProductFromCart}>Remove</Button>
       </ButtonGroup>
     </Box>
   );

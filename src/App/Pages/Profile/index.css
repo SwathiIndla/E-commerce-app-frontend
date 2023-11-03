@@ -17,6 +17,7 @@
     flex-grow: 1;
     padding: 10px;
     position: sticky;
+    z-index: 99;
     top: 80px;
 }
 .profile-page-names{

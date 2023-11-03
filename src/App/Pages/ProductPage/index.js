@@ -9,7 +9,7 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/system';
 import {
   useMediaQuery, Typography, CircularProgress, Button,
@@ -26,14 +26,14 @@ import Footer from '../../Components/Footer';
 import './index.css';
 import { getProductUrl, cartUrl } from '../../Environment/URL';
 import ProductRatingsAndReviews from '../../Components/ProductPageReviews';
-import { CartContext } from '../../Components/Context/CartContext';
+import { useCartContext } from '../../Components/Context/CartContext';
 
 export default function ProductPage() {
   const [data, setData] = useState({});
   const [hover, setHover] = useState('0');
   const [imgData, setImgData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [cartItems, setCartState, changeQuantity] = useContext(CartContext);
+  const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const isProductInCart = cartItems.filter((item) => item.productItemId === data?.productItemId).length > 0;
   const isMobile = useMediaQuery('(max-width:850px)');
   const [searchParams] = useSearchParams();
@@ -41,7 +41,9 @@ export default function ProductPage() {
   const id = searchParams.get('id');
   const navigate = useNavigate();
   const location = useLocation();
-  const { specifications, sellers, productItemDescription } = data;
+  const {
+    specifications, sellers, productItemDescription, productItemId,
+  } = data;
   const descriptions = productItemDescription?.split('_');
   const customerId = localStorage.getItem('customerId');
   const jwtToken = Cookies.get('jwtToken');
@@ -72,65 +74,21 @@ export default function ProductPage() {
 
   useEffect(() => { getData(); }, [id]);
 
-  // const checkProductInCart = async () => {
-  //   if (jwtToken && Object.keys(data).length > 0) {
-  //     try {
-  //       const options = {
-  //         method: 'GET',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //           accept: 'application/json',
-  //           Authorization: `Bearer ${jwtToken}`,
-  //         },
-  //       };
-  //       const url = `${cartUrl}/IsProductItemInCart/${customerId}/${data.productItemId}`;
-  //       const response = await fetch(url, options);
-  //       const responseJson = await response.json();
-  //       setIsProductInCart(responseJson.isAvailable);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => { setTimeout(checkProductInCart, 500); }, [data]);
-
-  const addToCart = async () => {
+  const addProductToCart = async () => {
     setLoading(true);
 
     if (jwtToken) {
-      const cartItem = {
-        customerId,
-        productItemId: data.productItemId,
-        quantity: 1,
-        sellerId: sellers[0].sellerId,
-      };
-      try {
-        const options = {
-          method: 'POST',
-          body: JSON.stringify(cartItem),
-          headers: {
-            'Content-Type': 'application/json',
-            accept: 'application/json',
-            Authorization: `Bearer ${jwtToken}`,
-          },
-        };
-        const response = await fetch(cartUrl, options);
-        const responseJson = await response.json();
-        setCartState((prev) => prev + 1);
-      } catch (err) {
-        console.log(err);
-      }
+      const { sellerId } = sellers[0];
+      addToCart(productItemId, sellerId);
     } else {
       navigate(`/account/login?value=true&redirectTo=${location.pathname}${location.search}`);
     }
     setLoading(false);
-    // checkProductInCart();
   };
 
   const handleBuyNow = async () => {
     if (jwtToken) {
-      if (!isProductInCart) await addToCart();
+      if (!isProductInCart) await addProductToCart();
       navigate(`/checkout?buynow=${data.productItemId}`);
     } else {
       navigate(`/account/login?value=true&redirectTo=${location.pathname}${location.search}`);
@@ -163,31 +121,32 @@ export default function ProductPage() {
               <Box position={isMobile ? 'static' : 'sticky'} top="60px" height={isMobile ? 'unset' : '90vh'}>
                 <Box display="flex" justifyContent="center" alignItems="center" flexDirection={isMobile ? 'column-reverse' : 'row'}>
                   <Box display="flex" flexDirection={isMobile ? 'row' : 'column'} alignItems="center" justifyContent="center" m={1} overflow={isMobile && 'auto'} width={isMobile ? '100%' : '20%'}>
-                    {imgData.length > 0 && imgData.map((img, index) => (
-                      <div key={`${index * 2}`} className="img-item" style={hover === `${index}` ? style : { border: '1px double black' }}>
-                        <img src={img} id={index} alt="img" onMouseOver={handleChange} onClick={handleChange} className="product-img" />
-                      </div>
-                    ))}
+                    {imgData.length > 0 && imgData.map((img, index) => {
+                      if (index < 6) {
+                        return (
+                          <div key={`${index * 2}`} className="img-item" style={hover === `${index}` ? style : { border: '1px double black' }}>
+                            <img src={img} id={index} alt="img" onMouseOver={handleChange} onClick={handleChange} className="product-img" />
+                          </div>
+                        );
+                      }
+                    })}
                   </Box>
                   <Box margin={2} width="100%" className="displaying-img-container">
                     <img src={imgData[hover]} alt="img" className="displaying-img" />
                   </Box>
                 </Box>
                 <Box className="buy-cart-buttons-container">
-                  {
-                    isProductInCart ? (
-                      <button type="button" className="cart-button" onClick={() => navigate('/cart')}>
-                        <ShoppingCartIcon fontSize="inherit" /> GO TO CART
+                  {isProductInCart ? (
+                    <button type="button" className="cart-button" onClick={() => navigate('/cart')}>
+                      <ShoppingCartIcon fontSize="inherit" /> GO TO CART
+                    </button>
+                  )
+                    : (
+                      <button type="button" className="cart-button" onClick={addProductToCart} disabled={loading}>
+                        {loading ? <CircularProgress /> : <ShoppingCartIcon fontSize="inherit" />}
+                        {loading ? 'Adding to Cart' : 'Add to cart'}
                       </button>
-                    )
-                      : (
-                        <button type="button" className="cart-button" onClick={addToCart} disabled={loading}>
-                          {loading ? <CircularProgress /> : <ShoppingCartIcon fontSize="inherit" />}
-                          {loading ? 'Adding to Cart' : 'Add to cart'}
-                        </button>
-                      )
-
-                  }
+                    )}
                   <button type="button" className="buy-button" onClick={handleBuyNow}><FlashOnIcon fontSize="inherit" /> BUY NOW</button>
                 </Box>
               </Box>
