@@ -86,11 +86,11 @@ export function CartItems(props) {
   const d = new Date();
   const day = weekdays[d.getDay() - 1];
 
-  const increaseQuantity = () => { changeQuantity(cartProductItemId, data.quantity + 1); };
-  const decreaseQuantity = () => { changeQuantity(cartProductItemId, data.quantity - 1); };
+  const increaseQuantity = async () => { await changeQuantity(cartProductItemId, data.quantity + 1); };
+  const decreaseQuantity = async () => { await changeQuantity(cartProductItemId, data.quantity - 1); };
 
-  const removeProductFromCart = () => {
-    removeProduct(cartProductItemId);
+  const removeProductFromCart = async () => {
+    await removeProduct(cartProductItemId);
   };
 
   return (
