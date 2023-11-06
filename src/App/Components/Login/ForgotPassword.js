@@ -41,7 +41,7 @@ export default function ForgotPassword() {
 
   const checkUser = async (values, actions) => {
     try {
-      const userDetails = values;
+      const userDetails = { email: btoa(values.email) };
       const options = {
         method: 'POST',
         body: JSON.stringify(userDetails),
@@ -64,7 +64,7 @@ export default function ForgotPassword() {
   };
   const handleFormSubmit = async (values, actions) => {
     try {
-      const userDetails = { 'email': email, 'password': values.password };
+      const userDetails = { email: btoa(email), password: btoa(values.password) };
       const options = {
         method: 'PUT',
         body: JSON.stringify(userDetails),

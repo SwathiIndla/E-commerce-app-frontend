@@ -41,7 +41,7 @@ export default function SignUp(props) {
   const handleFormSubmit = async (values, actions) => {
     setError('');
     try {
-      const userDetails = { email: values.email, password: values.password, roles: ['Customer'] };
+      const userDetails = { email: btoa(values.email), password: btoa(values.password), roles: ['Customer'] };
       const options = {
         method: 'POST',
         body: JSON.stringify(userDetails),

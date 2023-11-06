@@ -46,7 +46,7 @@ export default function Login(props) {
 
   const handleFormSubmit = async (values, actions) => {
     setError(false);
-    const userDetails = { ...values };
+    const userDetails = { email: btoa(values.email), password: btoa(values.password) };
     const options = {
       method: 'POST',
       body: JSON.stringify(userDetails),
