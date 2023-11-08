@@ -13,6 +13,7 @@ import {
 import './Header.css';
 import Cookies from 'js-cookie';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Link, useNavigate } from 'react-router-dom';
@@ -21,6 +22,7 @@ import Login from '../Login/Login';
 import SignUp from '../Login/SignUp';
 import Search from './Search';
 import { useCartContext } from '../Context/CartContext';
+import HamburgerMenu from './HamburgerMenu';
 
 export default function Header(props) {
   const { homePage, accountPage } = props;
@@ -30,7 +32,9 @@ export default function Header(props) {
   const isMobile = useMediaQuery('(max-width:768px)');
   const navigate = useNavigate();
   const handleOpen = () => setOpen(true);
-  const email = localStorage.getItem('customerEmail');
+  const jwtToken = Cookies.get('jwtToken');
+  const roles = JSON.parse(localStorage.getItem('roles'));
+  const email = atob(localStorage.getItem('customerEmail'));
 
   const handleClose = () => {
     setSignup(false);
@@ -59,6 +63,10 @@ export default function Header(props) {
     navigate('/');
   };
 
+  const handleSellerPage = () => {
+    navigate(roles?.includes('Seller') ? '/sellerpage' : '/becomeseller');
+  };
+
   return (
     <div className="header">
       <nav className="nav-bar">
@@ -74,7 +82,7 @@ export default function Header(props) {
           <Search />
           )}
           {
-            email ? (
+            jwtToken ? (
               <div className="avatar-container">
                 <Avatar sx={{ color: 'blue', backgroundColor: 'white' }}>{email[0]}</Avatar>
                 <div className="profile-dropdown-container">
@@ -90,36 +98,36 @@ export default function Header(props) {
               : (
                 !accountPage && <Button variant={isMobile ? 'text' : 'contained'} onClick={handleOpen} className="login-btn">Login</Button>)
                }
-          {isMobile
-            ? (
-              <IconButton onClick={navigateToCart}>
-                <Badge badgeContent={cartItems.length} color="warning">
-                  <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
-                </Badge>
-              </IconButton>
-            )
-            : (
-              <Button
-                variant="text"
-                startIcon={(
-                  <Badge badgeContent={cartItems.length} color="warning">
-                    <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
-                  </Badge>
+          <Button
+            variant="text"
+            startIcon={(
+              <Badge badgeContent={cartItems.length} color="warning">
+                <ShoppingCartIcon sx={{ color: 'whitesmoke' }} />
+              </Badge>
                         )}
-                sx={{ color: 'whitesmoke' }}
-                onClick={navigateToCart}
-              >
-                Cart
-              </Button>
-            )}
+            sx={{ color: 'whitesmoke' }}
+            onClick={navigateToCart}
+          >
+            Cart
+          </Button>
+          <Button
+            variant="text"
+            className={`become-seller-header-button ${roles?.includes('Seller') && 'no-min-width'}`}
+            onClick={handleSellerPage}
+            startIcon={(<StorefrontIcon sx={{ color: 'whitesmoke' }} />)}
+          >
+            {roles?.includes('Seller') ? 'Sell' : 'Become a seller '}
+
+          </Button>
+        </div>
+        <div className="hamburger-menu">
+          <HamburgerMenu logOut={logOut} navigateToCart={navigateToCart} />
         </div>
       </nav>
       {isMobile && (
       <Search />
       )}
       <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
         open={open}
         onClose={handleClose}
         closeAfterTransition

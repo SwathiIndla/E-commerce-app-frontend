@@ -3,7 +3,7 @@ import React, { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Cookies from 'js-cookie';
-import AuthenticatedRoutes from './Components/AuthenticatedRoutes';
+import AuthenticatedRoutes, { AuthorizedRoutes } from './Components/AuthenticatedRoutes';
 import NoResultsFound from './Components/NoResultsFound';
 import NewFeature, { OrderPlaced } from './Pages/NewFeature';
 import { CartProvider } from './Components/Context/CartContext';
@@ -20,6 +20,8 @@ const Account = lazy(() => import('./Pages/Account'));
 const Compare = lazy(() => import('./Pages/Compare'));
 const CheckOut = lazy(() => import('./Pages/CheckOut'));
 const FilteredMobiles = lazy(() => import('./Pages/Mobiles/FilteredMobiles'));
+const BecomeSeller = lazy(() => import('./Pages/BecomeSeller'));
+const SellerPage = lazy(() => import('./Pages/BecomeSeller/SellerPage'));
 
 function App() {
   return (
@@ -40,6 +42,24 @@ function App() {
             element={(
               <AuthenticatedRoutes>
                 <CheckOut />
+              </AuthenticatedRoutes>
+              )}
+          />
+          <Route
+            path="/becomeseller"
+            element={(
+              <AuthenticatedRoutes>
+                <BecomeSeller />
+              </AuthenticatedRoutes>
+              )}
+          />
+          <Route
+            path="/sellerpage"
+            element={(
+              <AuthenticatedRoutes>
+                <AuthorizedRoutes userRole="Seller">
+                  <SellerPage />
+                </AuthorizedRoutes>
               </AuthenticatedRoutes>
               )}
           />

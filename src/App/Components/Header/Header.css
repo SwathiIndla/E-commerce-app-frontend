@@ -6,7 +6,7 @@
 }
 .nav-bar{
   display: flex;
-  padding: 1% 10%;
+  padding: 1% 5%;
   gap: 20px;
   justify-content: center;
   align-items: center;
@@ -145,6 +145,19 @@
   color: unset;
   text-decoration: unset;
 }
+.become-seller-header-button.MuiButtonBase-root{
+	width: fit-content;
+	transform: translateX(-10px);
+  color: #fff;
+  min-width: 170px;
+}
+.become-seller-header-button.MuiButtonBase-root.no-min-width{
+  min-width: unset;
+}
+.hamburger-menu{
+  display: none;
+}
+
 @media (max-width:768px) {
   .login-btn.MuiButton-root{
     color: whitesmoke;
@@ -157,4 +170,16 @@
   .dropdown-menu{
     right: 0;
   }
+}
+@media (max-width:600px) {
+  .hamburger-menu{
+    display: block;
+  }
+  .nav-bar{
+    justify-content: space-between;
+  }
+  .nav-tools{
+    display: none;
+  }
+  
 }

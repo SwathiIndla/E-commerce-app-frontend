@@ -18,6 +18,9 @@
   cursor: pointer;
 	margin-left: 20px;
   outline: none;
+  &:active{
+		transform: scale(.9);
+	} 
 }
 .orange-button:disabled{
   background-color: gray;
