@@ -18,3 +18,4 @@ export const redmiMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-
 export const oppoMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=a4668a87-2793-4b5f-8e6d-77c34b92549a';
 export const oneplusMobilesUrl = 'https://localhost:7258/api/Filter/353b54c1-3ee2-4aee-8923-686927e4db9e?Brands=5810639b-e4bc-43e0-a83f-aaab39bd585e';
 export const orderUrl = 'https://localhost:7258/api/Order';
+export const addSellerUrl = 'https://localhost:7258/api/Auth/add-seller';

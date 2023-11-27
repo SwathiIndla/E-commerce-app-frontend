@@ -1,20 +1,26 @@
+/* eslint-disable react/prop-types */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import orderplaced from '../../Images/orderplace.webp';
 import './index.css';
 
-function NewFeature() {
+function NewFeature({ heading }) {
   const navigate = useNavigate();
   const comingSoonUrl = 'https://cdn.dribbble.com/users/88000/screenshots/2487367/shot.png';
 
   const GoBack = () => {
     navigate(-1);
   };
+  const GoToHome = () => {
+    navigate('/');
+  };
 
   return (
     <div className="new-feature-container">
+      {heading && <h2>{heading}</h2>}
       <img src={comingSoonUrl} alt="coming soon" className="coming-soon-image" />
-      <button type="button" className="go-back-button" onClick={GoBack}>Continue Shopping</button>
+      <button type="button" className="go-back-button" onClick={GoBack}>Go Back</button>
+      <button type="button" className="go-back-button" onClick={GoToHome}>Continue Shopping</button>
     </div>
   );
 }

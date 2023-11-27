@@ -6,7 +6,7 @@
 /* eslint-disable no-useless-escape */
 import React, { useState } from 'react';
 import {
-  TextField, Button, IconButton, InputAdornment, Typography,
+  TextField, Button, IconButton, InputAdornment, Typography, linkClasses,
 } from '@mui/material';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -58,9 +58,12 @@ export default function Login(props) {
     const response = await fetch(loginUrl, options);
     const responseJson = await response.json();
     if (response.ok) {
-      const { jwtToken, customerId, customerEmail } = responseJson;
+      const {
+        jwtToken, customerId, customerEmail, roles,
+      } = responseJson;
       localStorage.setItem('customerId', customerId);
-      localStorage.setItem('customerEmail', customerEmail);
+      localStorage.setItem('customerEmail', btoa(customerEmail));
+      localStorage.setItem('roles', JSON.stringify(roles));
       Cookies.set('jwtToken', jwtToken, { expires: 30 });
       setIsLoggedIn(true);
       if (modal) handleClose();

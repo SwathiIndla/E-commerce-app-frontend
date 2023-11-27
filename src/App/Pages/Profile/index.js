@@ -16,7 +16,7 @@ import Address from '../../Components/Address';
 import { useCartContext } from '../../Components/Context/CartContext';
 
 export default function Profile() {
-  const email = localStorage.getItem('customerEmail');
+  const email = atob(localStorage.getItem('customerEmail'));
   const [cartItems, setCartState, changeQuantity, addToCart, removeProduct, setIsLoggedIn] = useCartContext();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();

@@ -16,7 +16,7 @@ export default function NoResultsFound() {
 }
 export function RestrictedAccess(props) {
   const navigate = useNavigate();
-  const { redirectTo } = props;
+  const { redirectTo, unAuthorized } = props;
 
   const navigateToLogin = () => {
     navigate(`/account/login?value=true&redirectTo=${redirectTo}`);
@@ -25,10 +25,15 @@ export function RestrictedAccess(props) {
   return (
     <Box margin="10%" textAlign="center">
       <img src={NoResultsImage} alt="no-results" />
-      <h3>Authentication Required</h3>
-      <p>Login to access this page</p>
+      {unAuthorized ? <h3>Authorization Denied</h3> : (
+        <>
+          <h3>Authentication Required</h3>
+          <p>Login to access this page</p>
+        </>
+      )}
       <Box display="flex" gap="2%" justifyContent="center" width="100%">
-        <Button variant="contained" onClick={navigateToLogin}>Login</Button>
+        {unAuthorized ? <Button variant="contained" onClick={() => navigate('/')}>Home</Button>
+          : <Button variant="contained" onClick={navigateToLogin}>Login</Button>}
         <Button variant="contained" onClick={() => navigate(-1)}>Go Back</Button>
       </Box>
     </Box>

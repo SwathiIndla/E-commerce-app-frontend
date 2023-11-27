@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React from 'react';
@@ -11,5 +12,13 @@ export default function AuthenticatedRoutes({ children }) {
 
   return (
     jwtToken ? children : <RestrictedAccess redirectTo={location.pathname} />
+  );
+}
+export function AuthorizedRoutes({ children, userRole }) {
+  const location = useLocation();
+  const roles = JSON.parse(localStorage.getItem('roles'));
+
+  return (
+    roles?.includes(userRole) ? children : <RestrictedAccess unAuthorized redirectTo={location.pathname} />
   );
 }
