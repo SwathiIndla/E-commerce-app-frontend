@@ -1,5 +1,5 @@
 # Use a base image with Node.js for building React app
-FROM node:latest 
+FROM node:latest as build
 
 WORKDIR /app
 
