@@ -10,9 +10,9 @@ COPY . .
 RUN npm run build
 
 # Use a smaller base image to serve the built static files
-FROM nginx:latest
+#FROM nginx:latest
 
-COPY --from=build /app/build /usr/share/nginx/html
-EXPOSE 80
+#COPY --from=build /app/build /usr/share/nginx/html
+#EXPOSE 80
 
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]
