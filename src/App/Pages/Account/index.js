@@ -9,7 +9,7 @@ import Footer from '../../Components/Footer';
 import Login from '../../Components/Login/Login';
 import SignUp from '../../Components/Login/SignUp';
 
-export default function Account() {
+export default function Account() { 
   const jwtToken = Cookies.get('jwtToken');
   const isMobile = useMediaQuery('(max-width:768px)');
   const [searchParams] = useSearchParams();
