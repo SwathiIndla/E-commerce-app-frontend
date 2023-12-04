@@ -12,7 +12,7 @@ import { CartProvider } from './Components/Context/CartContext';
 
 const Home = lazy(() => import('./Pages/Home'));
 const Mobiles = lazy(() => import('./Pages/Mobiles'));
-const EmptyPage = lazy(() => import('./Pages/EmptyPage'));
+const EmptyPage = lazy(() => import('./Pages/EmptyPage')); 
 const Cart = lazy(() => import('./Pages/Cart'));
 const ProductPage = lazy(() => import('./Pages/ProductPage'));
 const Profile = lazy(() => import('./Pages/Profile'));
